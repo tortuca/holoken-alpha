@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  
+    xmlns:android="http://schemas.android.com/apk/res/android">  
+	<PreferenceCategory android:title="@string/settings_group_puzzle" android:key="PuzzleGeneration">
+		<ListPreference
+		    android:key="defaultgamegrid"
+			android:title="@string/setting_default_game_grid_title"
+			android:summary="%s"
+			android:entries="@array/setting_default_game_grid_entries"
+			android:entryValues="@array/setting_default_game_grid_values"
+			android:defaultValue="0"  />
+		<ListPreference
+		    android:key="operatorsdisplay"
+			android:title="@string/setting_operators_display_title"
+			android:summary="%s"
+			android:entries="@array/setting_operators_display_entries"
+			android:entryValues="@array/setting_operators_display_values"
+			android:defaultValue="always"  />
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/settings_group_assistance" android:key="Assistance">
+		<CheckBoxPreference
+			android:key="badmaths"
+			android:title="@string/setting_flag_bad_maths_title"
+			android:defaultValue="true" />
+		<CheckBoxPreference
+			android:key="duplicates"
+			android:title="@string/setting_flag_duplicates_title"
+			android:defaultValue="true" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/settings_group_display_sound" android:key="DisplaySound">
+		<ListPreference
+			android:key="alternatetheme"
+			android:title="@string/setting_theme_title"
+			android:summary="%s"
+			android:entries="@array/setting_theme_entries"
+			android:entryValues="@array/setting_theme_values"
+			android:defaultValue="HoloDark" />
+		<CheckBoxPreference
+			android:key="pencillayout"
+			android:title="@string/setting_pencil_layout_title"
+			android:summaryOn="@string/setting_pencil_layout_summary_on"
+			android:summaryOff="@string/setting_pencil_layout_summary_off"
+			android:defaultValue="true" />
+		<CheckBoxPreference
+			android:key="numberbuttonsdisplay"
+			android:title="@string/setting_number_buttons_display_title"
+			android:defaultValue="false" />
+		<CheckBoxPreference
+			android:key="keepscreenon"
+			android:title="@string/setting_keep_screen_on_title"
+			android:defaultValue="true" />
+		<CheckBoxPreference
+			android:key="soundeffects"
+			android:title="@string/setting_sound_effects_title"
+			android:defaultValue="true" />
+	</PreferenceCategory>
+	
+
+</PreferenceScreen>  

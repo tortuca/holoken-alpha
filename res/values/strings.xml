@@ -1,11 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">HoloKen</string>
-    <string name="title_section3">Section 3</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section1">Section 1</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="main_activity_title">HoloKen</string>
+    
+    <string name="main_section_title">HoloKen</string>
+    <string name="game_section_title">Current Game</string>
+    <string name="saves_section_title">Saved Games</string>
+    <string name="calculator_section_title">Calculator</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_new">New Game</string>
+    <string name="menu_save">Save Game</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_help">Help</string>
+    
+    <string name="game_grid_4">4x4 (Easy)</string>
+    <string name="game_grid_5">5x5 (Medium)</string>
+    <string name="game_grid_6">6x6 (Hard)</string>
+    <string name="game_grid_7">7x7 (Harder)</string>
+    <string name="game_grid_8">8x8 (Hardest)</string>
+    <string name="game_grid_9">9x9 (Ultimate)</string>
+    
+    <string name="settings_group_puzzle">Puzzle Generation (new game)</string>
+    <string name="setting_default_game_grid_title">Default game grid</string>
+	<string name="setting_operators_display_title">Operators display (+, -, *, /)</string>
+	
+    <string name="settings_group_assistance">Game Assistance</string>
+    <string name="setting_flag_bad_maths_title">Highlight incorrect maths</string>
+    <string name="setting_flag_duplicates_title">Highlight duplicates</string>
+    
+    <string name="settings_group_display_sound">Display and Sound</string>
+    <string name="setting_theme_title">Theme</string>
+    <string name="setting_pencil_layout_title">Pencil marks in 3x3 grid</string>
+    <string name="setting_pencil_layout_summary_on">Show pencil marks in 3x3 grid</string>
+    <string name="setting_pencil_layout_summary_off">Show pencil marks in numerical order instead</string> 
+    <string name="setting_number_buttons_display_title">Auto-hide number buttons</string>
+    <string name="setting_keep_screen_on_title">Keep screen on</string>
+    <string name="setting_sound_effects_title">Enable sound effects</string>
+    
+    <string name="help_section_title">Help</string>
+    <string name="help_rules_title">HoloKen Rules</string>
+    <string name="help_rules_summary">
+        Fill in each row and column with digits from 1 to grid size (4-9).\n\n
+		Digits must only be used once per row and column.\n\n
+		Thick lines indicate \'cages\' - each cage has a math puzzle to be solved.
+		For example, \'5+\' means all numbers in that cage must add up to 5.\n\n
+		Numbers can be used more than once per cage, as long as there is only one of each number per row or column.
+    </string>
+    <string name="help_instructions_title">How to play</string>
+    <string name="help_instructions_summary">
+		Fill up the grid squares using the number buttons.
+		Toggle between pen, pencil+, pencil- and eraser modes to mark or clear possibilities.\n\n
+		Long-touch a cell for more options like reveal cell.\n\n
+		The current game will be saved when you exit the game. The Save Game feature may be used freely.      
+    </string>
+    
+    <string name="about_section_title">About</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version_summary">HoloKen 1.0 (R1)</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license_summary">GNU General Public License Version 2</string>
+    <string name="about_website_title">Project Home</string>
+    <string name="about_website_summary">Report any bugs or suggestions at\n<a href="http://github.com/holoken">http://github.com/holoken</a></string>
+    <string name="about_developers_title">Developers</string>
+    <string name="about_developers_summary">Ben Buxton, Stephen Lee, Amanda Chow</string>
+    <string name="about_changelog_title">Changelog</string>
+    <string name="about_changelog_summary">
+        R1: Ported Mathdoku (net.cactii.mathdoku) to ICS
+    </string>
+    
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save_title">Save game?</string>
+    <string name="dialog_save_game">Test game 00:01:05\n\nThis game will be saved</string>
+    <string name="dialog_save_now">Save now</string>
+    <string name="dialog_save_toast">Saved game</string>
+    
 </resources>
