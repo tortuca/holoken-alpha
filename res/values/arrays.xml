@@ -13,7 +13,7 @@
 </string-array>
 <!-- The actual under-the-hood values associated with the above. Serve merely as identifiers, and should not be translated. -->
 <string-array name="setting_default_game_grid_values">
-   <item>0</item>
+   <item>ask</item>
    <item>4</item>
    <item>5</item>
    <item>6</item>
@@ -21,19 +21,6 @@
    <item>8</item>
    <item>9</item>
 </string-array>    
-    
-<!-- The possible values of the "hide operator" option. This option controls whether the mathematical operation signs (+x/-) are shown. The last value, "ask", means the game asks whether the signs should be hidden or visible on every new game. -->
-<string-array name="setting_operators_display_entries">
-   <item>Never display operators</item>
-   <item>Always display operators</item>
-   <item>Ask before game starts</item>
-</string-array>
-<!-- The actual under-the-hood values associated with the above. Serve merely as identifiers, and should not be translated. -->
-<string-array name="setting_operators_display_values">
-   <item>never</item>
-   <item>always</item>
-   <item>ask</item>
-</string-array>
 
 <string-array name="setting_theme_entries">
    <item>Holo Dark</item>

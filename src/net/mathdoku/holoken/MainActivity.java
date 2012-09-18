@@ -22,27 +22,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
-public SharedPreferences preferences;
+	
+	public SharedPreferences preferences;
 	
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
+	Button numberButtons[] = new Button[9];
+	ImageButton actionButtons[] = new ImageButton[6];
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Define variables
+        
         // Set up preferences
-        PreferenceManager.setDefaultValues(this, R.layout.settings_view, false);
+        PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
+
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         // Set up the dropdown list navigation in the action bar.
@@ -54,8 +63,8 @@ public SharedPreferences preferences;
                         android.R.id.text1,
                         new String[]{
                                 getString(R.string.main_section_title),
-                                getString(R.string.game_section_title),
                                 getString(R.string.saves_section_title),
+                                getString(R.string.stats_section_title),
                         }),
                 this);
     }
@@ -73,24 +82,36 @@ public SharedPreferences preferences;
         outState.putInt(STATE_SELECTED_NAVIGATION_ITEM,
                 getActionBar().getSelectedNavigationIndex());
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return super.onCreateOptionsMenu(menu);
+        
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	 switch (item.getItemId()) {
+    	
+    	switch (item.getItemId()) {
+    		case android.R.id.home:
+				// app icon in action bar clicked; go home
+				Intent intent = new Intent(this, MainActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				break;
          	case R.id.menu_new:
-         		//int gridSize = this.preferences.getInt("defaultgamegrid", 0);
-         		int gridSize = 0;
-         		//newGameDialog calls createNewGame at end of dialog
-         		if (gridSize == 0)	
-         			newGameDialog();
-         		else
-         			createNewGame(gridSize);
+         		// Check preferences for new game
+            	Boolean showOperators = this.preferences.getBoolean("showoperators", true);
+         		String gridSizePref = this.preferences.getString("defaultgamegrid", "ask");
+         		
+         		if (gridSizePref.equals("ask")) {
+         			newGameDialog(showOperators);
+         		}
+         		else {
+         			int gridSize = Integer.parseInt(gridSizePref);
+         			createNewGame(gridSize, showOperators);
+         		}
          		break;
          	case R.id.menu_save:
          		saveGameDialog();
@@ -109,15 +130,21 @@ public SharedPreferences preferences;
 
     @Override
     public boolean onNavigationItemSelected(int position, long id) {
-        // When the given tab is selected, show the tab contents in the container
+        //actionBar.setSelectedNavigationItem(position);
+		switch(position) {
+			case(0): setContentView(R.layout.activity_main);
+		}
+		
+		/* When the given tab is selected, show the tab contents in the container
         Fragment fragment = new DummySectionFragment();
         Bundle args = new Bundle();
         args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
-                .commit();
+                .commit();*/
         return true;
+		
     }
 
     /**
@@ -139,31 +166,42 @@ public SharedPreferences preferences;
             return textView;
         }
     }
-
+    
+    
+    private void createNewGame(int gridSize, boolean showOperators) {
+    	debugStr("Size of grid: "+gridSize);
+    }
+    private void createSavedGame() {
+    	debugStr("Saved Game");
+    }
+    
+    
+ 
+    /**
+     * Functions to create various alert dialogs
+     */   
     // Create a new game dialog menu and return default grid size
-    private void newGameDialog() {
+   private void newGameDialog(final boolean showOperators) {
     	final CharSequence[] items = { 
-    		getString(R.string.game_grid_4),
-    		getString(R.string.game_grid_5),
-    		getString(R.string.game_grid_6),
-    		getString(R.string.game_grid_7),
-    		getString(R.string.game_grid_8),
-    		getString(R.string.game_grid_9),
+    		getString(R.string.grid_size_4),
+    		getString(R.string.grid_size_5),
+    		getString(R.string.grid_size_6),
+    		getString(R.string.grid_size_7),
+    		getString(R.string.grid_size_8),
+    		getString(R.string.grid_size_9),
     	};
+ 
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle(R.string.menu_new)
     		   .setItems(items, new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int item) {	
-    				   createNewGame(item+4);
+    				   createNewGame(item+4, showOperators);
     			   }
     		   })
     		   .show();
     }
     
-    private void createNewGame(int gridSize) {
-    	Toast.makeText(getApplicationContext(), "Size of grid: "+gridSize, Toast.LENGTH_SHORT).show();
-    }
-    
+
     // Create a Save Game dialog
     private void saveGameDialog() {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -177,16 +215,18 @@ public SharedPreferences preferences;
     	       })
     	       .setPositiveButton(R.string.dialog_save_now, new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
-    	        	   Toast.makeText(getApplicationContext(), R.string.dialog_save_toast, Toast.LENGTH_SHORT).show();
+    	        	   createSavedGame();
     	           }
     	       })
     	       .show();
     }
+    
+
     // Create a Help dialog
     private void openHelpDialog() {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	LayoutInflater inflater = LayoutInflater.from(this);
-    	View layout = inflater.inflate(R.layout.help_dialog,
+    	View layout = inflater.inflate(R.layout.dialog_help,
     	                               (ViewGroup) findViewById(R.id.help_layout));
 
     	builder.setTitle(R.string.help_section_title)
@@ -209,7 +249,7 @@ public SharedPreferences preferences;
     private void openAboutDialog() {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	LayoutInflater inflater = LayoutInflater.from(this);
-    	View layout = inflater.inflate(R.layout.about_dialog,
+    	View layout = inflater.inflate(R.layout.dialog_about,
     	                               (ViewGroup) findViewById(R.id.about_layout));
 
     	builder.setTitle(R.string.about_section_title)
@@ -227,6 +267,21 @@ public SharedPreferences preferences;
     	       .show();
     }
     
+	/*public void setButtonVisibility(int gridSize) {
+    	
+    	for (int i=4; i<9; i++) {
+    		this.digits[i].setVisibility(View.VISIBLE);
+    		if (i>=gridSize)
+    			this.digits[i].setEnabled(false);
+    	}	
+		this.solvedText.setVisibility(View.GONE);
+		this.pressMenu.setVisibility(View.GONE);
+    	if (!MainActivity.this.preferences.getBoolean("hideselector", false)) {
+			this.controls.setVisibility(View.VISIBLE);
+    	}
+  
+    }*/
+	
     public void debugStr(String string) {
     	Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
     }

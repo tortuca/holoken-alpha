@@ -11,7 +11,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       // Deprecated addPreferencesFromResources, use fragments instead?
-      addPreferencesFromResource(R.layout.settings_view); 
+      addPreferencesFromResource(R.layout.activity_settings); 
   }
   
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

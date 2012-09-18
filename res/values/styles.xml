@@ -1,5 +1,13 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
+    <style name="NumberButtonStyle">
+        <!--item name="android:textColor">#00FF00</item-->
+        <item name="android:textSize">24sp</item>
+        <item name="android:background">#A9A9A9</item>
+		<!--item android:textSize="24sp"
+			  android:background="#A9A9A9"
+			  android:state_enabled="true"/-->
+    </style>
 
 </resources>
