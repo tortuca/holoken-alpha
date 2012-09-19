@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HoloKen</string>
-    <string name="main_activity_title">HoloKen</string>
-    
-    <string name="main_section_title">HoloKen</string>
-    <string name="saves_section_title">Saved Games</string>
-    <string name="stats_section_title">Statistics</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="menu_holoken">HoloKen</string>
     <string name="menu_new">New Game</string>
-    <string name="menu_save">Save Game</string>
+    <string name="menu_calculator">Calculator</string>
+    <string name="menu_save">Save/Load</string>
+    <string name="menu_stats">Statistics</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_help">Help</string>
     
@@ -29,6 +26,9 @@
     <string name="number7">7</string>
     <string name="number8">8</string>
     <string name="number9">9</string>
+    
+    <string name="save_current_game">Save current game</string>
+    <string name="stats_title">HoloKen Stats</string>
     
     <string name="settings_group_puzzle">Puzzle Generation (new game)</string>
     <string name="setting_default_game_grid_title">Default game grid</string>
@@ -80,9 +80,11 @@
     
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_save_title">Save game?</string>
-    <string name="dialog_save_game">Test game 00:01:05\n\nThis game will be saved</string>
-    <string name="dialog_save_now">Save now</string>
-    <string name="dialog_save_toast">Saved game</string>
+	
+    <string name="dialog_save_title">Test game 00:01:05</string>
+    <string name="dialog_save_msg">This game will be saved</string>
+	
+	<string name="dialog_delete_title">Test game 00:01:05</string>
+	<string name="dialog_delete_msg">This game will be deleted</string>
     
 </resources>

@@ -1,63 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+	
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/titlecontainer"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="5dp"
+	    tools:context=".MainActivity">
     
-    <TextView android:id="@+id/puzzletitle"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="9x9 (Ultimate)"
-			  android:layout_alignParentLeft="true"
-        	  android:layout_toLeftOf="@+id/playtime" />
-    <TextView android:id="@id/playtime"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="00:00:00"
-			  android:layout_alignParentRight="true"/>
+	    <TextView android:id="@+id/puzzletitle"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:text="9x9 (Ultimate)"
+				  android:layout_alignParentLeft="true"
+	        	  android:layout_toLeftOf="@+id/playtime" />
+	    <TextView android:id="@+id/playtime"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:text="00:00:00"
+				  android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     
     <GridView android:id="@+id/gridview"
 	    	  android:layout_width="300dp" 
 	    	  android:layout_height="300dp"
-	    	  android:layout_below="@id/puzzletitle"
-	    	  android:layout_centerVertical="true"/>
+	    	  android:layout_gravity="center_horizontal"/>
     
 	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="0dip"
 		android:layout_gravity="center"
 		android:shrinkColumns="*"
 		android:stretchColumns="*"
 		android:orientation="horizontal"
-		android:layout_below="@id/gridview" >
+		android:layout_weight='1.0' >
 		
-	    <TableRow>
-			<Button android:text="@string/number1"/>
-			<Button android:text="@string/number2"/>
-			<Button android:text="@string/number3"/>
-			<ImageButton android:src="@drawable/button_pen" />
-			<ImageButton android:src="@drawable/button_hint" />		
+	    <TableRow android:layout_weight='1.0'>
+			<Button android:id="@+id/button1"
+			    	android:text="@string/number1"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button2"
+			    	android:text="@string/number2"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button3"
+			    	android:text="@string/number3"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<ImageButton android:id="@+id/button_pen"
+			    	android:src="@drawable/button_pen"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/mode_button"/>
 		</TableRow>
 		
-	    <TableRow>
-			<Button android:text="@string/number4"/>
-			<Button android:text="@string/number5"/>
-			<Button android:text="@string/number6"/>
-			<ImageButton android:src="@drawable/button_pencil" />
-			<ImageButton android:src="@drawable/button_pause" />
+	    <TableRow android:layout_weight='1.0'>
+			<Button android:id="@+id/button4"
+			    	android:text="@string/number4"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button5"
+			    	android:text="@string/number5"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button6"
+			    	android:text="@string/number6"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<ImageButton android:id="@+id/button_pencil"
+			    	android:src="@drawable/button_pencil"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/mode_button"/>
 		</TableRow>
 		
-	    <TableRow>
-			<Button android:text="@string/number7"/>
-			<Button android:text="@string/number8"/>
-			<Button android:text="@string/number9"/>
-			<ImageButton android:src="@drawable/button_eraser" />
-			<ImageButton android:src="@drawable/button_replay" />
+	    <TableRow android:layout_weight='1.0'>
+			<Button android:id="@+id/button7"
+			    	android:text="@string/number7"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button8"
+			    	android:text="@string/number8"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<Button android:id="@+id/button9"
+			    	android:text="@string/number9"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/keypad_button"/>
+			<ImageButton android:id="@+id/button_eraser"
+			    	android:src="@drawable/button_eraser"
+			    	android:layout_height="fill_parent"
+			    	android:background="@drawable/mode_button"/>
 		</TableRow>
 	</TableLayout>
-</RelativeLayout>
+	
+	<TableLayout android:id="@+id/actionBar"
+    		     android:layout_height="34dp"
+    		     android:layout_width="fill_parent"
+    		     android:shrinkColumns="*"
+			     android:stretchColumns="*"
+			     android:orientation="horizontal"
+    		     android:background="@drawable/menu_button">
+	    
+	    <TableRow>
+		    <ImageButton android:id="@+id/icon_new"
+		        		 android:src="@drawable/menu_new_icon"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/icon_save"
+		        		 android:src="@drawable/menu_save_icon"
+		        		 android:layout_height="fill_parent"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/icon_hint"
+		        		 android:src="@drawable/menu_hint_icon"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/icon_overflow"
+						 android:src="@drawable/menu_overflow_icon"
+		        		 android:background="@drawable/menu_button"/>
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>
 
