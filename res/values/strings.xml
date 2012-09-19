@@ -81,8 +81,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
 	
-    <string name="dialog_save_title">Test game 00:01:05</string>
-    <string name="dialog_save_msg">This game will be saved</string>
+    <string name="dialog_restart_title">Restart game?</string>
 	
 	<string name="dialog_delete_title">Test game 00:01:05</string>
 	<string name="dialog_delete_msg">This game will be deleted</string>
