@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:id="@+id/statscontainer"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    tools:context=".StatsActivity">
+
+    <TextView
+        android:id="@+id/statstitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/stats_title"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/statstitle"
+			android:shrinkColumns="*"
+			android:stretchColumns="*"
+			android:orientation="horizontal"
+			android:layout_weight="1">
+	    
+	    <TableRow>
+		    <TextView android:id="@+id/favegridsize"
+			          android:gravity="right"
+			          android:layout_marginRight="5dp"
+			          android:paddingRight="5dp"
+			          android:paddingBottom="5dp"
+			          android:text="Favourite grid size"
+			          android:textStyle="bold" />
+	
+		    <TextView android:id="@+id/favegridsizestat"
+		              android:paddingLeft="5dp"
+		              android:text="9x9 (Ultimate)"/>
+	    </TableRow>
+	    
+	    <TableRow>
+		    <TextView android:id="@+id/totalgames"
+			          android:gravity="right"
+			          android:layout_marginRight="5dp"
+			          android:paddingRight="5dp"
+			          android:paddingBottom="5dp"
+		              android:text="Total games played"
+		              android:textStyle="bold"/>
+		    <TextView android:id="@+id/totalgamesstat"
+		              android:paddingLeft="5dp"
+		              android:text="30"/>
+	    </TableRow>
+	    
+	    <TableRow>
+		    <TextView android:id="@+id/totaltime"
+			          android:gravity="right"
+			          android:layout_marginRight="5dp"
+			          android:paddingRight="5dp"
+			          android:paddingBottom="5dp"
+		              android:text="Total time played"
+		              android:textStyle="bold"/>
+		    <TextView android:id="@+id/totaltimestat"
+		              android:paddingLeft="5dp"
+		              android:text="12:00:00"/>
+	    </TableRow>
+	    
+	</TableLayout>
+	
+	<TableLayout android:id="@+id/actionBar"
+    		     android:layout_height="34dp"
+    		     android:layout_width="fill_parent"
+    		     android:shrinkColumns="*"
+			     android:stretchColumns="*"
+			     android:orientation="horizontal"
+    		     android:background="@drawable/menu_button">
+	    
+	    <TableRow>
+	        <ImageButton android:id="@+id/backicon"
+						 android:src="@drawable/menu_back_icon"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/newicon"
+		        		 android:src="@drawable/menu_new_icon"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/saveicon"
+		        		 android:src="@drawable/menu_save_icon"
+		        		 android:layout_height="fill_parent"
+		        		 android:background="@drawable/menu_button"/>
+		    <ImageButton android:id="@+id/overflowicon"
+						 android:src="@drawable/menu_overflow_icon"
+		        		 android:background="@drawable/menu_button"/>
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/saveGameContainer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".SaveGameList" >
+
+    <Button android:id="@+id/savecurrent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_margin="15dp"
+	        android:text="@string/save_current_game" />
+   
+    <LinearLayout android:layout_width="fill_parent"
+				  android:layout_height="1dp"
+				  android:background="#555"/>
+
+</LinearLayout>

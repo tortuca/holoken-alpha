@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    tools:context=".GameActivity">
+    
+    <TextView android:id="@+id/puzzletitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="9x9 (Ultimate)"
+			  android:layout_alignParentLeft="true"
+        	  android:layout_toLeftOf="@+id/playtime" />
+    <TextView android:id="@id/playtime"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="00:00:00"
+			  android:layout_alignParentRight="true"/>
+			  
+    <GridView android:id="@+id/gamegrid"
+	    	  android:layout_width="300dp" 
+	    	  android:layout_height="300dp"
+	    	  android:layout_below="@id/puzzletitle"
+	    	  android:layout_centerVertical="true"/>
+    
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:shrinkColumns="*"
+		android:stretchColumns="*"
+		android:orientation="horizontal"
+		android:layout_alignParentBottom="true" >
+		
+	    <TableRow>
+			<Button android:text="@string/number1"/>
+			<Button android:text="@string/number2"/>
+			<Button android:text="@string/number3"/>
+			<ImageButton android:src="@drawable/button_pen" />
+			<ImageButton android:src="@drawable/button_undo" />		
+		</TableRow>
+		
+	    <TableRow>
+			<Button android:text="@string/number4"/>
+			<Button android:text="@string/number5"/>
+			<Button android:text="@string/number6"/>
+			<ImageButton android:src="@drawable/button_pencil" />
+			<ImageButton android:src="@drawable/button_pencil_minus" />
+		</TableRow>
+		
+	    <TableRow>
+			<Button android:text="@string/number7"/>
+			<Button android:text="@string/number8"/>
+			<Button android:text="@string/number9"/>
+			<ImageButton android:src="@drawable/button_hint" />
+			<ImageButton android:src="@drawable/button_eraser" />
+		</TableRow>
+	</TableLayout>
+</RelativeLayout>
+

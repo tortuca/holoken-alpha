@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/savedGameRow"
+		android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+	
+	<GridView  
+		android:id="@+id/savedGridView"
+		android:layout_width="100dp" 
+		android:layout_height="100dp"
+		android:layout_alignParentLeft="true"
+		android:layout_margin="15dp" 
+		android:layout_centerVertical="true"/>
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/savedGameData"
+		android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp">
+		<TextView android:id="@+id/savedGameTitle"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:gravity="center"
+				  android:layout_centerHorizontal="true"
+				  android:text="Test game 00:00:00"/>
+		<TextView android:id="@+id/savedGameTime"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:layout_below="@id/savedGameTitle"
+				  android:layout_centerHorizontal="true"
+				  android:text="17 Sep 2012 12:00"/>
+		
+	    <ImageButton android:id="@+id/savedGameLoad"
+	        		 android:layout_width="wrap_content"
+				  	 android:layout_height="wrap_content"
+					 android:src="@drawable/button_play"
+					 android:layout_below="@id/savedGameTime"/>
+	    <ImageButton android:id="@+id/savedGameShare"
+	        		 android:layout_width="wrap_content"
+				  	 android:layout_height="wrap_content"
+					 android:src="@drawable/button_share"
+					 android:layout_below="@id/savedGameTime"
+					 android:layout_toRightOf="@id/savedGameLoad"/>
+		<ImageButton android:id="@+id/savedGameRemove"
+	        		 android:layout_width="wrap_content"
+				  	 android:layout_height="wrap_content"
+					 android:src="@drawable/button_remove"
+					 android:layout_below="@id/savedGameTime"
+					 android:layout_toRightOf="@id/savedGameShare"/>
+		
+	</RelativeLayout>
+</RelativeLayout>
