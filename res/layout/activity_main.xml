@@ -11,7 +11,7 @@
 	    android:id="@+id/titlecontainer"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:padding="5dp"
+	    android:padding="2dp"
 	    tools:context=".MainActivity">
     
 	    <TextView android:id="@+id/appname"
@@ -27,9 +27,9 @@
 				  android:layout_alignParentRight="true"/>
     </RelativeLayout>
     
-    <GridView android:id="@+id/gridview"
-	    	  android:layout_width="300dp" 
-	    	  android:layout_height="300dp"
+    <net.mathdoku.holoken.GridView android:id="@+id/gridview"
+	    	  android:layout_width="wrap_content" 
+	    	  android:layout_height="wrap_content"
 	    	  android:layout_gravity="center_horizontal"/>
     
     <LinearLayout 
@@ -133,11 +133,11 @@
     		     android:background="@drawable/menu_button">
 	    
 	    <TableRow>
+		    <ImageButton android:id="@+id/icon_new"
+		        		 android:src="@drawable/menu_new_icon"
+		        		 android:background="@drawable/menu_button"/>
 		    <ImageButton android:id="@+id/icon_replay"
 		        		 android:src="@drawable/menu_replay_icon"
-		        		 android:background="@drawable/menu_button"/>
-		    <ImageButton android:id="@+id/icon_pause"
-		        		 android:src="@drawable/menu_pause_icon"
 		        		 android:layout_height="fill_parent"
 		        		 android:background="@drawable/menu_button"/>
 		    <ImageButton android:id="@+id/icon_hint"
