@@ -17,7 +17,7 @@
             <solid android:color="#a8dff4"/>
             <stroke
                 android:width="2dp"
-                android:color="#FFF" />    
+                android:color="#0FFF" />    
         </shape>
      </item>
     <item android:state_checked="true">
@@ -33,7 +33,7 @@
         	<solid android:color="#D3D3D3"/>
         	<stroke
                 android:width="2dp"
-                android:color="#FFF" />
+                android:color="#0FFF" />
         </shape>
      </item>
 </selector>

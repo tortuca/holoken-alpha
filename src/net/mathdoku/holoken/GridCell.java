@@ -94,7 +94,7 @@ public class GridCell {
     this.mWrongBorderPaint.setStrokeWidth(2);
     
     this.mCageSelectedPaint = new Paint();
-    this.mCageSelectedPaint.setColor(0xFF9BCF00);
+    this.mCageSelectedPaint.setColor(0xFF000000);
     this.mCageSelectedPaint.setStrokeWidth(2);
     
     this.mWarningPaint = new Paint();
@@ -137,8 +137,8 @@ public class GridCell {
 		this.mBorderPaint.setPathEffect(new DiscretePathEffect(20, 1));
 	    this.mWrongBorderPaint.setAntiAlias(true);
 	    this.mWrongBorderPaint.setPathEffect(new DiscretePathEffect(20, 1));
-	    this.mValuePaint.setTypeface(this.mContext.mFace);
-	    this.mCageTextPaint.setTypeface(this.mContext.mFace);
+//	    this.mValuePaint.setTypeface(this.mContext.mFace);
+//	    this.mCageTextPaint.setTypeface(this.mContext.mFace);
 	  } else if (theme == GridView.THEME_NEWSPAPER) {
 	    this.mBorderPaint.setAntiAlias(false);
 		this.mBorderPaint.setPathEffect(null);
@@ -333,7 +333,7 @@ public class GridCell {
     if (mPossibles.size()>0) {
     	Activity activity = mContext.mContext;
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-    	if (prefs.getBoolean("maybe3x3", true)) {
+    	if (prefs.getBoolean("pencil_3x3", true)) {
         	this.mPossiblesPaint.setFakeBoldText(true);
         	this.mPossiblesPaint.setTextSize((int)(cellSize/4.5));
         	int xOffset = (int) (cellSize/3);

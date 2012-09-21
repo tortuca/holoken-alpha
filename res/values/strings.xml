@@ -44,10 +44,10 @@
     
     <string name="settings_group_display">Display</string>
     <string name="setting_theme_title">Theme</string>
-    <string name="setting_pencil_layout_title">Pencil marks in 3x3 grid</string>
-    <string name="setting_pencil_layout_summary_on">Show in 3x3 grid</string>
-    <string name="setting_pencil_layout_summary_off">Show in numerical order instead</string> 
-    <string name="setting_number_buttons_display_title">Auto-hide buttons</string>
+    <string name="setting_pencil_3x3_title">Pencil marks in 3x3 grid</string>
+    <string name="setting_pencil_3x3_summary_on">Show in 3x3 grid</string>
+    <string name="setting_pencil_3x3_summary_off">Show in numerical order instead</string> 
+    <string name="setting_keypad_display_title">Auto-hide buttons</string>
     <string name="setting_keep_screen_on_title">Keep screen on</string>
     
     <string name="help_section_title">Help</string>
@@ -78,12 +78,16 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku for their game engine</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-        R2: Changed button and UI functionality
-        R1: Redesigned Mathdoku UI and layouts
+        Alpha v0.9: Re-added save functions
+        Alpha v0.5: Changed button and UI functionality
+        Alpha v0.2: Redesigned Mathdoku UI and layouts
     </string>
     
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
+	
+    <string name="dialog_building_title">Building puzzle</string>
+	<string name="dialog_building_msg">Loading</string>
 	
     <string name="dialog_restart_title">Restart game?</string>
 	<string name="dialog_restart_msg">This game will be restarted</string>
@@ -92,6 +96,6 @@
 	<string name="dialog_delete_msg">This game will be deleted</string>
 	
 	<string name="toast_cheated">This puzzle is too hard eh?</string>
-	<string name="toast_progress"> mistakes were made</string>
+	<string name="toast_progress">mistakes were made</string>
     
 </resources>

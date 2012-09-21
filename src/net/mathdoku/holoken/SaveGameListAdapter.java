@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +15,20 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
-/*****
-public class SavedGameListAdapter extends BaseAdapter {
+
+public class SaveGameListAdapter extends BaseAdapter {
 	
-	public static final String SAVEDGAME_DIR = "/data/data/net.cactii.mathdoku/";
 	public ArrayList<String> mGameFiles;
 	private LayoutInflater inflater;
-	private SavedGameList mContext;
-	private Typeface mFace;
+	private SaveGameList mContext;
+	//private Typeface mFace;
 
-	public SavedGameListAdapter(SavedGameList context) {
+	public SaveGameListAdapter(SaveGameList context) {
 		this.inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		this.mGameFiles = new ArrayList<String>();
-		this.mFace=Typeface.createFromAsset(context.getAssets(), "fonts/font.ttf");
 		this.refreshFiles();
 
 	}
@@ -40,8 +38,8 @@ public class SavedGameListAdapter extends BaseAdapter {
 		long save2 = 0;
 		public int compare(String object1, String object2) {
 			try {
-				save1 = new SaveGame(SAVEDGAME_DIR + "/" + object1).ReadDate();
-				save2 = new SaveGame(SAVEDGAME_DIR + "/" + object2).ReadDate();
+				save1 = new SaveGame(SaveGameList.SAVEGAME_DIR + "/" + object1).ReadDate();
+				save2 = new SaveGame(SaveGameList.SAVEGAME_DIR + "/" + object2).ReadDate();
 			}
 			catch (Exception e) {
 				//
@@ -53,10 +51,10 @@ public class SavedGameListAdapter extends BaseAdapter {
 	
 	public void refreshFiles() {
 		this.mGameFiles.clear();
-		File dir = new File(SAVEDGAME_DIR);
+		File dir = new File(SaveGameList.SAVEGAME_DIR);
 		String[] allFiles = dir.list();
 		for (String entryName : allFiles)
-			if (entryName.startsWith("savedgame_"))
+			if (entryName.startsWith("savegame_"))
 				this.mGameFiles.add(entryName);
 		
 		Collections.sort((List<String>)this.mGameFiles, new SortSavedGames());
@@ -79,48 +77,33 @@ public class SavedGameListAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (position == 0) {
-			convertView = inflater.inflate(R.layout.savedgamesaveitem, null);
-//			if (PreferenceManager.getDefaultSharedPreferences(convertView.getContext()).getBoolean("alternatetheme", true)) {
-//				convertView.findViewById(R.id.wordRow).setBackgroundDrawable(null);
-//				convertView.findViewById(R.id.wordRow).setBackgroundColor(0xFFA0A0CC);
-//			} else {
-				convertView.findViewById(R.id.wordRow).setBackgroundResource(R.drawable.background1);
-//			}
+			convertView = inflater.inflate(R.layout.activity_savegame, null);
 			
-			final Button saveCurrent = (Button)convertView.findViewById(R.id.saveCurrent);
-			saveCurrent.setOnClickListener(new OnClickListener() {
+			final Button saveButton = (Button)convertView.findViewById(R.id.savebutton);
+			saveButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					saveCurrent.setEnabled(false);
-					mContext.saveCurrent();
+					saveButton.setEnabled(false);
+					mContext.createSaveGame();
 				}
 			});
 			if (mContext.mCurrentSaved)
-				saveCurrent.setEnabled(false);
+				saveButton.setEnabled(false);
 			return convertView;
 		}
 		
-		convertView = inflater.inflate(R.layout.savedgameitem, null);
+		convertView = inflater.inflate(R.layout.object_savegame, null);
 		
-		
-		GridView grid = (GridView)convertView.findViewById(R.id.savedGridView);
-		if (PreferenceManager.getDefaultSharedPreferences(convertView.getContext()).getBoolean("alternatetheme", true)) {
-			grid.setTheme(GridView.THEME_NEWSPAPER);
-//			convertView.findViewById(R.id.wordRow).setBackgroundDrawable(null);
-//			convertView.findViewById(R.id.wordRow).setBackgroundColor(0xFFA0A0CC);
-			convertView.findViewById(R.id.wordRow).setBackgroundResource(R.drawable.background1);
-		} else {
-			grid.setTheme(GridView.THEME_CARVED);
-			convertView.findViewById(R.id.wordRow).setBackgroundResource(R.drawable.background1);
-		}
-		TextView label = (TextView)convertView.findViewById(R.id.savedGridText);
+		GridView grid = (GridView)convertView.findViewById(R.id.saveGridView);
+		TextView label = (TextView)convertView.findViewById(R.id.saveGameTime);
 
-		final String saveFile = SAVEDGAME_DIR + "/" + this.mGameFiles.get(position-1);
+		final String saveFile = SaveGameList.SAVEGAME_DIR + this.mGameFiles.get(position-1);
 		
 		grid.mContext = this.mContext;
-		grid.mFace = this.mFace;
 		grid.mActive = false;
-	    grid.mDupedigits = PreferenceManager.getDefaultSharedPreferences(convertView.getContext()).getBoolean("dupedigits", true);
-	    grid.mBadMaths = PreferenceManager.getDefaultSharedPreferences(convertView.getContext()).getBoolean("badmaths", true);
+	    grid.mDupedigits = PreferenceManager.getDefaultSharedPreferences(
+	    		convertView.getContext()).getBoolean("duplicates", true);
+	    grid.mBadMaths = PreferenceManager.getDefaultSharedPreferences(
+	    		convertView.getContext()).getBoolean("badmaths", true);
 
 		SaveGame saver = new SaveGame(saveFile);
 		try {
@@ -131,34 +114,27 @@ public class SavedGameListAdapter extends BaseAdapter {
 			new File(saveFile).delete();
 			return convertView;
 		}
-		Calendar currentTime = Calendar.getInstance();
 		Calendar gameTime = Calendar.getInstance();
 		gameTime.setTimeInMillis(grid.mDate);
-		if (System.currentTimeMillis() - grid.mDate < 86400000 &&
-			gameTime.get(Calendar.DAY_OF_YEAR) != currentTime.get(Calendar.DAY_OF_YEAR))
-			label.setText(gameTime.get(Calendar.HOUR) + ":" + gameTime.get(Calendar.MINUTE) + 
-					((gameTime.get(Calendar.AM_PM) == Calendar.AM) ? " AM" : " PM") + " yesterday");
-		else if (System.currentTimeMillis() - grid.mDate < 86400000)
-			label.setText("" + DateFormat.getTimeInstance(DateFormat.SHORT).format(grid.mDate));
-		else
-			label.setText("" + DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(grid.mDate));
+		label.setText("" + DateFormat.getDateTimeInstance(
+				DateFormat.MEDIUM, DateFormat.SHORT).format(grid.mDate));
 
 		grid.setBackgroundColor(0xFFFFFFFF);
 		
 		for (GridCell cell : grid.mCells)
 			cell.mSelected = false;
 		
-		Button loadButton = (Button)convertView.findViewById(R.id.gameLoad);
+		ImageButton loadButton = (ImageButton)convertView.findViewById(R.id.button_play);
 		loadButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				mContext.LoadGame(saveFile);
+				mContext.loadSaveGame(saveFile);
 			}
 		});
 		
-		Button deleteButton = (Button)convertView.findViewById(R.id.gameDelete);
+		ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.button_delete);
 		deleteButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				mContext.DeleteGame(saveFile);
+				mContext.deleteGameDialog(saveFile);
 			}
 		});
 		
@@ -166,4 +142,3 @@ public class SavedGameListAdapter extends BaseAdapter {
 	}
 
 }
-****/

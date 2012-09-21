@@ -8,8 +8,7 @@
         android:icon="@drawable/menu_calculator_icon"/-->
     <item android:id="@+id/menu_save"
         android:title="@string/menu_save"
-        android:orderInCategory="4"
-		android:icon="@drawable/menu_save_icon" />
+        android:orderInCategory="4"/>
     <item android:id="@+id/menu_stats"
         android:title="@string/menu_stats"
         android:orderInCategory="5"/>

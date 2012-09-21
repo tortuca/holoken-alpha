@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".SaveGameList" >
 
-    <Button android:id="@+id/savecurrent"
+    <Button android:id="@+id/savebutton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"

@@ -32,7 +32,7 @@
 	    	  android:layout_height="wrap_content"
 	    	  android:layout_gravity="center_horizontal"/>
     
-    <LinearLayout 
+    <LinearLayout android:id="@+id/controls"
        	android:layout_width="fill_parent" 
     	android:layout_height="0dip"
     	android:layout_weight="1">
@@ -40,25 +40,26 @@
 		<RadioGroup android:id="@+id/modebuttons"
 		    android:layout_width="wrap_content"
 		    android:layout_height="fill_parent"
-		    android:orientation="vertical">
+		    android:orientation="vertical"
+    		android:layout_weight="0.25">
 	    
 		    <RadioButton android:id="@+id/button_pen"
 		        android:text=""
-		        android:layout_width="64dp"
+		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:button="@drawable/button_pen"
 		        android:background="@drawable/radio_button"
 		    	android:layout_weight="1"
 		    	android:checked="true"/>
 		    <RadioButton android:id="@+id/button_pencil"
-		        android:layout_width="64dp"
+		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:button="@drawable/button_pencil"
 		        android:text=""
 		        android:background="@drawable/radio_button"
 		    	android:layout_weight="1"/>
 		    <RadioButton android:id="@+id/button_eraser"
-		        android:layout_width="64dp"
+		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:button="@drawable/button_eraser"
 		        android:text=""
@@ -124,30 +125,33 @@
 	
 	</LinearLayout>
 	
-	<TableLayout android:id="@+id/actionBar"
-    		     android:layout_height="34dp"
+	<LinearLayout android:id="@+id/actionBar"
+    		     android:layout_height="36dp"
     		     android:layout_width="fill_parent"
-    		     android:shrinkColumns="*"
-			     android:stretchColumns="*"
 			     android:orientation="horizontal"
+			     android:paddingTop="2dp"
     		     android:background="@drawable/menu_button">
 	    
-	    <TableRow>
 		    <ImageButton android:id="@+id/icon_new"
+			    		 android:layout_height="fill_parent"
 		        		 android:src="@drawable/menu_new_icon"
-		        		 android:background="@drawable/menu_button"/>
+		        		 android:background="@drawable/menu_button"
+		        		 android:layout_weight="1"/>
 		    <ImageButton android:id="@+id/icon_replay"
+			    		 android:layout_height="fill_parent"
 		        		 android:src="@drawable/menu_replay_icon"
-		        		 android:layout_height="fill_parent"
-		        		 android:background="@drawable/menu_button"/>
+		        		 android:background="@drawable/menu_button"
+		        		 android:layout_weight="1"/>
 		    <ImageButton android:id="@+id/icon_hint"
+			    		 android:layout_height="fill_parent"
 		        		 android:src="@drawable/menu_hint_icon"
-		        		 android:background="@drawable/menu_button"/>
+		        		 android:background="@drawable/menu_button"
+		        		 android:layout_weight="1"/>
 		    <ImageButton android:id="@+id/icon_overflow"
+			    		 android:layout_height="fill_parent"
 						 android:src="@drawable/menu_overflow_icon"
-		        		 android:background="@drawable/menu_button"/>
-	    </TableRow>
-	</TableLayout>
-
+		        		 android:background="@drawable/menu_button"
+		        		 android:layout_weight="1"/>
+	</LinearLayout>
 </LinearLayout>
 

@@ -13,7 +13,6 @@ import android.graphics.DashPathEffect;
 import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -60,7 +59,6 @@ public class GridView extends View implements OnTouchListener  {
   public Paint mBorderPaint;
   public int mBackgroundColor;
 
-public Typeface mFace;
 public boolean mDupedigits;
 public boolean mBadMaths;
 
@@ -561,10 +559,12 @@ public boolean mBadMaths;
   }
   
   // Solve the puzzle by setting the Uservalue to the actual value
-  public void Solve() {
-	  for (GridCell cell : this.mCells) {
-		  cell.setUserValue(cell.mValue);
-	  	  cell.mCheated = true;
+  public void Solve(ArrayList<GridCell> solvecell) {
+	  for (GridCell cell : solvecell) {
+		  if (!cell.isUserValueCorrect()) {
+			  cell.setUserValue(cell.mValue);
+			  cell.mCheated = true;
+		  }
 	  }
 	  invalidate();
   }

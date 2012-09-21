@@ -35,15 +35,15 @@
 			android:entryValues="@array/setting_theme_values"
 			android:defaultValue="HoloDark" />
 		<CheckBoxPreference
-			android:key="pencillayout"
-			android:title="@string/setting_pencil_layout_title"
-			android:summaryOn="@string/setting_pencil_layout_summary_on"
-			android:summaryOff="@string/setting_pencil_layout_summary_off"
+			android:key="pencil3x3"
+			android:title="@string/setting_pencil_3x3_title"
+			android:summaryOn="@string/setting_pencil_3x3_summary_on"
+			android:summaryOff="@string/setting_pencil_3x3_summary_off"
 			android:defaultValue="true" />
-		<CheckBoxPreference
-			android:key="numberbuttonsdisplay"
-			android:title="@string/setting_number_buttons_display_title"
-			android:defaultValue="false" />
+		<!--CheckBoxPreference
+			android:key="keypaddisplay"
+			android:title="@string/setting_keypad_display_title"
+			android:defaultValue="false" /-->
 		<CheckBoxPreference
 			android:key="keepscreenon"
 			android:title="@string/setting_keep_screen_on_title"
