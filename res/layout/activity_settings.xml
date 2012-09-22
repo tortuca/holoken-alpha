@@ -8,7 +8,7 @@
 			android:summary="%s"
 			android:entries="@array/setting_default_game_grid_entries"
 			android:entryValues="@array/setting_default_game_grid_values"
-			android:defaultValue="0"  />
+			android:defaultValue="ask"  />
 		<CheckBoxPreference
 		    android:key="showoperators"
 			android:title="@string/setting_show_operators_title"
@@ -33,7 +33,7 @@
 			android:summary="%s"
 			android:entries="@array/setting_theme_entries"
 			android:entryValues="@array/setting_theme_values"
-			android:defaultValue="HoloDark" />
+			android:defaultValue="HoloLight" />
 		<CheckBoxPreference
 			android:key="pencil3x3"
 			android:title="@string/setting_pencil_3x3_title"
@@ -44,6 +44,10 @@
 			android:key="keypaddisplay"
 			android:title="@string/setting_keypad_display_title"
 			android:defaultValue="false" /-->
+		<CheckBoxPreference
+			android:key="showfullscreen"
+			android:title="@string/setting_show_fullscreen_title"
+			android:defaultValue="true" />
 		<CheckBoxPreference
 			android:key="keepscreenon"
 			android:title="@string/setting_keep_screen_on_title"

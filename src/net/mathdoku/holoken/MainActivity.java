@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -46,6 +48,7 @@ public class MainActivity extends Activity {
 	RadioButton modes[] = new RadioButton[3];
 
 	LinearLayout controlKeypad;
+	RelativeLayout titleContainer;
     public GridView kenKenGrid;
     public GridCell selectedCell;
     ProgressDialog mProgressDialog;
@@ -60,8 +63,20 @@ public class MainActivity extends Activity {
         // Set up preferences
         PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+	    if (this.preferences.getBoolean("keepscreenon", true))
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    else
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    
+	    if (this.preferences.getBoolean("showfullscreen", true)) {
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+	    else {
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+        
         // Associate variables with views
         numbers[0] = (Button)findViewById(R.id.button1);
         numbers[1] = (Button)findViewById(R.id.button2);
@@ -85,6 +100,7 @@ public class MainActivity extends Activity {
         this.kenKenGrid = (GridView)findViewById(R.id.gridview);
         this.kenKenGrid.mContext = this;
         this.controlKeypad = (LinearLayout)findViewById(R.id.controls);
+        this.titleContainer = (RelativeLayout)findViewById(R.id.titlecontainer);
         
         // Set up listeners
         for (int i = 0; i<numbers.length; i++)
@@ -132,6 +148,7 @@ public class MainActivity extends Activity {
     			public void puzzleSolved() {
 				    //MainActivity.this.controlKeypad.setVisibility(View.GONE);
     				MainActivity.this.makeToast("Puzzle solved");
+    				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);
     				//kenKenGrid.mSelectorShown = false;
     			}
         });
@@ -193,11 +210,19 @@ public class MainActivity extends Activity {
     
     public void onResume() {
     	// Re-check preferences
-	    if (this.preferences.getBoolean("keepscreenon", false))
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    else
+	    if (this.preferences.getBoolean("keepscreenon", true))
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    else
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    
+	    if (this.preferences.getBoolean("showfullscreen", true)) {
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+	    else {
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
 	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
 	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
 	    //alternatetheme
@@ -252,7 +277,10 @@ public class MainActivity extends Activity {
  			return super.onContextItemSelected(item);
  		
  		switch (item.getItemId()) {
-			case R.id.menu_reveal_cell: // Reveal cell
+ 			case R.id.menu_show_mistakes:
+ 				this.kenKenGrid.markInvalidChoices();
+ 				break;
+			case R.id.menu_reveal_cell:
 				selectedCell.setUserValue(selectedCell.mValue);
 				selectedCell.mCheated = true;
 				this.kenKenGrid.invalidate();
@@ -268,8 +296,18 @@ public class MainActivity extends Activity {
  		
    		Toast.makeText(this, R.string.toast_cheated, Toast.LENGTH_SHORT).show();
 		return super.onContextItemSelected(item);
-   }
-    
+    }
+   
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && 
+        		keyCode == KeyEvent.KEYCODE_BACK && this.kenKenGrid.mSelectorShown) {
+	      	this.kenKenGrid.requestFocus();
+	      	this.kenKenGrid.mSelectorShown = false;
+	      	this.kenKenGrid.invalidate();
+	      	return true;
+        }
+    	return super.onKeyDown(keyCode, event);
+    }
   
     /***************************
      * Helper functions to create new game
@@ -290,12 +328,12 @@ public class MainActivity extends Activity {
 
 	public void startNewGame(final int gridSize, final boolean showOperators) {
     	kenKenGrid.mGridSize = gridSize;
+		titleContainer.setBackgroundColor(0xFFFFFFFF);
     	showDialog(0);
     	Thread t = new Thread() {
 			public void run() {
 				// actual Boolean is hideOperators
 				MainActivity.this.kenKenGrid.reCreate(!showOperators);
-				Log.d("HoloKen",""+!showOperators);
 				MainActivity.this.mHandler.post(newGameReady);
 			}
     	};
@@ -327,6 +365,8 @@ public class MainActivity extends Activity {
     
     public void enterNumber (int number) {
     	GridCell selectedCell = this.kenKenGrid.mSelectedCell;
+    	if (!kenKenGrid.mActive)
+    		return;
     	if (selectedCell == null)
     		return;
     	if (modes[PENCIL].isChecked()) {
@@ -344,6 +384,8 @@ public class MainActivity extends Activity {
  
     public void modifyCell() {
     	GridCell selectedCell = this.kenKenGrid.mSelectedCell;
+    	if (!kenKenGrid.mActive)
+    		return;
     	if (selectedCell == null)
     		return;
     	
@@ -425,6 +467,7 @@ public class MainActivity extends Activity {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	    MainActivity.this.kenKenGrid.clearUserValues();
     	        	    MainActivity.this.kenKenGrid.mActive = true;
+        				MainActivity.this.titleContainer.setBackgroundColor(0xFFFFFFFF);
     	           }
     	       })
     	       .show();

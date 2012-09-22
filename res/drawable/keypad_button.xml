@@ -2,7 +2,7 @@
 <selector
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_enabled="false" >
+    <item android:state_enabled="false">
         <shape>
             <solid android:color="#BEBEBE"/>
             <stroke
@@ -11,7 +11,7 @@
         </shape>
     </item>
     
-    <item android:state_pressed="true" >
+    <item android:state_pressed="true">
         <shape>
             <solid android:color="#33B5E5"/>
             <stroke
@@ -20,7 +20,7 @@
         </shape>
     </item>
 
-    <item android:state_focused="true" >
+    <item android:state_focused="true">
         <shape>
             <solid android:color="#b4d5f0"/>
             <stroke

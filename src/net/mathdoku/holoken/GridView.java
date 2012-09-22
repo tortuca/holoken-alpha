@@ -413,9 +413,11 @@ public boolean mBadMaths;
 
 		  if (this.mActive && this.isSolved()) {
 			  if (this.mSolvedListener != null)
-				  this.mSolvedListener.puzzleSolved();
+			  	this.mSolvedListener.puzzleSolved();
 			  if (this.mSelectedCell != null)
 				  this.mSelectedCell.mSelected = false;
+
+			  this.invalidate();
 			  this.mActive = false;
 		  }
 	  }
@@ -542,19 +544,19 @@ public boolean mBadMaths;
   // Return the number of times a given user value is in a row
   public int getNumValueInRow(GridCell ocell) {
 	  int count = 0;
-	  for (GridCell cell : this.mCells) {
-		  if (cell.mRow == ocell.mRow && cell.getUserValue() == ocell.getUserValue())
+	  for (GridCell cell : this.mCells)
+		  if (cell.mRow == ocell.mRow && 
+		  		  cell.getUserValue() == ocell.getUserValue())
 			  count++;
-	  }
 	  return count;
   }
   // Return the number of times a given user value is in a column
   public int getNumValueInCol(GridCell ocell) {
 	  int count = 0;
-	  for (GridCell cell : this.mCells) {
-		  if (cell.mColumn == ocell.mColumn && cell.getUserValue() == ocell.getUserValue())
+	  for (GridCell cell : this.mCells)
+		  if (cell.mColumn == ocell.mColumn && 
+				  cell.getUserValue() == ocell.getUserValue())
 			  count++;
-	  }
 	  return count;
   }
   
@@ -578,31 +580,25 @@ public boolean mBadMaths;
   }
 
   // Checks whether the user has made any mistakes
-  public int countMistakes()
-  {
+  public int countMistakes() {
 	  int counter = 0;
 	  for (GridCell cell : this.mCells)
-		  if (cell.isUserValueSet())
-			  if (cell.getUserValue() != cell.mValue)
-				  counter++;
-	  
+		  if (cell.isUserValueSet() && cell.getUserValue() != cell.mValue)
+			  counter++;
 	  return counter;
   }
   
   // Highlight those cells where the user has made a mistake
-  public void markInvalidChoices()
-  {
+  public void markInvalidChoices() {
 	  boolean isValid = true;
 	  for (GridCell cell : this.mCells)
-		  if (cell.isUserValueSet())
-			  if (cell.getUserValue() != cell.mValue) {
-				  cell.setInvalidHighlight(true);
-				  isValid = false;
-			  }
+		  if (cell.isUserValueSet() && cell.getUserValue() != cell.mValue) {
+			  cell.setInvalidHighlight(true);
+			  isValid = false;
+		  }
 
 	  if (!isValid)
 		  invalidate();
-	  
 	  return;
   }
   

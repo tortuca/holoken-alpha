@@ -42,14 +42,14 @@
 				  	 android:layout_height="wrap_content"
 					 android:src="@drawable/button_share"
 					 android:layout_below="@id/saveGameTime"
-					 android:layout_toRightOf="@+id/button_play"
+					 android:layout_toRightOf="@id/button_play"
 					 android:enabled="false"/>
 		<ImageButton android:id="@+id/button_delete"
 	        		 android:layout_width="wrap_content"
 				  	 android:layout_height="wrap_content"
 					 android:src="@drawable/button_remove"
 					 android:layout_below="@id/saveGameTime"
-					 android:layout_toRightOf="@+id/button_share"/>
+					 android:layout_toRightOf="@id/button_share"/>
 
 	</RelativeLayout>
 </RelativeLayout>
