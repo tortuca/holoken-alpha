@@ -105,6 +105,8 @@ public class SaveGameListAdapter extends BaseAdapter {
 	    		convertView.getContext()).getBoolean("duplicates", true);
 	    grid.mBadMaths = PreferenceManager.getDefaultSharedPreferences(
 	    		convertView.getContext()).getBoolean("badmaths", true);
+	    grid.mShowOperators = PreferenceManager.getDefaultSharedPreferences(
+	    		convertView.getContext()).getBoolean("showoperators", true);
 
 		SaveGame saver = new SaveGame(saveFile);
 		try {

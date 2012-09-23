@@ -35,12 +35,12 @@
     <string name="save_current_game">Save current game</string>
     <string name="stats_title">HoloKen Stats</string>
     
-    <string name="settings_group_puzzle">Puzzle Generation (new game)</string>
+    <string name="settings_group_puzzle">Puzzle Generation</string>
     <string name="setting_default_game_grid_title">Default game grid</string>
-	<string name="setting_show_operators_title">Always show operators</string>
-	<string name="setting_show_operators_summary">Operators (+, -, *, /) will be displayed</string>
 	
     <string name="settings_group_assistance">Game Assistance</string>
+   	<string name="setting_show_operators_title">Always show operators</string>
+	<string name="setting_show_operators_summary">Operators (+, -, *, /) will be displayed</string>
     <string name="setting_flag_bad_maths_title">Highlight incorrect maths</string>
     <string name="setting_flag_duplicates_title">Highlight duplicates</string>
     
@@ -81,7 +81,8 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-        Alpha v1.2: Added timer and saves are mostly functional\n
+        Alpha v1.3: Changed out 'Show operators' to work in-game\n
+        Alpha v1.2: Added timer and saves are more detailed\n
         Alpha v1.1: Added colour feedback and more hint assistance\n
         Alpha v1.0: Added landscape mode and tablet support\n
         Alpha v0.9: Re-added save functions\n

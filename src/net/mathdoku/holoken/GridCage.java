@@ -116,6 +116,7 @@ public class GridCage {
 
   // Action for the cage
   public int mAction;
+  public String mActionStr;
   // Number the action results in
   public int mResult;
   // List of cage's cells
@@ -130,15 +131,13 @@ public class GridCage {
   public boolean mUserMathCorrect;
   // Cage (or a cell within) is selected
   public boolean mSelected;
-  // Flag to indicate whether operator (+,-,x,/) is hidden
-  private boolean mOperatorHidden;
+
   // Cached list of numbers which satisfy the cage's arithmetic
   private ArrayList<int[]> mPossibles;
   
-  public GridCage (GridView context, int type, boolean hiddenoperator) {
+  public GridCage (GridView context, int type) {
 	  this.mContext = context;
 	  mType = type;
-	  mOperatorHidden = hiddenoperator;
 	  mPossibles = null;
 	  mUserMathCorrect = true;
 	  mSelected = false;
@@ -162,20 +161,11 @@ public class GridCage {
 	  case ACTION_DIVIDE:
 		  retStr += "Divide"; break;
 	  }
-	  retStr += ", Result: " + this.mResult;
+	  retStr += ", ActionStr: " + this.mActionStr + ", Result: " + this.mResult;
 	  retStr += ", cells: ";
 	  for (GridCell cell : this.mCells)
 		  retStr += cell.mCellNumber + ", ";
 	  return retStr;
-  }
-
-  public boolean isOperatorHidden() {
-	  return mOperatorHidden;
-  }
-
-  public void setOperatorHidden(boolean operatorHidden) {
-	  this.mOperatorHidden = operatorHidden;
-	  this.mPossibles = null;	// Clear cached list of possible numbers
   }
 
   /*
@@ -189,8 +179,8 @@ public class GridCage {
     this.mAction = -1;
     if (this.mType == CAGE_1) {
       this.mAction = ACTION_NONE;
+      this.mActionStr = "";
       this.mResult = this.mCells.get(0).mValue;
-      this.mCells.get(0).mCageText = "" + this.mResult;
       return;
     }
     double rand = this.mContext.mRandom.nextDouble();
@@ -211,10 +201,7 @@ public class GridCage {
         total += cell.mValue;
       }
       this.mResult = total;
-      if (mOperatorHidden)
-          this.mCells.get(0).mCageText = this.mResult + "";
-      else
-    	  this.mCells.get(0).mCageText = this.mResult + "+";
+      this.mActionStr = "+";
     }
     if (this.mAction == ACTION_MULTIPLY) {
       int total = 1;
@@ -222,10 +209,7 @@ public class GridCage {
         total *= cell.mValue;
       }
       this.mResult = total;
-      if (mOperatorHidden)
-    	  this.mCells.get(0).mCageText = this.mResult + "";
-      else
-    	  this.mCells.get(0).mCageText = this.mResult + "x";
+      this.mActionStr = "x";
     }
     if (this.mAction > -1) {
       return;
@@ -249,17 +233,11 @@ public class GridCage {
       this.mResult = higher / lower;
       this.mAction = ACTION_DIVIDE;
       // this.mCells.get(0).mCageText = this.mResult + "\367";
-      if (mOperatorHidden)
-          this.mCells.get(0).mCageText = this.mResult + "";
-      else
-    	  this.mCells.get(0).mCageText = this.mResult + "/";
+      this.mActionStr = "/";
     } else {
       this.mResult = higher - lower;
       this.mAction = ACTION_SUBTRACT;
-      if (mOperatorHidden)
-          this.mCells.get(0).mCageText = this.mResult + "";
-      else
-    	  this.mCells.get(0).mCageText = this.mResult + "-";
+      this.mActionStr = "-";
     }
   }
   
@@ -271,6 +249,7 @@ public class GridCage {
     for (GridCell cell : this.mCells)
       cell.mCageId = this.mId;
   }
+  
   
   public boolean isAddMathsCorrect()
   {
@@ -317,26 +296,19 @@ public class GridCage {
 	  if (this.mCells.size() == 1)
 		  return this.mCells.get(0).isUserValueCorrect();
 
-	  if (this.mOperatorHidden) {
-		  if (isAddMathsCorrect() || isMultiplyMathsCorrect() ||
-			  isDivideMathsCorrect() || isSubtractMathsCorrect())
-			  return true;
-		  else
-			  return false;
-	  }
-	  else {
-		  switch (this.mAction) {
-		  	  case ACTION_ADD :
+	  switch (this.mAction) {
+	  		case ACTION_ADD :
 		  		  return isAddMathsCorrect();
-		  	  case ACTION_MULTIPLY :
+		  	case ACTION_MULTIPLY :
 		  		  return isMultiplyMathsCorrect();
-		  	  case ACTION_DIVIDE :
+		  	case ACTION_DIVIDE :
 		  		  return isDivideMathsCorrect();
-		  	  case ACTION_SUBTRACT :
+		  	case ACTION_SUBTRACT :
 		  		  return isSubtractMathsCorrect();
-		  }
 	  }
-	  throw new RuntimeException("isSolved() got to an unreachable point " + this.mAction + ": " + this.toString());
+
+	  throw new RuntimeException("isSolved() got to an unreachable point " + 
+			  this.mAction + ": " + this.toString());
   }
   
   // Determine whether user entered values match the arithmetic.
@@ -400,10 +372,7 @@ public class GridCage {
 public ArrayList<int[]> getPossibleNums()
 {
 	if (mPossibles == null) {
-		if (mOperatorHidden)
-			mPossibles = setPossibleNumsNoOperator();
-		else
-			mPossibles = setPossibleNums();
+		mPossibles = setPossibleNums();
 	}
 	return mPossibles;
 }

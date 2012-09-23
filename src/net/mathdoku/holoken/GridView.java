@@ -62,6 +62,7 @@ public class GridView extends View implements OnTouchListener  {
 
 	public boolean mDupedigits;
 	public boolean mBadMaths;
+	public boolean mShowOperators;
 
 	// Date of current game (used for saved games)
 	public long mDate;
@@ -92,6 +93,7 @@ public class GridView extends View implements OnTouchListener  {
 	this.mSolvedListener = null;
 	this.mDupedigits = true;
 	this.mBadMaths = true;
+	this.mShowOperators = true;
 	this.mPlayTime = 0;
 		
     this.mGridPaint = new Paint();
@@ -134,7 +136,7 @@ public class GridView extends View implements OnTouchListener  {
 			  cell.setTheme(theme);
   }
   
-  public void reCreate(boolean hideOperators) {
+  public void reCreate() {
 	  synchronized (mLock) {	// Avoid redrawing at the same time as creating puzzle
 		  int num_solns;
 		  int num_attempts = 0;
@@ -148,7 +150,7 @@ public class GridView extends View implements OnTouchListener  {
 			  randomiseGrid();
 			  this.mTrackPosX = this.mTrackPosY = 0;
 			  this.mCages = new ArrayList<GridCage>();
-			  CreateCages(hideOperators);
+			  CreateCages();
 			  num_attempts++;
 			  MathDokuDLX mdd = new MathDokuDLX(this.mGridSize, this.mCages);
 			  // Stop solving as soon as we find multiple solutions
@@ -170,7 +172,7 @@ public class GridView extends View implements OnTouchListener  {
 	  return this.mCells.get(column + row*this.mGridSize).mCageId;
   }
   
-  public int CreateSingleCages(boolean hideOperators) {
+  public int CreateSingleCages() {
     int singles = this.mGridSize / 2;
     boolean RowUsed[] = new boolean[mGridSize];
     boolean ColUsed[] = new boolean[mGridSize];
@@ -185,7 +187,7 @@ public class GridView extends View implements OnTouchListener  {
     	ColUsed[cell.mColumn] = true;
     	RowUsed[cell.mRow] = true;
     	ValUsed[cell.mValue-1] = true;
-    	GridCage cage = new GridCage(this, GridCage.CAGE_1, hideOperators);
+    	GridCage cage = new GridCage(this, GridCage.CAGE_1);
     	cage.mCells.add(cell);
     	cage.setArithmetic();
     	cage.setCageId(i);
@@ -195,13 +197,13 @@ public class GridView extends View implements OnTouchListener  {
   }
    
   /* Take a filled grid and randomly create cages */
-  public void CreateCages(boolean hideOperators) {
+  public void CreateCages() {
 
 	  boolean restart;
 
 	  do {
 		  restart = false;
-		  int cageId = CreateSingleCages(hideOperators);
+		  int cageId = CreateSingleCages();
 		  for (int cellNum = 0 ; cellNum < this.mCells.size() ; cellNum++) {
 			  GridCell cell = this.mCells.get(cellNum);
 			  if (cell.CellInAnyCage())
@@ -216,7 +218,7 @@ public class GridView extends View implements OnTouchListener  {
 
 			  // Choose a random cage type from one of the possible (not single cage)
 			  int cage_type = possible_cages.get(mRandom.nextInt(possible_cages.size()-1)+1);
-			  GridCage cage = new GridCage(this, cage_type, hideOperators);
+			  GridCage cage = new GridCage(this, cage_type);
 			  int [][]cage_coords = GridCage.CAGE_COORDS[cage_type];
 			  for (int coord_num = 0; coord_num < cage_coords.length; coord_num++) {
 				  int col = cell.mColumn + cage_coords[coord_num][0];
@@ -231,6 +233,7 @@ public class GridView extends View implements OnTouchListener  {
 	  } while (restart);
 	  for (GridCage cage : this.mCages)
 		  cage.setBorders();
+	  setCageText();
   }
   
   public ArrayList<Integer> getvalidCages(GridCell origin)
@@ -261,6 +264,15 @@ public class GridView extends View implements OnTouchListener  {
 			  valid.add(i);
 	  
 	  return valid;
+  }
+  
+  public void setCageText() {
+	  for (GridCage cage : this.mCages) {
+		  if (this.mShowOperators)
+			  cage.mCells.get(0).mCageText = cage.mResult + cage.mActionStr;
+		  else
+			  cage.mCells.get(0).mCageText = cage.mResult + "";
+	  }
   }
   
   public void ClearAllCages() {
@@ -385,6 +397,8 @@ public class GridView extends View implements OnTouchListener  {
 		  for (GridCage cage : this.mCages)
 			  cage.userValuesCorrect();
 
+		  setCageText();
+
 		  // Draw (dashed) grid
 		  for (int i = 1 ; i < this.mGridSize ; i++) {
 			  float pos = ((float)this.mCurrentWidth / (float)this.mGridSize) * i;
@@ -413,6 +427,7 @@ public class GridView extends View implements OnTouchListener  {
 			  cell.onDraw(canvas, true);
 		  }
 
+		  
 		  if (this.mActive && this.isSolved()) {
 			  if (this.mSolvedListener != null)
 			  	this.mSolvedListener.puzzleSolved();

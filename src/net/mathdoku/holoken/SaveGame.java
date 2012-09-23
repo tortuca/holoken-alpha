@@ -58,11 +58,12 @@ public class SaveGame {
 					writer.write("CAGE:");
 					writer.write(cage.mId + ":");
 					writer.write(cage.mAction + ":");
+					writer.write(cage.mActionStr + ":");
 					writer.write(cage.mResult + ":");
 					writer.write(cage.mType + ":");
 					for (GridCell cell : cage.mCells)
 						writer.write(cell.mCellNumber + ",");
-					writer.write(":" + cage.isOperatorHidden());
+					//writer.write(":" + cage.isOperatorHidden());
 					writer.write("\n");
 				}
 			}
@@ -166,6 +167,8 @@ public class SaveGame {
 	        do {
 	        	cageParts = line.split(":");
 	        	GridCage cage;
+	        	cage = new GridCage(view, Integer.parseInt(cageParts[5]));
+	        	/*
 	        	if (cageParts.length >= 7)
 	        		cage = new GridCage(view,
 	        							Integer.parseInt(cageParts[4]),
@@ -173,11 +176,12 @@ public class SaveGame {
 	        	else
 	        		cage = new GridCage(view,
 							Integer.parseInt(cageParts[4]),
-							false);
+							false);*/
 	        	cage.mId = Integer.parseInt(cageParts[1]);
 	        	cage.mAction = Integer.parseInt(cageParts[2]);
-	        	cage.mResult = Integer.parseInt(cageParts[3]);
-	        	for (String cellId : cageParts[5].split(",")) {
+	        	cage.mActionStr = cageParts[3];
+	        	cage.mResult = Integer.parseInt(cageParts[4]);
+	        	for (String cellId : cageParts[6].split(",")) {
 	        		int cellNum = Integer.parseInt(cellId);
 	        		GridCell c = view.mCells.get(cellNum);
 	        		c.mCageId = cage.mId;

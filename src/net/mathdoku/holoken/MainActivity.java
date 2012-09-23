@@ -53,7 +53,6 @@ public class MainActivity extends Activity {
 	RelativeLayout titleContainer;
 	TextView timeView;
 	long starttime = 0;
-	long totaltime = 0;
 
     public GridView kenKenGrid;
     public GridCell selectedCell;
@@ -220,6 +219,7 @@ public class MainActivity extends Activity {
     	loadPreferences();
 	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
 	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
+	    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
 	    //alternatetheme
 	    if (this.kenKenGrid.mActive) {
 	    	starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
@@ -333,6 +333,7 @@ public class MainActivity extends Activity {
 	    else
 	    	this.timeView.setVisibility(View.INVISIBLE);
 	    
+	    
     }
     
     public void createNewGame() {
@@ -355,7 +356,7 @@ public class MainActivity extends Activity {
     	Thread t = new Thread() {
 			public void run() {
 				// actual Boolean is hideOperators
-				MainActivity.this.kenKenGrid.reCreate(!showOperators);
+				MainActivity.this.kenKenGrid.reCreate();
 				MainActivity.this.mHandler.post(newGameReady);
 			}
     	};
