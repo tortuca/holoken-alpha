@@ -32,6 +32,7 @@ public class GridView extends View implements OnTouchListener  {
 
   // Size of the grid
   public int mGridSize;
+  public long mPlayTime;
   
   // Random generator
   public Random mRandom;
@@ -59,8 +60,8 @@ public class GridView extends View implements OnTouchListener  {
   public Paint mBorderPaint;
   public int mBackgroundColor;
 
-public boolean mDupedigits;
-public boolean mBadMaths;
+	public boolean mDupedigits;
+	public boolean mBadMaths;
 
 	// Date of current game (used for saved games)
 	public long mDate;
@@ -91,6 +92,7 @@ public boolean mBadMaths;
 	this.mSolvedListener = null;
 	this.mDupedigits = true;
 	this.mBadMaths = true;
+	this.mPlayTime = 0;
 		
     this.mGridPaint = new Paint();
     this.mGridPaint.setColor(0x80000000);
@@ -416,7 +418,6 @@ public boolean mBadMaths;
 			  	this.mSolvedListener.puzzleSolved();
 			  if (this.mSelectedCell != null)
 				  this.mSelectedCell.mSelected = false;
-
 			  this.invalidate();
 			  this.mActive = false;
 		  }

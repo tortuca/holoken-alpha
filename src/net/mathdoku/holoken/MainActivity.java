@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 
 	LinearLayout controlKeypad;
 	RelativeLayout titleContainer;
-	TextView playTime;
+	TextView timeView;
 	long starttime = 0;
 	long totaltime = 0;
 
@@ -66,23 +66,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        // Set up preferences
-        PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-	    if (this.preferences.getBoolean("keepscreenon", true))
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    else
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    
-	    if (this.preferences.getBoolean("showfullscreen", true)) {
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    }
-	    else {
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    }
 
         // Associate variables with views
         numbers[0] = (Button)findViewById(R.id.button1);
@@ -108,12 +91,12 @@ public class MainActivity extends Activity {
         this.kenKenGrid.mContext = this;
         this.controlKeypad = (LinearLayout)findViewById(R.id.controls);
         this.titleContainer = (RelativeLayout)findViewById(R.id.titlecontainer);
-        this.playTime = (TextView)titleContainer.findViewById(R.id.playtime);
+        this.timeView = (TextView)titleContainer.findViewById(R.id.playtime);
         
-	    if (this.preferences.getBoolean("showtimer", true))
-		    playTime.setVisibility(View.VISIBLE);
-	    else
-	    	playTime.setVisibility(View.INVISIBLE);
+        // Set up preferences
+        PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+	    loadPreferences();
         
         // Set up listeners
         for (int i = 0; i<numbers.length; i++)
@@ -163,6 +146,7 @@ public class MainActivity extends Activity {
     				MainActivity.this.makeToast("Puzzle solved");
     				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);
     				//kenKenGrid.mSelectorShown = false;
+    				MainActivity.this.kenKenGrid.mPlayTime = System.currentTimeMillis() - starttime;
     				mTimerHandler.removeCallbacks(playTimer);
     			}
         });
@@ -181,7 +165,7 @@ public class MainActivity extends Activity {
 								MainActivity.this.createNewGame();
         					break;
         				case R.id.icon_replay:
-							if(MainActivity.this.kenKenGrid != null)
+							if(MainActivity.this.kenKenGrid.mGridSize > 3)
 								MainActivity.this.restartGameDialog();
         					break;
         				case R.id.icon_hint:
@@ -197,7 +181,10 @@ public class MainActivity extends Activity {
         SaveGame saver = new SaveGame();
         if (saver.Restore(this.kenKenGrid)) {
         	this.setButtonVisibility(this.kenKenGrid.mGridSize);
-        	this.kenKenGrid.mActive = true;    		
+        	this.kenKenGrid.mActive = true;
+        	this.kenKenGrid.invalidate();
+        	//starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
+        	//mTimerHandler.postDelayed(playTimer, 0);
         }
         
     }
@@ -213,48 +200,31 @@ public class MainActivity extends Activity {
         if (saver.Restore(this.kenKenGrid)) {
         	this.setButtonVisibility(this.kenKenGrid.mGridSize);
         	this.kenKenGrid.mActive = true;
+        	this.kenKenGrid.invalidate();
+        	//starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
+        	//mTimerHandler.postDelayed(playTimer, 0);
         }
     }
     
     public void onPause() {
     	if (this.kenKenGrid.mGridSize > 3) {
+        	this.kenKenGrid.mPlayTime = System.currentTimeMillis() - starttime;
+        	mTimerHandler.removeCallbacks(playTimer);
 	    	SaveGame saver = new SaveGame();
 	    	saver.Save(this.kenKenGrid);
     	}
-   
-    	mTimerHandler.removeCallbacks(playTimer);
-    	totaltime = totaltime + System.currentTimeMillis() - starttime;
-    	Log.d("HoloKen",""+totaltime);
     	super.onPause();
     }
     
     public void onResume() {
-    	// Re-check preferences
-	    if (this.preferences.getBoolean("keepscreenon", true))
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    else
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    
-	    if (this.preferences.getBoolean("showfullscreen", true)) {
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    }
-	    else {
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    }
-	    
-	    if (this.preferences.getBoolean("showtimer", true))
-		    this.playTime.setVisibility(View.VISIBLE);
-	    else
-	    	this.playTime.setVisibility(View.INVISIBLE);
-	    
+    	loadPreferences();
 	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
 	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
 	    //alternatetheme
-	    starttime = System.currentTimeMillis();
-	    mTimerHandler.postDelayed(playTimer, 0);
-
+	    if (this.kenKenGrid.mActive) {
+	    	starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
+	    	mTimerHandler.postDelayed(playTimer, 0);
+	    }
 	    super.onResume();
     }
     
@@ -342,6 +312,29 @@ public class MainActivity extends Activity {
      * Helper functions to create new game
      ***************************/  
 
+    public void loadPreferences() {
+    	// Re-check preferences
+	    if (this.preferences.getBoolean("keepscreenon", true))
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    else
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    
+	    if (this.preferences.getBoolean("showfullscreen", true)) {
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+	    else {
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+	    
+	    if (this.preferences.getBoolean("showtimer", true))
+		    this.timeView.setVisibility(View.VISIBLE);
+	    else
+	    	this.timeView.setVisibility(View.INVISIBLE);
+	    
+    }
+    
     public void createNewGame() {
     	// Check preferences for new game
  		String gridSizePref = this.preferences.getString("defaultgamegrid", "ask");
@@ -376,9 +369,8 @@ public class MainActivity extends Activity {
     	    MainActivity.this.kenKenGrid.setTheme(GridView.THEME_NEWSPAPER);
         	MainActivity.this.setButtonVisibility(kenKenGrid.mGridSize);
         	MainActivity.this.kenKenGrid.invalidate();
-        	totaltime = 0;
         	starttime = System.currentTimeMillis();
-        	mTimerHandler.postDelayed(playTimer, UPDATE_RATE);
+        	mTimerHandler.postDelayed(playTimer, 0);
         }
     };
         
@@ -395,13 +387,13 @@ public class MainActivity extends Activity {
 	Runnable playTimer = new Runnable() {
         @Override
         public void run() {
-           long millis = totaltime + System.currentTimeMillis() - starttime;
+           long millis = System.currentTimeMillis() - starttime;
            int seconds = (int) (millis / 1000);
-           int minutes = seconds / 60;
+           int minutes = seconds / 60 % 60;
            int hours   = seconds / 3600;
            seconds     = seconds % 60;
 
-           playTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+           timeView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
            mTimerHandler.postDelayed(this, UPDATE_RATE);
         }
     };
@@ -516,7 +508,6 @@ public class MainActivity extends Activity {
     	        	    MainActivity.this.kenKenGrid.clearUserValues();
     	        	    MainActivity.this.kenKenGrid.mActive = true;
         				MainActivity.this.titleContainer.setBackgroundColor(0xFFFFFFFF);
-        	        	totaltime = 0;
         	        	starttime = System.currentTimeMillis();
         	        	mTimerHandler.postDelayed(playTimer, 0);
     	           }

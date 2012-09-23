@@ -61,6 +61,7 @@ public class SaveGameListActivity extends ListActivity {
 	public void currentSaveGame() {
 		this.mCurrentSaved = true;
 		int fileIndex;
+		
 		for (fileIndex = 0 ; ; fileIndex++)
 			if (! new File(SAVEGAME_PREFIX_ + fileIndex).exists())
 				break;

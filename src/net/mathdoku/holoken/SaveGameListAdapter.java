@@ -94,7 +94,8 @@ public class SaveGameListAdapter extends BaseAdapter {
 		convertView = inflater.inflate(R.layout.object_savegame, null);
 		
 		GridView grid = (GridView)convertView.findViewById(R.id.saveGridView);
-		TextView label = (TextView)convertView.findViewById(R.id.saveGameTime);
+		TextView gametitle = (TextView)convertView.findViewById(R.id.saveGameTitle);
+		TextView datetime = (TextView)convertView.findViewById(R.id.saveDateTime);
 
 		final String saveFile = SaveGameListActivity.SAVEGAME_DIR + this.mGameFiles.get(position-1);
 		
@@ -114,9 +115,18 @@ public class SaveGameListAdapter extends BaseAdapter {
 			new File(saveFile).delete();
 			return convertView;
 		}
-		Calendar gameTime = Calendar.getInstance();
-		gameTime.setTimeInMillis(grid.mDate);
-		label.setText("" + DateFormat.getDateTimeInstance(
+		
+		long millis = grid.mPlayTime;
+        int seconds = (int) (millis / 1000);
+        int minutes = seconds / 60 % 60;
+        int hours   = seconds / 3600;
+        seconds     = seconds % 60;
+		gametitle.setText(String.format("%dx%d - %02d:%02d:%02d", grid.mGridSize, 
+				grid.mGridSize, hours, minutes, seconds));
+		
+		Calendar gameDateTime = Calendar.getInstance();
+		gameDateTime.setTimeInMillis(grid.mDate);
+		datetime.setText("" + DateFormat.getDateTimeInstance(
 				DateFormat.MEDIUM, DateFormat.SHORT).format(grid.mDate));
 
 		grid.setBackgroundColor(0xFFFFFFFF);

@@ -25,8 +25,8 @@
 				  android:layout_width="wrap_content"
 				  android:layout_height="wrap_content"
 				  android:layout_centerHorizontal="true"
-				  android:text="HoloKen Game"/>
-		<TextView android:id="@+id/saveGameTime"
+				  android:textStyle="bold"/>
+		<TextView android:id="@+id/saveDateTime"
 				  android:layout_width="wrap_content"
 				  android:layout_height="wrap_content"
 				  android:layout_below="@id/saveGameTitle"
@@ -36,19 +36,19 @@
 	        		 android:layout_width="wrap_content"
 				  	 android:layout_height="wrap_content"
 					 android:src="@drawable/button_play"
-					 android:layout_below="@id/saveGameTime"/>
+					 android:layout_below="@id/saveDateTime"/>
 	    <ImageButton android:id="@+id/button_share"
 	        		 android:layout_width="wrap_content"
 				  	 android:layout_height="wrap_content"
 					 android:src="@drawable/button_share"
-					 android:layout_below="@id/saveGameTime"
+					 android:layout_below="@id/saveDateTime"
 					 android:layout_toRightOf="@id/button_play"
 					 android:enabled="false"/>
 		<ImageButton android:id="@+id/button_delete"
 	        		 android:layout_width="wrap_content"
 				  	 android:layout_height="wrap_content"
 					 android:src="@drawable/button_remove"
-					 android:layout_below="@id/saveGameTime"
+					 android:layout_below="@id/saveDateTime"
 					 android:layout_toRightOf="@id/button_share"/>
 
 	</RelativeLayout>

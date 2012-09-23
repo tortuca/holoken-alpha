@@ -14,7 +14,7 @@
     
 
     <LinearLayout android:id="@+id/controls"
-       	android:layout_width="wrap_content" 
+       	android:layout_width="fill_parent" 
     	android:layout_height="fill_parent"
     	android:orientation="vertical">
 		
@@ -22,8 +22,7 @@
 		    android:id="@+id/titlecontainer"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:padding="2dp"
-		    tools:context=".MainActivity">
+		    android:padding="2dp">
 	   
 		    <TextView android:id="@+id/appname"
 		              android:layout_width="wrap_content"
@@ -39,7 +38,7 @@
 		</RelativeLayout>	
 					  
 		<TableLayout 
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="0dip"
 			android:orientation="vertical"
 	 		android:shrinkColumns="*"
@@ -135,7 +134,7 @@
 		
 	    <LinearLayout android:id="@+id/actionBar"
 	       	android:layout_width="fill_parent" 
-	    	android:layout_height="34dp"
+	    	android:layout_height="38dp"
 			android:orientation="horizontal">
 		
 			    <ImageButton android:id="@+id/icon_new"

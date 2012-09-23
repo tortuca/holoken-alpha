@@ -72,7 +72,7 @@
     
     <string name="about_section_title">About</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version_summary">HoloKen Alpha v1.1</string>
+    <string name="about_version_summary">HoloKen Alpha v1.2</string>
     <string name="about_license_title">License</string>
     <string name="about_license_summary">GNU General Public License v3</string>
     <string name="about_website_title">Project Home</string>
@@ -81,11 +81,12 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-        Alpha v1.1: Added colour feedback and more hint assistance
-        Alpha v1.0: Added landscape mode and tablet support
-        Alpha v0.9: Re-added save functions
-        Alpha v0.5: Changed button and UI functionality
-        Alpha v0.2: Redesigned Mathdoku UI and layouts
+        Alpha v1.2: Added timer and saves are mostly functional\n
+        Alpha v1.1: Added colour feedback and more hint assistance\n
+        Alpha v1.0: Added landscape mode and tablet support\n
+        Alpha v0.9: Re-added save functions\n
+        Alpha v0.5: Changed button and UI functionality\n
+        Alpha v0.2: Redesigned Mathdoku UI and layouts\n
     </string>
     
     <string name="dialog_ok">OK</string>

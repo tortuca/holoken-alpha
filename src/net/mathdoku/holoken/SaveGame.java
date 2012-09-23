@@ -31,6 +31,7 @@ public class SaveGame {
 				long now = System.currentTimeMillis();
 				writer.write(now + "\n");
 				writer.write(view.mGridSize + "\n");
+				writer.write(view.mPlayTime +"\n");
 				writer.write(view.mActive + "\n");
 				for (GridCell cell : view.mCells) {
 					writer.write("CELL:");
@@ -124,6 +125,7 @@ public class SaveGame {
 	        br = new BufferedReader(new InputStreamReader(ins), 8192);
 	        view.mDate = Long.parseLong(br.readLine());
 	        view.mGridSize = Integer.parseInt(br.readLine());
+			view.mPlayTime = Long.parseLong(br.readLine());
 	        if (br.readLine().equals("true"))
 	        	view.mActive = true;
 	        else
