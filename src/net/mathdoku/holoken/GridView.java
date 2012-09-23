@@ -553,6 +553,7 @@ public boolean mBadMaths;
   // Return the number of times a given user value is in a column
   public int getNumValueInCol(GridCell ocell) {
 	  int count = 0;
+
 	  for (GridCell cell : this.mCells)
 		  if (cell.mColumn == ocell.mColumn && 
 				  cell.getUserValue() == ocell.getUserValue())

@@ -17,7 +17,7 @@ public class SaveGame {
 	public String filename;
 	
 	public SaveGame() {
-		this.filename = SaveGameList.SAVEGAME_AUTO;
+		this.filename = SaveGameListActivity.SAVEGAME_AUTO;
 	}
 	public SaveGame(String filename) {
 		this.filename = filename;
@@ -195,7 +195,7 @@ public class SaveGame {
 		  try {
 		    ins.close();
 		    br.close();
-		    if (this.filename.equals(SaveGameList.SAVEGAME_AUTO))
+		    if (this.filename.equals(SaveGameListActivity.SAVEGAME_AUTO))
 		    	new File(filename).delete();
 		  } catch (Exception e) {
 		    // Nothing.

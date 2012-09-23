@@ -22,10 +22,10 @@ public class SaveGameListAdapter extends BaseAdapter {
 	
 	public ArrayList<String> mGameFiles;
 	private LayoutInflater inflater;
-	private SaveGameList mContext;
+	private SaveGameListActivity mContext;
 	//private Typeface mFace;
 
-	public SaveGameListAdapter(SaveGameList context) {
+	public SaveGameListAdapter(SaveGameListActivity context) {
 		this.inflater = LayoutInflater.from(context);
 		this.mContext = context;
 		this.mGameFiles = new ArrayList<String>();
@@ -38,8 +38,8 @@ public class SaveGameListAdapter extends BaseAdapter {
 		long save2 = 0;
 		public int compare(String object1, String object2) {
 			try {
-				save1 = new SaveGame(SaveGameList.SAVEGAME_DIR + "/" + object1).ReadDate();
-				save2 = new SaveGame(SaveGameList.SAVEGAME_DIR + "/" + object2).ReadDate();
+				save1 = new SaveGame(SaveGameListActivity.SAVEGAME_DIR + "/" + object1).ReadDate();
+				save2 = new SaveGame(SaveGameListActivity.SAVEGAME_DIR + "/" + object2).ReadDate();
 			}
 			catch (Exception e) {
 				//
@@ -51,7 +51,7 @@ public class SaveGameListAdapter extends BaseAdapter {
 	
 	public void refreshFiles() {
 		this.mGameFiles.clear();
-		File dir = new File(SaveGameList.SAVEGAME_DIR);
+		File dir = new File(SaveGameListActivity.SAVEGAME_DIR);
 		String[] allFiles = dir.list();
 		for (String entryName : allFiles)
 			if (entryName.startsWith("savegame_"))
@@ -83,7 +83,7 @@ public class SaveGameListAdapter extends BaseAdapter {
 			saveButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					saveButton.setEnabled(false);
-					mContext.createSaveGame();
+					mContext.currentSaveGame();
 				}
 			});
 			if (mContext.mCurrentSaved)
@@ -96,7 +96,7 @@ public class SaveGameListAdapter extends BaseAdapter {
 		GridView grid = (GridView)convertView.findViewById(R.id.saveGridView);
 		TextView label = (TextView)convertView.findViewById(R.id.saveGameTime);
 
-		final String saveFile = SaveGameList.SAVEGAME_DIR + this.mGameFiles.get(position-1);
+		final String saveFile = SaveGameListActivity.SAVEGAME_DIR + this.mGameFiles.get(position-1);
 		
 		grid.mContext = this.mContext;
 		grid.mActive = false;

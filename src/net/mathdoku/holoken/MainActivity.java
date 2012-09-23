@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
 	public static final int REPLAY = 1;
 	public static final int HINT = 2;
 	public static final int OVERFLOW = 3;
+	public static final int UPDATE_RATE = 500;
 	
 	// Define variables
 	public SharedPreferences preferences;
@@ -49,11 +51,16 @@ public class MainActivity extends Activity {
 
 	LinearLayout controlKeypad;
 	RelativeLayout titleContainer;
+	TextView playTime;
+	long starttime = 0;
+	long totaltime = 0;
+
     public GridView kenKenGrid;
     public GridCell selectedCell;
     ProgressDialog mProgressDialog;
     final Handler mHandler = new Handler();
-    
+	final Handler mTimerHandler = new Handler();
+   
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +83,7 @@ public class MainActivity extends Activity {
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    }
-        
+
         // Associate variables with views
         numbers[0] = (Button)findViewById(R.id.button1);
         numbers[1] = (Button)findViewById(R.id.button2);
@@ -101,6 +108,12 @@ public class MainActivity extends Activity {
         this.kenKenGrid.mContext = this;
         this.controlKeypad = (LinearLayout)findViewById(R.id.controls);
         this.titleContainer = (RelativeLayout)findViewById(R.id.titlecontainer);
+        this.playTime = (TextView)titleContainer.findViewById(R.id.playtime);
+        
+	    if (this.preferences.getBoolean("showtimer", true))
+		    playTime.setVisibility(View.VISIBLE);
+	    else
+	    	playTime.setVisibility(View.INVISIBLE);
         
         // Set up listeners
         for (int i = 0; i<numbers.length; i++)
@@ -150,6 +163,7 @@ public class MainActivity extends Activity {
     				MainActivity.this.makeToast("Puzzle solved");
     				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);
     				//kenKenGrid.mSelectorShown = false;
+    				mTimerHandler.removeCallbacks(playTimer);
     			}
         });
         this.kenKenGrid.setFocusable(true);
@@ -161,16 +175,18 @@ public class MainActivity extends Activity {
         		public void onClick(View v) {
         			switch(((ImageButton)v).getId()) {
         				case R.id.icon_new:
-							if(MainActivity.this.kenKenGrid.mActive == true)
+							if(MainActivity.this.kenKenGrid.mActive)
 								MainActivity.this.newGameDialog();
 							else
 								MainActivity.this.createNewGame();
         					break;
         				case R.id.icon_replay:
-        					MainActivity.this.restartGameDialog();
+							if(MainActivity.this.kenKenGrid != null)
+								MainActivity.this.restartGameDialog();
         					break;
         				case R.id.icon_hint:
-        					MainActivity.this.checkProgress();
+        					if(MainActivity.this.kenKenGrid.mActive)
+        						MainActivity.this.checkProgress();
         					break;
         				case R.id.icon_overflow:
         					MainActivity.this.openOptionsMenu();
@@ -205,6 +221,10 @@ public class MainActivity extends Activity {
 	    	SaveGame saver = new SaveGame();
 	    	saver.Save(this.kenKenGrid);
     	}
+   
+    	mTimerHandler.removeCallbacks(playTimer);
+    	totaltime = totaltime + System.currentTimeMillis() - starttime;
+    	Log.d("HoloKen",""+totaltime);
     	super.onPause();
     }
     
@@ -223,9 +243,18 @@ public class MainActivity extends Activity {
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    }
+	    
+	    if (this.preferences.getBoolean("showtimer", true))
+		    this.playTime.setVisibility(View.VISIBLE);
+	    else
+	    	this.playTime.setVisibility(View.INVISIBLE);
+	    
 	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
 	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
 	    //alternatetheme
+	    starttime = System.currentTimeMillis();
+	    mTimerHandler.postDelayed(playTimer, 0);
+
 	    super.onResume();
     }
     
@@ -243,7 +272,7 @@ public class MainActivity extends Activity {
          		createNewGame();
          		break;
          	case R.id.menu_save:
-                Intent i = new Intent(this, SaveGameList.class);
+                Intent i = new Intent(this, SaveGameListActivity.class);
                 startActivityForResult(i, 7);
          		break;
          	case R.id.menu_stats:
@@ -347,6 +376,9 @@ public class MainActivity extends Activity {
     	    MainActivity.this.kenKenGrid.setTheme(GridView.THEME_NEWSPAPER);
         	MainActivity.this.setButtonVisibility(kenKenGrid.mGridSize);
         	MainActivity.this.kenKenGrid.invalidate();
+        	totaltime = 0;
+        	starttime = System.currentTimeMillis();
+        	mTimerHandler.postDelayed(playTimer, UPDATE_RATE);
         }
     };
         
@@ -358,6 +390,22 @@ public class MainActivity extends Activity {
     	}	
 		this.controlKeypad.setVisibility(View.VISIBLE);
     }
+	
+	//runs without timer be reposting self
+	Runnable playTimer = new Runnable() {
+        @Override
+        public void run() {
+           long millis = totaltime + System.currentTimeMillis() - starttime;
+           int seconds = (int) (millis / 1000);
+           int minutes = seconds / 60;
+           int hours   = seconds / 3600;
+           seconds     = seconds % 60;
+
+           playTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+           mTimerHandler.postDelayed(this, UPDATE_RATE);
+        }
+    };
+
 	
     /***************************
      * Helper functions to modify KenKen grid cells
@@ -383,7 +431,7 @@ public class MainActivity extends Activity {
     }   
  
     public void modifyCell() {
-    	GridCell selectedCell = this.kenKenGrid.mSelectedCell;
+    	selectedCell = this.kenKenGrid.mSelectedCell;
     	if (!kenKenGrid.mActive)
     		return;
     	if (selectedCell == null)
@@ -468,6 +516,9 @@ public class MainActivity extends Activity {
     	        	    MainActivity.this.kenKenGrid.clearUserValues();
     	        	    MainActivity.this.kenKenGrid.mActive = true;
         				MainActivity.this.titleContainer.setBackgroundColor(0xFFFFFFFF);
+        	        	totaltime = 0;
+        	        	starttime = System.currentTimeMillis();
+        	        	mTimerHandler.postDelayed(playTimer, 0);
     	           }
     	       })
     	       .show();
