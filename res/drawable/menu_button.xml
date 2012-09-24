@@ -4,19 +4,19 @@
 
     <item android:state_pressed="true" >
         <shape>
-            <solid android:color="#2F4F4F"/>  
+            <solid android:color="#FF2F4F4F"/>  
         </shape>
     </item>
 
     <item android:state_focused="true" >
         <shape>
-            <solid android:color="#2F4F4F"/>
+            <solid android:color="#FF2F4F4F"/>
         </shape>
     </item>
 
     <item>        
         <shape>
-        	<solid android:color="#343434"/>
+        	<solid android:color="#FF343434"/>
         </shape>
     </item>
 </selector>

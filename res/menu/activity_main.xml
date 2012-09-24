@@ -1,13 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_new"
         android:title="@string/menu_new"
-        android:orderInCategory="2"/>
+        android:orderInCategory="1"/>
     <!--item android:id="@+id/calculator"
         android:title="@string/menu_calculator"
         android:orderInCategory="3"
         android:icon="@drawable/menu_calculator_icon"/-->
     <item android:id="@+id/menu_save"
         android:title="@string/menu_save"
+        android:orderInCategory="3"/>    
+    <item android:id="@+id/menu_share"
+        android:title="@string/menu_share"
         android:orderInCategory="4"/>
     <item android:id="@+id/menu_stats"
         android:title="@string/menu_stats"

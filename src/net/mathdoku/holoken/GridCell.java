@@ -110,7 +110,7 @@ public class GridCell {
     this.mSelectedPaint.setStyle(Paint.Style.FILL);
     
     this.mCageTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    this.mCageTextPaint.setColor(0xFF0000A0);
+    this.mCageTextPaint.setColor(0xFF004156);
     this.mCageTextPaint.setTextSize(14);
     //this.mCageTextPaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
    
@@ -333,7 +333,7 @@ public class GridCell {
     if (mPossibles.size()>0) {
     	Activity activity = mContext.mContext;
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-    	if (prefs.getBoolean("pencil_3x3", true)) {
+    	if (prefs.getBoolean("pencil3x3", true)) {
         	this.mPossiblesPaint.setFakeBoldText(true);
         	this.mPossiblesPaint.setTextSize((int)(cellSize/4.5));
         	int xOffset = (int) (cellSize/3);

@@ -70,30 +70,39 @@
 	    
 	</TableLayout>
 	
-	<TableLayout android:id="@+id/actionBar"
-    		     android:layout_height="38dp"
-    		     android:layout_width="fill_parent"
-    		     android:shrinkColumns="*"
-			     android:stretchColumns="*"
-			     android:orientation="horizontal"
-    		     android:background="@drawable/menu_button">
-	    
-	    <TableRow>
-	        <ImageButton android:id="@+id/backicon"
-						 android:src="@drawable/menu_back_icon"
-		        		 android:background="@drawable/menu_button"/>
-		    <ImageButton android:id="@+id/newicon"
-		        		 android:src="@drawable/menu_new_icon"
-		        		 android:background="@drawable/menu_button"/>
-		    <ImageButton android:id="@+id/saveicon"
-		        		 android:src="@drawable/menu_save_icon"
-		        		 android:layout_height="fill_parent"
-		        		 android:background="@drawable/menu_button"/>
-		    <ImageButton android:id="@+id/overflowicon"
-						 android:src="@drawable/menu_overflow_icon"
-		        		 android:background="@drawable/menu_button"/>
-	    </TableRow>
-	</TableLayout>
+   <LinearLayout android:id="@+id/actionBar"
+   		     android:layout_height="38dp"
+   		     android:layout_width="fill_parent"
+		     android:orientation="horizontal"
+		     android:paddingTop="2dp"
+   		     android:background="@drawable/menu_button">
+    
+	    <ImageButton android:id="@+id/icon_back"
+		    		 android:layout_height="fill_parent"
+		    		 android:layout_width="fill_parent"
+	        		 android:src="@drawable/menu_back_icon"
+	        		 android:background="@drawable/menu_button"
+	        		 android:layout_weight="1"/>
+	    <ImageButton android:id="@+id/icon_new"
+		    		 android:layout_height="fill_parent"
+		    		 android:layout_width="fill_parent"
+	        		 android:src="@drawable/menu_new_icon"
+	        		 android:background="@drawable/menu_button"
+	        		 android:layout_weight="1"/>
+	    <ImageButton android:id="@+id/icon_save"
+		    		 android:layout_height="fill_parent"
+		    		 android:layout_width="fill_parent"
+	        		 android:src="@drawable/menu_save_icon"
+	        		 android:background="@drawable/menu_button"
+	        		 android:layout_weight="1"/>
+	    <ImageButton android:id="@+id/icon_overflow"
+		    		 android:layout_height="fill_parent"
+		    		 android:layout_width="fill_parent"
+					 android:src="@drawable/menu_overflow_icon"
+	        		 android:background="@drawable/menu_button"
+	        		 android:layout_weight="1"/>
+	</LinearLayout>
+
 </LinearLayout>
 
 

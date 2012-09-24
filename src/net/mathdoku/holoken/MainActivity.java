@@ -1,5 +1,10 @@
 package net.mathdoku.holoken;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,7 +12,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -37,10 +47,6 @@ public class MainActivity extends Activity {
 	public static final int PEN = 1;
 	public static final int PENCIL = 2;
 
-	public static final int NEW = 0;
-	public static final int REPLAY = 1;
-	public static final int HINT = 2;
-	public static final int OVERFLOW = 3;
 	public static final int UPDATE_RATE = 500;
 	
 	// Define variables
@@ -81,10 +87,10 @@ public class MainActivity extends Activity {
         modes[PEN] = (RadioButton)findViewById(R.id.button_pen);
         modes[PENCIL] = (RadioButton)findViewById(R.id.button_pencil);
 
-        actions[NEW]= (ImageButton)findViewById(R.id.icon_new);
-        actions[REPLAY]= (ImageButton)findViewById(R.id.icon_replay);
-        actions[HINT]= (ImageButton)findViewById(R.id.icon_hint);
-        actions[OVERFLOW]= (ImageButton)findViewById(R.id.icon_overflow);
+        actions[0]= (ImageButton)findViewById(R.id.icon_new);
+        actions[1]= (ImageButton)findViewById(R.id.icon_replay);
+        actions[2]= (ImageButton)findViewById(R.id.icon_hint);
+        actions[3]= (ImageButton)findViewById(R.id.icon_overflow);
         
         this.kenKenGrid = (GridView)findViewById(R.id.gridview);
         this.kenKenGrid.mContext = this;
@@ -142,7 +148,7 @@ public class MainActivity extends Activity {
     			@Override
     			public void puzzleSolved() {
 				    //MainActivity.this.controlKeypad.setVisibility(View.GONE);
-    				MainActivity.this.makeToast("Puzzle solved");
+    				MainActivity.this.makeToast(getString(R.string.puzzle_solved));
     				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);
     				//kenKenGrid.mSelectorShown = false;
     				MainActivity.this.kenKenGrid.mPlayTime = System.currentTimeMillis() - starttime;
@@ -244,6 +250,10 @@ public class MainActivity extends Activity {
          	case R.id.menu_save:
                 Intent i = new Intent(this, SaveGameListActivity.class);
                 startActivityForResult(i, 7);
+         		break;
+         	case R.id.menu_share:
+         		if(kenKenGrid.mGridSize > 3)
+         			getScreenShot();
          		break;
          	case R.id.menu_stats:
 	        	startActivity(new Intent(this, StatsActivity.class));
@@ -351,7 +361,8 @@ public class MainActivity extends Activity {
 
 	public void startNewGame(final int gridSize, final boolean showOperators) {
     	kenKenGrid.mGridSize = gridSize;
-		titleContainer.setBackgroundColor(0xFFFFFFFF);
+		//titleContainer.setBackgroundColor(@);
+    	titleContainer.setBackgroundResource(R.drawable.menu_button);
     	showDialog(0);
     	Thread t = new Thread() {
 			public void run() {
@@ -453,6 +464,47 @@ public class MainActivity extends Activity {
 		makeToast(string);
     }
     
+    
+    public void getScreenShot() {
+    	//File file = new File(Environment.getExternalStorageDirectory() + "/HoloKen/");
+        File path = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES)+"/HoloKen/");
+        if (!path.exists()) 
+        	   path.mkdir();
+
+        GridView grid= (GridView)findViewById(R.id.gridview);
+		for (GridCell cell : grid.mCells)
+			cell.mSelected = false;
+        grid.setDrawingCacheEnabled(true);
+    	String filename = "/holoken_"+ grid.mGridSize + "_" +
+    			new SimpleDateFormat("yyMMddHHmm").format(new Date())+".png";
+
+        //Bitmap bitmap = loadBitmapFromView(grid);
+		Bitmap bitmap = grid.getDrawingCache();
+        File file = new File(path,filename);
+        //File file = new File("/mnt/sdcard/Pictures/test.png");
+        try  {
+            file.createNewFile();
+            FileOutputStream ostream = new FileOutputStream(file);
+            bitmap.compress(CompressFormat.PNG, 90, ostream);
+            ostream.flush();
+            ostream.close();
+        } 
+        catch (Exception e)          {
+            e.printStackTrace();
+        }
+        grid.destroyDrawingCache();
+		makeToast(getString(R.string.puzzle_screenshot)+path+filename);
+		
+		// Initiate sharing dialog
+		Intent share = new Intent(Intent.ACTION_SEND);
+		share.setType("image/png");
+		share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+		startActivity(Intent.createChooser(share, getString(R.string.menu_share)));
+
+    }
+    
+    
     /***************************
      * Functions to create various alert dialogs
      ***************************/   
@@ -508,7 +560,7 @@ public class MainActivity extends Activity {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	    MainActivity.this.kenKenGrid.clearUserValues();
     	        	    MainActivity.this.kenKenGrid.mActive = true;
-        				MainActivity.this.titleContainer.setBackgroundColor(0xFFFFFFFF);
+        				MainActivity.this.titleContainer.setBackgroundResource(R.drawable.menu_button);
         	        	starttime = System.currentTimeMillis();
         	        	mTimerHandler.postDelayed(playTimer, 0);
     	           }
@@ -561,6 +613,17 @@ public class MainActivity extends Activity {
     	       })
     	       .show();
     }
+    
+
+    
+    public static Bitmap loadBitmapFromView(View v) {
+        Bitmap b = Bitmap.createBitmap( v.getLayoutParams().width, 
+        		v.getLayoutParams().height, Bitmap.Config.ARGB_8888);                
+        Canvas c = new Canvas(b);
+        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
+        v.draw(c);
+        return b;
+   }
 
     public void makeToast(String string) {
     	Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();

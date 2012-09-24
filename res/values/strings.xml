@@ -5,6 +5,7 @@
     <string name="menu_new">New Game</string>
     <string name="menu_calculator">Calculator</string>
     <string name="menu_save">Save/Load</string>
+    <string name="menu_share">Share puzzle</string>
     <string name="menu_stats">Statistics</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_help">Help</string>
@@ -30,10 +31,14 @@
     <string name="number7">7</string>
     <string name="number8">8</string>
     <string name="number9">9</string>
-
+    
+    <string name="puzzle_solved">Puzzle solved</string>
+    <string name="puzzle_screenshot">Saving screenshot to </string>
+    
     <string name="time_zero">00:00:00</string>
     <string name="save_current_game">Save current game</string>
     <string name="stats_title">HoloKen Stats</string>
+    <string name="settings_title">HoloKen Settings</string>
     
     <string name="settings_group_puzzle">Puzzle Generation</string>
     <string name="setting_default_game_grid_title">Default game grid</string>
@@ -56,18 +61,19 @@
     <string name="help_section_title">Help</string>
     <string name="help_rules_title">Rules</string>
     <string name="help_rules_summary">
-        Fill in each row and column with digits from 1 to grid size (4-9).\n\n
-		Digits must only be used once per row and column.\n\n
-		Thick lines indicate \'cages\' - each cage has a math puzzle to be solved.
+        Fill in each row and column with numbers from 1 to grid size (4-9).
+		Numbers may only be used once per row and column.\n\n
+		Thick lines indicate \'cages\', where each cage has a math puzzle to be solved.
 		For example, \'5+\' means all numbers in that cage must add up to 5.\n\n
-		Numbers can be used more than once per cage, as long as there is only one of each number per row or column.
+		Numbers may be used more than once per cage, as long as there is only one of each number per row or column.
     </string>
     <string name="help_instructions_title">How to play</string>
     <string name="help_instructions_summary">
 		Fill up the grid squares using the number buttons.
-		Toggle between pen, pencil+, pencil- and eraser modes to mark or clear possibilities.\n\n
-		Long-touch a cell for more options like reveal cell.\n\n
-		The current game will be saved when you exit the game. The Save Game feature may be used freely.      
+		Toggle between pen, pencil and eraser modes to mark or clear possibilities.\n\n
+		Long-press the Pen button to quickly pen in all previously marked possibilities.\n\n
+		Long-press a cell for more hints (show mistakes, reveal cell, show solution).\n\n
+		HoloKen will auto-save your game if you need to stop.      
     </string>
     
     <string name="about_section_title">About</string>
@@ -81,7 +87,8 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-        Alpha v1.3: Changed out 'Show operators' to work in-game\n
+		Alpha v1.4: Enabled saving and sharing of screenshots/puzzles\n
+        Alpha v1.3: Changed out \'Show operators\' to work in-game\n
         Alpha v1.2: Added timer and saves are more detailed\n
         Alpha v1.1: Added colour feedback and more hint assistance\n
         Alpha v1.0: Added landscape mode and tablet support\n
