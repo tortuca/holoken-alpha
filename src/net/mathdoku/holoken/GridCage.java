@@ -296,17 +296,26 @@ public class GridCage {
 	  if (this.mCells.size() == 1)
 		  return this.mCells.get(0).isUserValueCorrect();
 
-	  switch (this.mAction) {
-	  		case ACTION_ADD :
+	  if (this.mContext.mShowOperators) {
+		  switch (this.mAction) {
+		  	  case ACTION_ADD :
 		  		  return isAddMathsCorrect();
-		  	case ACTION_MULTIPLY :
+		  	  case ACTION_MULTIPLY :
 		  		  return isMultiplyMathsCorrect();
-		  	case ACTION_DIVIDE :
+		  	  case ACTION_DIVIDE :
 		  		  return isDivideMathsCorrect();
-		  	case ACTION_SUBTRACT :
+		  	  case ACTION_SUBTRACT :
 		  		  return isSubtractMathsCorrect();
+		  }
 	  }
+	  else {
+		  if (isAddMathsCorrect() || isMultiplyMathsCorrect() ||
+				  isDivideMathsCorrect() || isSubtractMathsCorrect())
+			  return true;
+		  else
+			  return false;
 
+	  }
 	  throw new RuntimeException("isSolved() got to an unreachable point " + 
 			  this.mAction + ": " + this.toString());
   }
@@ -322,7 +331,6 @@ public class GridCage {
         this.setBorders();
         return;
       }
-    
     this.mUserMathCorrect = this.isMathsCorrect();
     this.setBorders();
   }
@@ -369,10 +377,21 @@ public class GridCage {
     }
   }
 
+  
+  
+  
+  
+  /****
+   * AC: Old method of setting number combos in cages??
+   * 
+   */
 public ArrayList<int[]> getPossibleNums()
 {
 	if (mPossibles == null) {
-		mPossibles = setPossibleNums();
+		if (this.mContext.mShowOperators)
+			mPossibles = setPossibleNums();
+		else
+			mPossibles = setPossibleNumsNoOperator();
 	}
 	return mPossibles;
 }
@@ -391,7 +410,8 @@ private ArrayList<int[]> setPossibleNumsNoOperator()
 	if (mCells.size() == 2) {
 		for (int i1=1; i1<=this.mContext.mGridSize; i1++)
 			for (int i2=i1+1; i2<=this.mContext.mGridSize; i2++)
-				if (i2 - i1 == mResult || i1 - i2 == mResult || mResult*i1 == i2 || mResult*i2 == i1 || i1+i2 == mResult || i1*i2 == mResult) {
+				if (i2 - i1 == mResult || i1 - i2 == mResult || mResult*i1 == i2 || 
+						mResult*i2 == i1 || i1+i2 == mResult || i1*i2 == mResult) {
 					int numbers[] = {i1, i2};
 					AllResults.add(numbers);
 					numbers = new int[] {i2, i1};

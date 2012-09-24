@@ -13,36 +13,37 @@
 		android:layout_margin="15dp" 
 		android:layout_centerVertical="true"/>
 
-	<RelativeLayout
+	<LinearLayout
 		android:id="@+id/saveGameData"
-		android:orientation="horizontal"
-        android:layout_width="wrap_content"
+		android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+		android:gravity="center"
         android:layout_toRightOf="@+id/saveGridView"
         android:layout_margin="15dp">
+        
 		<TextView android:id="@+id/saveGameTitle"
 				  android:layout_width="wrap_content"
 				  android:layout_height="wrap_content"
-				  android:layout_centerHorizontal="true"
 				  android:textStyle="bold"/>
 		<TextView android:id="@+id/saveDateTime"
 				  android:layout_width="wrap_content"
-				  android:layout_height="wrap_content"
-				  android:layout_below="@id/saveGameTitle"
-				  android:layout_centerHorizontal="true"/>
+				  android:layout_height="wrap_content"/>
 		
-	    <ImageButton android:id="@+id/button_play"
-	        		 android:layout_width="wrap_content"
-				  	 android:layout_height="wrap_content"
-					 android:src="@drawable/button_play"
-					 android:layout_below="@id/saveDateTime"/>
-		<ImageButton android:id="@+id/button_delete"
-	        		 android:layout_width="wrap_content"
-				  	 android:layout_height="wrap_content"
-					 android:src="@drawable/button_remove"
-					 android:layout_below="@id/saveDateTime"
-					 android:layout_toRightOf="@id/button_play"/>
+		<LinearLayout android:layout_width="fill_parent"
+					  android:layout_height="wrap_content"
+					  android:gravity="center">
+		    <ImageButton android:id="@+id/button_play"
+		        	     android:contentDescription="@string/button_play"
+		        		 android:layout_width="wrap_content"
+					  	 android:layout_height="wrap_content"
+						 android:src="@drawable/button_play"/>
+			<ImageButton android:id="@+id/button_delete"
+		        	     android:contentDescription="@string/button_remove"
+		        		 android:layout_width="wrap_content"
+					  	 android:layout_height="wrap_content"
+						 android:src="@drawable/button_remove"/>
+		</LinearLayout>
+	</LinearLayout>
 
-	</RelativeLayout>
 </RelativeLayout>

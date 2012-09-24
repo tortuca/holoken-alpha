@@ -32,6 +32,13 @@
     <string name="number8">8</string>
     <string name="number9">9</string>
     
+    <string name="mode_pen">Pen</string>
+    <string name="mode_pencil">Pencil</string>
+    <string name="mode_eraser">Eraser</string>
+    
+    <string name="button_play">Load game</string>
+    <string name="button_remove">Delete game</string>
+    
     <string name="puzzle_solved">Puzzle solved</string>
     <string name="puzzle_screenshot">Saving screenshot to </string>
     
@@ -87,7 +94,6 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-		Alpha v1.4: Enabled saving and sharing of screenshots/puzzles\n
         Alpha v1.3: Changed out \'Show operators\' to work in-game\n
         Alpha v1.2: Added timer and saves are more detailed\n
         Alpha v1.1: Added colour feedback and more hint assistance\n

@@ -185,10 +185,10 @@ public class GridCell {
   }
   
   public void togglePossible(int digit) {
-	  if (this.mPossibles.indexOf(new Integer(digit)) == -1)
+	  if (this.mPossibles.indexOf(Integer.valueOf(digit)) == -1)
 		  this.mPossibles.add(digit);
 	  else
-		  this.mPossibles.remove(new Integer(digit));
+		  this.mPossibles.remove(Integer.valueOf(digit));
 	  Collections.sort(mPossibles);
   }
   

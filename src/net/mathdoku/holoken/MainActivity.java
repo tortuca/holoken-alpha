@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
         PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	    loadPreferences();
-        
+	    
         // Set up listeners
         for (int i = 0; i<numbers.length; i++)
         	this.numbers[i].setOnClickListener(new OnClickListener() {
@@ -223,11 +223,14 @@ public class MainActivity extends Activity {
     
     public void onResume() {
     	loadPreferences();
-	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
-	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
-	    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
+
 	    //alternatetheme
 	    if (this.kenKenGrid.mActive) {
+		    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
+		    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
+		    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
+	    	this.kenKenGrid.requestFocus();
+	    	this.kenKenGrid.invalidate();
 	    	starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
 	    	mTimerHandler.postDelayed(playTimer, 0);
 	    }
@@ -348,25 +351,23 @@ public class MainActivity extends Activity {
     
     public void createNewGame() {
     	// Check preferences for new game
- 		String gridSizePref = this.preferences.getString("defaultgamegrid", "ask");
-	  	Boolean showOperators = this.preferences.getBoolean("showoperators", true);		
+ 		String gridSizePref = this.preferences.getString("defaultgamegrid", "ask");		
  		if (gridSizePref.equals("ask")) {
  			newGameDialog();
  		}
  		else {
  			int gridSize = Integer.parseInt(gridSizePref); 	
- 			startNewGame(gridSize, showOperators);
+ 			startNewGame(gridSize);
  		}
     }
 
-	public void startNewGame(final int gridSize, final boolean showOperators) {
+	public void startNewGame(final int gridSize) {
     	kenKenGrid.mGridSize = gridSize;
 		//titleContainer.setBackgroundColor(@);
     	titleContainer.setBackgroundResource(R.drawable.menu_button);
     	showDialog(0);
     	Thread t = new Thread() {
 			public void run() {
-				// actual Boolean is hideOperators
 				MainActivity.this.kenKenGrid.reCreate();
 				MainActivity.this.mHandler.post(newGameReady);
 			}
@@ -535,9 +536,7 @@ public class MainActivity extends Activity {
     	builder.setTitle(R.string.menu_new)
     		   .setItems(items, new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int item) {
-    				   Boolean showOperators = MainActivity.this.preferences.getBoolean(
-    						   "showoperators", true);		
-    				   MainActivity.this.startNewGame(item+4,showOperators);
+    				   MainActivity.this.startNewGame(item+4);
     			   }
     		   })
     		   .show();

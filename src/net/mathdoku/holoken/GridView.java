@@ -288,6 +288,10 @@ public class GridView extends View implements OnTouchListener  {
 		  cell.clearUserValue();
 		  cell.mCheated = false;
 	  }
+	  if (this.mSelectedCell != null) {
+		  this.mSelectedCell.mSelected = false;
+		  this.mCages.get(this.mSelectedCell.mCageId).mSelected = false;
+	  }
 	  this.invalidate();
   }
   
@@ -585,7 +589,11 @@ public class GridView extends View implements OnTouchListener  {
 			  cell.mCheated = true;
 		  }
 	  }
-	  invalidate();
+	  if (this.mSelectedCell != null) {
+		  this.mSelectedCell.mSelected = false;
+		  this.mCages.get(this.mSelectedCell.mCageId).mSelected = false;
+	  }
+	  this.invalidate();
   }
   
   // Returns whether the puzzle is solved.
