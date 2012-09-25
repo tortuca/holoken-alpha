@@ -1,5 +1,31 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="android:Theme.Light" />
-
+	<style name="KeypadButton" parent="android:style/Widget.Button">
+	    <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+  		<item name="android:textSize">24sp</item>
+  		<item name="android:textColor">@drawable/text_button</item>
+  		<item name="android:background">@drawable/keypad_button_light</item>
+  	</style>
+  	
+    <style name="KeypadButton.Dark">
+  		<item name="android:textColor">#FFFFFFFF</item>
+  		<item name="android:background">@drawable/keypad_button_dark</item>
+ 	</style>
+ 	
+ 	<style name="RadioButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+  		<item name="android:text"></item>
+  		<item name="android:background">@drawable/radio_button_light</item>
+ 	</style>
+ 	<style name="RadioButton.Dark">
+  		<item name="android:background">@drawable/radio_button_dark</item>
+ 	</style>
+ 	
+ 	 <style name="MenuButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+  		<item name="android:background">@drawable/menu_button</item>
+ 	</style>
 </resources>

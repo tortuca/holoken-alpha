@@ -34,7 +34,7 @@
 			android:summary="%s"
 			android:entries="@array/setting_theme_entries"
 			android:entryValues="@array/setting_theme_values"
-			android:defaultValue="HoloLight" />
+			android:defaultValue="0" />
 		<CheckBoxPreference
 			android:key="pencil3x3"
 			android:title="@string/setting_pencil_3x3_title"

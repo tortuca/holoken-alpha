@@ -6,9 +6,7 @@ import java.util.Collections;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 
 public class GridCell {
@@ -48,8 +46,15 @@ public class GridCell {
   public static final int BORDER_WARN = 3;
   public static final int BORDER_CAGE_SELECTED = 4;
 
+  public static final int NORTH = 0;
+  public static final int EAST = 1;
+  public static final int SOUTH = 2;
+  public static final int WEST = 3;
+
+  
   public int[] mBorderTypes;
   
+
   private Paint mValuePaint;
   private Paint mBorderPaint;
   private Paint mCageSelectedPaint;
@@ -59,7 +64,7 @@ public class GridCell {
   private Paint mPossiblesPaint;
   private Paint mWarningPaint;
   private Paint mCheatedPaint;
-  private Paint mSelectedPaint;
+  public Paint mSelectedPaint;
   
   public int mTheme;
   
@@ -80,65 +85,55 @@ public class GridCell {
     this.mPosX = 0;
     this.mPosY = 0;
     
-    this.mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    this.mValuePaint.setColor(0xFF000000);
-    // this.mValuePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-
     this.mBorderPaint = new Paint();
     this.mBorderPaint.setColor(0xFF000000);
     this.mBorderPaint.setStrokeWidth(2);
-
-    
-    this.mWrongBorderPaint = new Paint();
-    this.mWrongBorderPaint.setColor(0xFFBB0000);
-    this.mWrongBorderPaint.setStrokeWidth(2);
     
     this.mCageSelectedPaint = new Paint();
     this.mCageSelectedPaint.setColor(0xFF000000);
-    this.mCageSelectedPaint.setStrokeWidth(2);
+    this.mCageSelectedPaint.setStrokeWidth(3);
+    
+    this.mWrongBorderPaint = new Paint();
+    this.mWrongBorderPaint.setColor(0xFFcc0000);
+    this.mWrongBorderPaint.setStrokeWidth(3);
     
     this.mWarningPaint = new Paint();
-    this.mWarningPaint.setColor(0x50FF0000);
-    this.mWarningPaint.setStyle(Paint.Style.FILL);
-    
     this.mCheatedPaint = new Paint();
-    this.mCheatedPaint.setColor(0x90ffcea0);
-    this.mCheatedPaint.setStyle(Paint.Style.FILL);
-    
     this.mSelectedPaint = new Paint();
-    this.mSelectedPaint.setColor(0xD0F0D042);
-    this.mSelectedPaint.setStyle(Paint.Style.FILL);
+   
+    this.mWarningPaint.setColor(0x90ff4444);  //red
+    this.mCheatedPaint.setColor(0xccffbb33);  //orange
+    this.mSelectedPaint.setColor(0x9033b5e5); //blue
     
     this.mCageTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    this.mCageTextPaint.setColor(0xFF004156);
+    this.mCageTextPaint.setColor(0xFF0086B3);
     this.mCageTextPaint.setTextSize(14);
-    //this.mCageTextPaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+    
+    this.mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    this.mValuePaint.setColor(0xFF000000);
    
     this.mPossiblesPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     this.mPossiblesPaint.setColor(0xFF000000);
     this.mPossiblesPaint.setTextSize(10);
-    this.mPossiblesPaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
     
     this.mPossibles = new ArrayList<Integer>();
-    //this.mPossibles.add(1);
-    //this.mPossibles.add(2);
-    //this.mPossibles.add(3);
-    //this.mPossibles.add(4);
-
-    //this.mPossibles.add(5);
     
     this.setBorders(BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE);
   }
-  
+
   public void setTheme(int theme) {
 	  this.mTheme = theme;
-	  if (theme == GridView.THEME_NEWSPAPER) {
-	    this.mBorderPaint.setAntiAlias(false);
-		this.mBorderPaint.setPathEffect(null);
-	    this.mWrongBorderPaint.setAntiAlias(true);
-	    this.mWrongBorderPaint.setPathEffect(null);
-	    this.mValuePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
-	    this.mCageTextPaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
+	  if (theme == GridView.THEME_LIGHT) {
+		    this.mBorderPaint.setColor(0xFF000000);
+		    this.mCageSelectedPaint.setColor(0xFF000000);
+		    this.mValuePaint.setColor(0xFF000000);
+		    this.mPossiblesPaint.setColor(0xFF000000);
+	  } 
+	  else if (theme == GridView.THEME_DARK) {
+		    this.mBorderPaint.setColor(0xFFAAAAAA);
+		    this.mCageSelectedPaint.setColor(0xFFAAAAAA);
+		    this.mValuePaint.setColor(0xFFFFFFFF);
+		    this.mPossiblesPaint.setColor(0xFFFFFFFF);
 	  }
   }
   
@@ -155,10 +150,10 @@ public class GridCell {
    */
   public void setBorders(int north, int east, int south, int west) {
     int[] borders = new int[4];
-    borders[0] = north;
-    borders[1] = east;
-    borders[2] = south;
-    borders[3] = west;
+    borders[NORTH] = north;
+    borders[EAST] = east;
+    borders[SOUTH] = south;
+    borders[WEST] = west;
     this.mBorderTypes = borders;
   }
   
@@ -239,59 +234,59 @@ public class GridCell {
     GridCell cellBelow = this.mContext.getCellAt(this.mRow+1, this.mColumn);
 
     if (!onlyBorders) {
+	    if (this.mCheated)
+	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mCheatedPaint);
 	    if ((this.mShowWarning && this.mContext.mDupedigits) || this.mInvalidHighlight)
 	    	canvas.drawRect(west + 1, north+1, east-1, south-1, this.mWarningPaint);
 	    if (this.mSelected)
 	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mSelectedPaint);
-	    if (this.mCheated)
-	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mCheatedPaint);
     } else {
-	    if (this.mBorderTypes[0] > 2)
+	    if (this.mBorderTypes[NORTH] > 2)
 	    	if (cellAbove == null)
 	    		north += 2;
 	    	else
 	    		north += 1;
-	    if (this.mBorderTypes[3] > 2)
+	    if (this.mBorderTypes[WEST] > 2)
 	    	if (cellLeft == null)
 	    		west += 2;
 	    	else
 	    		west += 1;
-	    if (this.mBorderTypes[1] > 2)
+	    if (this.mBorderTypes[EAST] > 2)
 	    	if (cellRight == null)
 	    		east -= 3;
 	    	else
 	    		east -= 2;
-	    if (this.mBorderTypes[2] > 2)
+	    if (this.mBorderTypes[SOUTH] > 2)
 	    	if (cellBelow == null)
 	    		south -= 3;
 	    	else
 	    		south -= 2;
     }
     // North
-    Paint borderPaint = this.getBorderPaint(0);
-    if (!onlyBorders && this.mBorderTypes[0] > 2)
+    Paint borderPaint = this.getBorderPaint(NORTH);
+    if (!onlyBorders && this.mBorderTypes[NORTH] > 2)
     	borderPaint = this.mBorderPaint;
     if (borderPaint != null) {
       canvas.drawLine(west, north, east, north, borderPaint);
     }
     
     // East
-    borderPaint = this.getBorderPaint(1);
-    if (!onlyBorders && this.mBorderTypes[1] > 2)
+    borderPaint = this.getBorderPaint(EAST);
+    if (!onlyBorders && this.mBorderTypes[EAST] > 2)
     	borderPaint = this.mBorderPaint;
     if (borderPaint != null)
       canvas.drawLine(east, north, east, south, borderPaint);
     
     // South
-    borderPaint = this.getBorderPaint(2);
-    if (!onlyBorders && this.mBorderTypes[2] > 2)
+    borderPaint = this.getBorderPaint(SOUTH);
+    if (!onlyBorders && this.mBorderTypes[SOUTH] > 2)
     	borderPaint = this.mBorderPaint;
     if (borderPaint != null)
       canvas.drawLine(west, south, east, south, borderPaint);
     
     // West
-    borderPaint = this.getBorderPaint(3);
-    if (!onlyBorders && this.mBorderTypes[3] > 2)
+    borderPaint = this.getBorderPaint(WEST);
+    if (!onlyBorders && this.mBorderTypes[WEST] > 2)
     	borderPaint = this.mBorderPaint;
     if (borderPaint != null) {
       canvas.drawLine(west, north, west, south, borderPaint);
@@ -305,13 +300,10 @@ public class GridCell {
 	    int textSize = (int)(cellSize*3/4);
 	    this.mValuePaint.setTextSize(textSize);
 	    float leftOffset = cellSize/2 - textSize/4;
-	    float topOffset;
-	    if (this.mTheme == GridView.THEME_NEWSPAPER) {
-	    	topOffset = cellSize/2 + textSize*2/5;
-	    } else {
-	    	topOffset = cellSize/2 + textSize/3;
-	    }
-	    canvas.drawText("" + this.mUserValue, this.mPosX + leftOffset, this.mPosY + topOffset, this.mValuePaint);
+	    float topOffset = cellSize/2 + textSize*2/5;
+
+	    canvas.drawText("" + this.mUserValue, this.mPosX + leftOffset, 
+	    		this.mPosY + topOffset, this.mValuePaint);
     }
     
     int cageTextSize = (int)(cellSize/3);

@@ -40,8 +40,7 @@
     <LinearLayout android:id="@+id/controls"
        	android:layout_width="fill_parent" 
     	android:layout_height="0dip"
-    	android:layout_weight="1"
-    	android:padding="1dp">
+    	android:layout_weight="1">
 		
 		<RadioGroup android:id="@+id/modebuttons"
 		    android:layout_width="wrap_content"
@@ -49,27 +48,18 @@
 		    android:orientation="vertical"
     		android:layout_weight="0.25">
 	    
-		    <RadioButton android:id="@+id/button_pen"
-		        android:text=""
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
+		    <RadioButton style="@style/RadioButton"
+		        android:id="@+id/button_pen"
 		        android:button="@drawable/button_pen"
-		        android:background="@drawable/radio_button"
 		    	android:layout_weight="1"
 		    	android:checked="true"/>
-		    <RadioButton android:id="@+id/button_pencil"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
+		    <RadioButton style="@style/RadioButton"
+		        android:id="@+id/button_pencil"
 		        android:button="@drawable/button_pencil"
-		        android:text=""
-		        android:background="@drawable/radio_button"
 		    	android:layout_weight="1"/>
-		    <RadioButton android:id="@+id/button_eraser"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
+		    <RadioButton style="@style/RadioButton"
+		        android:id="@+id/button_eraser"
 		        android:button="@drawable/button_eraser"
-		        android:text=""
-		        android:background="@drawable/radio_button"
 		    	android:layout_weight="1"/>
 		</RadioGroup>    
 		
@@ -82,60 +72,40 @@
 		android:layout_weight="1">
 		
 	    <TableRow android:layout_weight="1">
-			<Button android:id="@+id/button1"
-			    	android:text="@string/number1"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button2"
-			    	android:text="@string/number2"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button3"
-			    	android:text="@string/number3"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-
+	        <Button style="@style/KeypadButton"
+		            android:id="@+id/button1"
+		            android:text="@string/number1" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button2"
+		            android:text="@string/number2" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button3"
+		            android:text="@string/number3" />
 		</TableRow>
 		
 	    <TableRow android:layout_weight="1">
-			<Button android:id="@+id/button4"
-			    	android:text="@string/number4"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button5"
-			    	android:text="@string/number5"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button6"
-			    	android:text="@string/number6"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
+	        <Button style="@style/KeypadButton"
+		            android:id="@+id/button4"
+		            android:text="@string/number4" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button5"
+		            android:text="@string/number5" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button6"
+		            android:text="@string/number6" />
 		</TableRow>
 		
 	    <TableRow android:layout_weight="1">
-			<Button android:id="@+id/button7"
-			    	android:text="@string/number7"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button8"
-			    	android:text="@string/number8"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
-			<Button android:id="@+id/button9"
-			    	android:text="@string/number9"
-			    	android:layout_height="fill_parent"
-			    	android:layout_width="fill_parent"
-			    	android:background="@drawable/keypad_button"/>
+	        <Button style="@style/KeypadButton"
+		            android:id="@+id/button7"
+		            android:text="@string/number7" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button8"
+		            android:text="@string/number8" />
+			<Button style="@style/KeypadButton"
+		            android:id="@+id/button9"
+		            android:text="@string/number9" />
 		</TableRow>
-
 	</TableLayout>
 	
 	</LinearLayout>
@@ -147,29 +117,21 @@
 			     android:paddingTop="2dp"
     		     android:background="@drawable/menu_button">
 	    
-		    <ImageButton android:id="@+id/icon_new"
-			    		 android:layout_height="fill_parent"
-			    		 android:layout_width="fill_parent"
+		    <ImageButton style="@style/MenuButton"
+		        		 android:id="@+id/icon_new"
 		        		 android:src="@drawable/menu_new_icon"
-		        		 android:background="@drawable/menu_button"
 		        		 android:layout_weight="1"/>
-		    <ImageButton android:id="@+id/icon_replay"
-			    		 android:layout_height="fill_parent"
-			    		 android:layout_width="fill_parent"
+		    <ImageButton style="@style/MenuButton"
+		        		 android:id="@+id/icon_replay"
 		        		 android:src="@drawable/menu_replay_icon"
-		        		 android:background="@drawable/menu_button"
 		        		 android:layout_weight="1"/>
-		    <ImageButton android:id="@+id/icon_hint"
-			    		 android:layout_height="fill_parent"
-			    		 android:layout_width="fill_parent"
+		    <ImageButton style="@style/MenuButton"
+		        		 android:id="@+id/icon_hint"
 		        		 android:src="@drawable/menu_hint_icon"
-		        		 android:background="@drawable/menu_button"
 		        		 android:layout_weight="1"/>
-		    <ImageButton android:id="@+id/icon_overflow"
-			    		 android:layout_height="fill_parent"
-			    		 android:layout_width="fill_parent"
+		    <ImageButton style="@style/MenuButton"
+		        		 android:id="@+id/icon_overflow"
 						 android:src="@drawable/menu_overflow_icon"
-		        		 android:background="@drawable/menu_button"
 		        		 android:layout_weight="1"/>
 	</LinearLayout>
 </LinearLayout>

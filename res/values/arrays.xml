@@ -27,7 +27,8 @@
    <item>Holo Dark</item>
 </string-array>
 <string-array name="setting_theme_values">
-    <item>HoloLight</item>
-   <item>HoloDark</item>
+   <item>0</item>
+   <item>1</item>
 </string-array>
+
 </resources>

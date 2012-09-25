@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,11 +50,15 @@ public class MainActivity extends Activity {
 	
 	// Define variables
 	public SharedPreferences preferences;
+	public static int theme;
+	int bgColours[] = {0xFFFFFFFF, 0xFF343434};
+	
 	Button numbers[] = new Button[9];
 	ImageButton actions[] = new ImageButton[4];
 	RadioButton modes[] = new RadioButton[3];
+	int modeColours[] = {0xFF99cc00,0xFF33b5e5,0x9033b5e5}; // holoblue/green
 
-	LinearLayout controlKeypad;
+	LinearLayout topLayout, controlKeypad;
 	RelativeLayout titleContainer;
 	TextView timeView;
 	long starttime = 0;
@@ -70,6 +73,14 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set up preferences
+        PreferenceManager.setDefaultValues(this, R.xml.activity_settings, false);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        String themePref = this.preferences.getString("alternatetheme", "0");
+        theme = Integer.parseInt(themePref);
+        
         setContentView(R.layout.activity_main);
 
         // Associate variables with views
@@ -95,14 +106,10 @@ public class MainActivity extends Activity {
         this.kenKenGrid = (GridView)findViewById(R.id.gridview);
         this.kenKenGrid.mContext = this;
         this.controlKeypad = (LinearLayout)findViewById(R.id.controls);
+        this.topLayout = (LinearLayout)findViewById(R.id.container);
         this.titleContainer = (RelativeLayout)findViewById(R.id.titlecontainer);
         this.timeView = (TextView)titleContainer.findViewById(R.id.playtime);
         
-        // Set up preferences
-        PreferenceManager.setDefaultValues(this, R.xml.activity_settings, false);
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-	    loadPreferences();
-	    
         // Set up listeners
         for (int i = 0; i<numbers.length; i++)
         	this.numbers[i].setOnClickListener(new OnClickListener() {
@@ -184,20 +191,9 @@ public class MainActivity extends Activity {
         	});
         
         SaveGame saver = new SaveGame();
-        if (saver.Restore(this.kenKenGrid)) {
-        	this.setButtonVisibility(this.kenKenGrid.mGridSize);
-        	if(!this.kenKenGrid.isSolved()) {
-        		this.kenKenGrid.mActive = true;
-        		titleContainer.setBackgroundResource(R.drawable.menu_button);
-        	}
-        	else {
-        		this.kenKenGrid.mActive = false;
-        		titleContainer.setBackgroundColor(0xFF33B5E5);
-        		mTimerHandler.removeCallbacks(playTimer);
-        	}
-
-        	this.kenKenGrid.invalidate();
-        }
+        restoreSaveGame(saver);
+	    this.topLayout.setBackgroundColor(bgColours[theme]);
+    	this.kenKenGrid.setTheme(theme);
         
     }
     
@@ -209,19 +205,7 @@ public class MainActivity extends Activity {
   	    String filename = extras.getString("filename");
   	    Log.d("HoloKen", "Loading game: " + filename);
     	SaveGame saver = new SaveGame(filename);
-        if (saver.Restore(this.kenKenGrid)) {
-        	this.setButtonVisibility(this.kenKenGrid.mGridSize);
-        	if(!this.kenKenGrid.isSolved()) {
-        		this.kenKenGrid.mActive = true;
-        		titleContainer.setBackgroundResource(R.drawable.menu_button);
-        	}
-        	else {
-        		this.kenKenGrid.mActive = false;
-        		titleContainer.setBackgroundColor(0xFF33B5E5);
-        		mTimerHandler.removeCallbacks(playTimer);
-        	}
-        	this.kenKenGrid.invalidate();
-        }
+    	restoreSaveGame(saver);
     }
     
     public void onPause() {
@@ -238,6 +222,7 @@ public class MainActivity extends Activity {
     
     public void onResume() {
     	loadPreferences();
+    
 	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
 	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
 	    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
@@ -341,14 +326,22 @@ public class MainActivity extends Activity {
 
     public void loadPreferences() {
     	// Re-check preferences
+        String themePref = this.preferences.getString("alternatetheme", "0");
+        int newtheme = Integer.parseInt(themePref);
+        if (theme != newtheme) {
+		    this.topLayout.setBackgroundColor(bgColours[newtheme]);
+	    	this.kenKenGrid.setTheme(newtheme);
+	    	theme = newtheme;
+        }
+        
 	    if (this.preferences.getBoolean("keepscreenon", true))
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    else
 	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    
 	    if (this.preferences.getBoolean("showfullscreen", true)) {
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	    }
 	    else {
 	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -359,7 +352,6 @@ public class MainActivity extends Activity {
 		    this.timeView.setVisibility(View.VISIBLE);
 	    else
 	    	this.timeView.setVisibility(View.INVISIBLE);
-	    
 	    
     }
     
@@ -392,8 +384,9 @@ public class MainActivity extends Activity {
     // Create runnable for posting
     final Runnable newGameReady = new Runnable() {
         public void run() {
-        	MainActivity.this.dismissDialog(0);
-    	    MainActivity.this.kenKenGrid.setTheme(GridView.THEME_NEWSPAPER);
+        	MainActivity.this.dismissDialog(0);	    
+        	MainActivity.this.topLayout.setBackgroundColor(bgColours[theme]);
+        	MainActivity.this.kenKenGrid.setTheme(theme);
         	MainActivity.this.setButtonVisibility(kenKenGrid.mGridSize);
         	MainActivity.this.kenKenGrid.invalidate();
         	starttime = System.currentTimeMillis();
@@ -428,6 +421,22 @@ public class MainActivity extends Activity {
 
         timeView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 	}
+	
+	public void restoreSaveGame(SaveGame saver) {
+	    if (saver.Restore(this.kenKenGrid)) {
+	    	this.setButtonVisibility(this.kenKenGrid.mGridSize);
+	    	if(!this.kenKenGrid.isSolved()) {
+	    		this.kenKenGrid.mActive = true;
+	    		titleContainer.setBackgroundResource(R.drawable.menu_button);
+	    	}
+	    	else {
+	    		this.kenKenGrid.mActive = false;
+	    		titleContainer.setBackgroundColor(0xFF33B5E5);
+	    		mTimerHandler.removeCallbacks(playTimer);
+	    	}
+	    	this.kenKenGrid.invalidate();
+	    }
+	}
     /***************************
      * Helper functions to modify KenKen grid cells
      ***************************/  
@@ -458,14 +467,21 @@ public class MainActivity extends Activity {
     	if (selectedCell == null)
     		return;
     	
-    	if (modes[PEN].isChecked() && selectedCell.mPossibles.size() == 1)
+    	if (modes[PEN].isChecked()) {
+    		selectedCell.mSelectedPaint.setColor(modeColours[PEN]); //blue
+    		if (selectedCell.mPossibles.size() == 1)
     			selectedCell.setUserValue(selectedCell.mPossibles.get(0));
-    	else if (modes[PENCIL].isChecked() && selectedCell.isUserValueSet()) {
-			int x = selectedCell.mUserValue;
-			selectedCell.clearUserValue();
-			selectedCell.togglePossible(x);
+    	}
+    	else if (modes[PENCIL].isChecked()) {
+    		selectedCell.mSelectedPaint.setColor(modeColours[PENCIL]); //blue
+    		if (selectedCell.isUserValueSet()) {
+				int x = selectedCell.mUserValue;
+				selectedCell.clearUserValue();
+				selectedCell.togglePossible(x);
+    		}
     	}
     	else if (modes[ERASER].isChecked()) {
+    		selectedCell.mSelectedPaint.setColor(modeColours[ERASER]); //green
     		selectedCell.mPossibles.clear();
     		selectedCell.clearUserValue();
     	}
@@ -511,7 +527,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
         grid.destroyDrawingCache();
-		makeToast(getString(R.string.puzzle_screenshot)+path+filename);
+		makeToast(getString(R.string.puzzle_screenshot)+path);
 		
 		// Initiate sharing dialog
 		Intent share = new Intent(Intent.ACTION_SEND);
@@ -529,9 +545,7 @@ public class MainActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
 	    mProgressDialog = new ProgressDialog(this);
-	    mProgressDialog.setTitle(R.string.dialog_building_title);
 	    mProgressDialog.setMessage(getResources().getString(R.string.dialog_building_msg));
-	    mProgressDialog.setIcon(android.R.drawable.ic_dialog_info);
 	    mProgressDialog.setIndeterminate(false);
 	    mProgressDialog.setCancelable(false);
 	    return mProgressDialog;
@@ -628,17 +642,7 @@ public class MainActivity extends Activity {
     	       })
     	       .show();
     }
-    
 
-    
-    public static Bitmap loadBitmapFromView(View v) {
-        Bitmap b = Bitmap.createBitmap( v.getLayoutParams().width, 
-        		v.getLayoutParams().height, Bitmap.Config.ARGB_8888);                
-        Canvas c = new Canvas(b);
-        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
-        v.draw(c);
-        return b;
-   }
 
     public void makeToast(String string) {
     	Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();

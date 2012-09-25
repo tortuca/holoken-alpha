@@ -8,6 +8,7 @@ import com.srlee.DLX.MathDokuDLX;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.DiscretePathEffect;
@@ -23,8 +24,8 @@ import android.widget.TextView;
 
 public class GridView extends View implements OnTouchListener  {
 
-	public static final int THEME_CARVED = 0;
-	public static final int THEME_NEWSPAPER = 1;
+  public static final int THEME_LIGHT = 0;
+  public static final int THEME_DARK = 1;
   // Solved listener
   private OnSolvedListener mSolvedListener;
   // Touched listener
@@ -55,6 +56,7 @@ public class GridView extends View implements OnTouchListener  {
   
   public TextView animText;
   
+  Resources res = getResources();
   public int mCurrentWidth;
   public Paint mGridPaint;
   public Paint mBorderPaint;
@@ -95,30 +97,38 @@ public class GridView extends View implements OnTouchListener  {
 	this.mBadMaths = true;
 	this.mShowOperators = true;
 	this.mPlayTime = 0;
-		
+
+	
+	//default is holo light
     this.mGridPaint = new Paint();
-    this.mGridPaint.setColor(0x80000000);
+    this.mGridPaint.setColor(0xFF000000);
     this.mGridPaint.setStrokeWidth(0);
-    //this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {2, 2}, 0));
+    this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {2, 2}, 0));
     
     this.mBorderPaint = new Paint();
     this.mBorderPaint.setColor(0xFF000000);
     this.mBorderPaint.setStrokeWidth(3);
     this.mBorderPaint.setStyle(Style.STROKE);
+	this.mBackgroundColor = 0xFFFFFFFF;
 
     this.mCurrentWidth = 0;
     this.mGridSize = 0;
 	this.mActive = false;
     this.setOnTouchListener((OnTouchListener) this);
+    
   }
   
   public void setTheme(int theme) {
-	  if (theme == THEME_NEWSPAPER) {
-			this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {2, 2}, 0));
-		    this.mBorderPaint.setAntiAlias(false);
-		    this.mBorderPaint.setPathEffect(null);
-		    this.mBackgroundColor = 0xffffffff;
+	  if (theme == THEME_LIGHT) {
+		  this.mBackgroundColor = 0xFFFFFFFF;
+		  this.mBorderPaint.setColor(0xFF000000);
+		  this.mGridPaint.setColor(0xFF000000);
+	  } else if (theme == THEME_DARK) {
+		  this.mBackgroundColor = 0xFF343434;
+		  this.mBorderPaint.setColor(0xFFAAAAAA);
+		  this.mGridPaint.setColor(0xFFAAAAAA);
 	  }
+	  
 	  if (this.getMeasuredHeight() < 150)
 		this.mBorderPaint.setStrokeWidth(1);
 	  else
@@ -127,6 +137,7 @@ public class GridView extends View implements OnTouchListener  {
 	  if (this.mCells != null)
 		  for (GridCell cell : this.mCells)
 			  cell.setTheme(theme);
+	  invalidate();
   }
   
   public void reCreate() {
@@ -153,7 +164,7 @@ public class GridView extends View implements OnTouchListener  {
 		  Log.d ("MathDoku", "Num Attempts = " + num_attempts);
 		  this.mActive = true;
 		  this.mSelectorShown = false;
-		  this.setTheme(this.mTheme);
+		  //this.setTheme(this.mTheme);
 	  }
   }
 

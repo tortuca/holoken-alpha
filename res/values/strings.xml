@@ -85,15 +85,16 @@
     
     <string name="about_section_title">About</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version_summary">HoloKen Alpha v1.2</string>
+    <string name="about_version_summary">HoloKen Alpha v1.5</string>
     <string name="about_license_title">License</string>
     <string name="about_license_summary">GNU General Public License v3</string>
     <string name="about_website_title">Project Home</string>
     <string name="about_website_summary">Report any bugs or suggestions at\n<a href="http://github.com/holoken">http://github.com/holoken</a></string>
-    <string name="about_developers_title">Developers</string>
+    <string name="about_developers_title">Developer</string>
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
+		Alpha v1.4: Integrated themes and enabled selector to change color w/ mode\n
         Alpha v1.3: Changed out \'Show operators\' to work in-game\n
         Alpha v1.2: Added timer and saves are more detailed\n
         Alpha v1.1: Added colour feedback and more hint assistance\n
@@ -106,8 +107,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
 	
-    <string name="dialog_building_title">Building puzzle</string>
-	<string name="dialog_building_msg">Loading</string>
+    <string name="dialog_building_msg">Generating puzzle...</string>
 	
     <string name="dialog_restart_title">Restart game?</string>
 	<string name="dialog_restart_msg">This game will be restarted</string>
