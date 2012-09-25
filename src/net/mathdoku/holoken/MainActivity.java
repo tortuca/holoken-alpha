@@ -59,13 +59,13 @@ public class MainActivity extends Activity {
 	RelativeLayout titleContainer;
 	TextView timeView;
 	long starttime = 0;
+	String solveTime;
 
     public GridView kenKenGrid;
     public GridCell selectedCell;
     ProgressDialog mProgressDialog;
     final Handler mHandler = new Handler();
 	final Handler mTimerHandler = new Handler();
-   
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
         this.timeView = (TextView)titleContainer.findViewById(R.id.playtime);
         
         // Set up preferences
-        PreferenceManager.setDefaultValues(this, R.layout.activity_settings, false);
+        PreferenceManager.setDefaultValues(this, R.xml.activity_settings, false);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	    loadPreferences();
 	    
@@ -186,10 +186,17 @@ public class MainActivity extends Activity {
         SaveGame saver = new SaveGame();
         if (saver.Restore(this.kenKenGrid)) {
         	this.setButtonVisibility(this.kenKenGrid.mGridSize);
-        	this.kenKenGrid.mActive = true;
+        	if(!this.kenKenGrid.isSolved()) {
+        		this.kenKenGrid.mActive = true;
+        		titleContainer.setBackgroundResource(R.drawable.menu_button);
+        	}
+        	else {
+        		this.kenKenGrid.mActive = false;
+        		titleContainer.setBackgroundColor(0xFF33B5E5);
+        		mTimerHandler.removeCallbacks(playTimer);
+        	}
+
         	this.kenKenGrid.invalidate();
-        	//starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
-        	//mTimerHandler.postDelayed(playTimer, 0);
         }
         
     }
@@ -204,10 +211,16 @@ public class MainActivity extends Activity {
     	SaveGame saver = new SaveGame(filename);
         if (saver.Restore(this.kenKenGrid)) {
         	this.setButtonVisibility(this.kenKenGrid.mGridSize);
-        	this.kenKenGrid.mActive = true;
+        	if(!this.kenKenGrid.isSolved()) {
+        		this.kenKenGrid.mActive = true;
+        		titleContainer.setBackgroundResource(R.drawable.menu_button);
+        	}
+        	else {
+        		this.kenKenGrid.mActive = false;
+        		titleContainer.setBackgroundColor(0xFF33B5E5);
+        		mTimerHandler.removeCallbacks(playTimer);
+        	}
         	this.kenKenGrid.invalidate();
-        	//starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
-        	//mTimerHandler.postDelayed(playTimer, 0);
         }
     }
     
@@ -215,20 +228,21 @@ public class MainActivity extends Activity {
     	if (this.kenKenGrid.mGridSize > 3) {
         	this.kenKenGrid.mPlayTime = System.currentTimeMillis() - starttime;
         	mTimerHandler.removeCallbacks(playTimer);
-	    	SaveGame saver = new SaveGame();
-	    	saver.Save(this.kenKenGrid);
+        	// NB: saving solved games messes up the timer?
+        	SaveGame saver = new SaveGame();
+        	saver.Save(this.kenKenGrid);
+
     	}
     	super.onPause();
     }
     
     public void onResume() {
     	loadPreferences();
-
+	    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
+	    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
+	    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
 	    //alternatetheme
 	    if (this.kenKenGrid.mActive) {
-		    this.kenKenGrid.mDupedigits = this.preferences.getBoolean("duplicates", true);
-		    this.kenKenGrid.mBadMaths = this.preferences.getBoolean("badmaths", true);
-		    this.kenKenGrid.mShowOperators = this.preferences.getBoolean("showoperators", true);
 	    	this.kenKenGrid.requestFocus();
 	    	this.kenKenGrid.invalidate();
 	    	starttime = System.currentTimeMillis() - this.kenKenGrid.mPlayTime;
@@ -401,17 +415,19 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
            long millis = System.currentTimeMillis() - starttime;
-           int seconds = (int) (millis / 1000);
-           int minutes = seconds / 60 % 60;
-           int hours   = seconds / 3600;
-           seconds     = seconds % 60;
-
-           timeView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+           convertTimetoStr(millis);
            mTimerHandler.postDelayed(this, UPDATE_RATE);
         }
     };
 
-	
+	public void convertTimetoStr(long time) {
+        int seconds = (int) (time / 1000);
+        int minutes = seconds / 60 % 60;
+        int hours   = seconds / 3600;
+        seconds     = seconds % 60;
+
+        timeView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+	}
     /***************************
      * Helper functions to modify KenKen grid cells
      ***************************/  

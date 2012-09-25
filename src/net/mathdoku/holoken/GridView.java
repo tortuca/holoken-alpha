@@ -113,14 +113,7 @@ public class GridView extends View implements OnTouchListener  {
   }
   
   public void setTheme(int theme) {
-	  if (theme == THEME_CARVED) {
-	    this.mGridPaint.setAntiAlias(true);
-		this.mGridPaint.setPathEffect(new DiscretePathEffect(20, 1));
-		this.mGridPaint.setColor(0xbf906050);
-	    this.mBorderPaint.setAntiAlias(true);
-	    this.mBorderPaint.setPathEffect(new DiscretePathEffect(30, 1));
-	    this.mBackgroundColor = 0x7ff0d090;
-	  } else if (theme == THEME_NEWSPAPER) {
+	  if (theme == THEME_NEWSPAPER) {
 			this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {2, 2}, 0));
 		    this.mBorderPaint.setAntiAlias(false);
 		    this.mBorderPaint.setPathEffect(null);

@@ -132,14 +132,7 @@ public class GridCell {
   
   public void setTheme(int theme) {
 	  this.mTheme = theme;
-	  if (theme == GridView.THEME_CARVED) {
-	    this.mBorderPaint.setAntiAlias(true);
-		this.mBorderPaint.setPathEffect(new DiscretePathEffect(20, 1));
-	    this.mWrongBorderPaint.setAntiAlias(true);
-	    this.mWrongBorderPaint.setPathEffect(new DiscretePathEffect(20, 1));
-//	    this.mValuePaint.setTypeface(this.mContext.mFace);
-//	    this.mCageTextPaint.setTypeface(this.mContext.mFace);
-	  } else if (theme == GridView.THEME_NEWSPAPER) {
+	  if (theme == GridView.THEME_NEWSPAPER) {
 	    this.mBorderPaint.setAntiAlias(false);
 		this.mBorderPaint.setPathEffect(null);
 	    this.mWrongBorderPaint.setAntiAlias(true);

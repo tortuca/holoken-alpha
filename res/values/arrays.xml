@@ -23,11 +23,11 @@
 </string-array>    
 
 <string-array name="setting_theme_entries">
-   <item>Holo Dark</item>
    <item>Holo Light</item>
+   <item>Holo Dark</item>
 </string-array>
 <string-array name="setting_theme_values">
+    <item>HoloLight</item>
    <item>HoloDark</item>
-   <item>HoloLight</item>
 </string-array>
 </resources>
