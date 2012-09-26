@@ -65,6 +65,7 @@ public class GridCell {
   private Paint mWarningPaint;
   private Paint mCheatedPaint;
   public Paint mSelectedPaint;
+  private Paint mUserSetPaint;
   
   public int mTheme;
   
@@ -91,16 +92,18 @@ public class GridCell {
     
     this.mCageSelectedPaint = new Paint();
     this.mCageSelectedPaint.setColor(0xFF000000);
-    this.mCageSelectedPaint.setStrokeWidth(3);
+    this.mCageSelectedPaint.setStrokeWidth(4);
     
     this.mWrongBorderPaint = new Paint();
     this.mWrongBorderPaint.setColor(0xFFcc0000);
     this.mWrongBorderPaint.setStrokeWidth(3);
     
+    this.mUserSetPaint = new Paint();    
     this.mWarningPaint = new Paint();
     this.mCheatedPaint = new Paint();
     this.mSelectedPaint = new Paint();
-   
+    
+    this.mUserSetPaint.setColor(0xFFFFFFFF);  //white   
     this.mWarningPaint.setColor(0x90ff4444);  //red
     this.mCheatedPaint.setColor(0xccffbb33);  //orange
     this.mSelectedPaint.setColor(0x9033b5e5); //blue
@@ -124,16 +127,20 @@ public class GridCell {
   public void setTheme(int theme) {
 	  this.mTheme = theme;
 	  if (theme == GridView.THEME_LIGHT) {
+		    this.mUserSetPaint.setColor(0xFFFFFFFF);
 		    this.mBorderPaint.setColor(0xFF000000);
 		    this.mCageSelectedPaint.setColor(0xFF000000);
 		    this.mValuePaint.setColor(0xFF000000);
 		    this.mPossiblesPaint.setColor(0xFF000000);
+		    this.mCageTextPaint.setColor(0xFF0086B3);
 	  } 
 	  else if (theme == GridView.THEME_DARK) {
-		    this.mBorderPaint.setColor(0xFFAAAAAA);
-		    this.mCageSelectedPaint.setColor(0xFFAAAAAA);
+		    this.mUserSetPaint.setColor(0xFF272727);
+		    this.mBorderPaint.setColor(0xFFFFFFFF);
+		    this.mCageSelectedPaint.setColor(0xFFFFFFFF);
 		    this.mValuePaint.setColor(0xFFFFFFFF);
 		    this.mPossiblesPaint.setColor(0xFFFFFFFF);
+		    this.mCageTextPaint.setColor(0xFFe5bc33);
 	  }
   }
   
@@ -234,10 +241,12 @@ public class GridCell {
     GridCell cellBelow = this.mContext.getCellAt(this.mRow+1, this.mColumn);
 
     if (!onlyBorders) {
+	    if (this.isUserValueSet())
+	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mUserSetPaint);
 	    if (this.mCheated)
 	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mCheatedPaint);
 	    if ((this.mShowWarning && this.mContext.mDupedigits) || this.mInvalidHighlight)
-	    	canvas.drawRect(west + 1, north+1, east-1, south-1, this.mWarningPaint);
+	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mWarningPaint);
 	    if (this.mSelected)
 	    	canvas.drawRect(west+1, north+1, east-1, south-1, this.mSelectedPaint);
     } else {

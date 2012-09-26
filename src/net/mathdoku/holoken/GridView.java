@@ -8,12 +8,13 @@ import com.srlee.DLX.MathDokuDLX;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
-import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -101,14 +102,16 @@ public class GridView extends View implements OnTouchListener  {
 	
 	//default is holo light
     this.mGridPaint = new Paint();
-    this.mGridPaint.setColor(0xFF000000);
+	this.mGridPaint.setColor(0x66906050);
     this.mGridPaint.setStrokeWidth(0);
-    this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {2, 2}, 0));
     
     this.mBorderPaint = new Paint();
     this.mBorderPaint.setColor(0xFF000000);
     this.mBorderPaint.setStrokeWidth(3);
     this.mBorderPaint.setStyle(Style.STROKE);
+    this.mBorderPaint.setAntiAlias(false);
+    this.mBorderPaint.setPathEffect(null);
+    
 	this.mBackgroundColor = 0xFFFFFFFF;
 
     this.mCurrentWidth = 0;
@@ -120,13 +123,14 @@ public class GridView extends View implements OnTouchListener  {
   
   public void setTheme(int theme) {
 	  if (theme == THEME_LIGHT) {
-		  this.mBackgroundColor = 0xFFFFFFFF;
+		  this.mBackgroundColor = 0xFFf2f2f2; //off-white
 		  this.mBorderPaint.setColor(0xFF000000);
-		  this.mGridPaint.setColor(0xFF000000);
+		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
+
 	  } else if (theme == THEME_DARK) {
-		  this.mBackgroundColor = 0xFF343434;
-		  this.mBorderPaint.setColor(0xFFAAAAAA);
-		  this.mGridPaint.setColor(0xFFAAAAAA);
+		  this.mBackgroundColor = 0xFF292929;
+		  this.mBorderPaint.setColor(0xFFFFFFFF);
+		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
 	  }
 	  
 	  if (this.getMeasuredHeight() < 150)
@@ -137,7 +141,7 @@ public class GridView extends View implements OnTouchListener  {
 	  if (this.mCells != null)
 		  for (GridCell cell : this.mCells)
 			  cell.setTheme(theme);
-	  invalidate();
+	  this.invalidate();
   }
   
   public void reCreate() {
@@ -176,7 +180,7 @@ public class GridView extends View implements OnTouchListener  {
 	  return this.mCells.get(column + row*this.mGridSize).mCageId;
   }
   
-  public int CreateSingleCages() {
+  public int CreateSingleCages(int operationSet) {
     int singles = this.mGridSize / 2;
     boolean RowUsed[] = new boolean[mGridSize];
     boolean ColUsed[] = new boolean[mGridSize];
@@ -193,7 +197,7 @@ public class GridView extends View implements OnTouchListener  {
     	ValUsed[cell.mValue-1] = true;
     	GridCage cage = new GridCage(this, GridCage.CAGE_1);
     	cage.mCells.add(cell);
-    	cage.setArithmetic();
+    	cage.setArithmetic(operationSet);
     	cage.setCageId(i);
     	this.mCages.add(cage);
     }
@@ -207,7 +211,10 @@ public class GridView extends View implements OnTouchListener  {
 
 	  do {
 		  restart = false;
-		  int cageId = CreateSingleCages();
+	    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.mContext);
+	    	int operationSet = Integer.parseInt(prefs.getString("defaultoperations", "0"));
+	    	
+		  int cageId = CreateSingleCages(operationSet);
 		  for (int cellNum = 0 ; cellNum < this.mCells.size() ; cellNum++) {
 			  GridCell cell = this.mCells.get(cellNum);
 			  if (cell.CellInAnyCage())
@@ -230,7 +237,7 @@ public class GridView extends View implements OnTouchListener  {
 				  cage.mCells.add(getCellAt(row, col));
 			  }
 
-			  cage.setArithmetic();  // Make the maths puzzle
+			  cage.setArithmetic(operationSet);  // Make the maths puzzle
 			  cage.setCageId(cageId++);  // Set cage's id
 			  this.mCages.add(cage);  // Add to the cage list
 		  }
@@ -405,7 +412,7 @@ public class GridView extends View implements OnTouchListener  {
 		  for (GridCage cage : this.mCages)
 			  cage.userValuesCorrect();
 
-		  setCageText();
+		  //setCageText();
 
 		  // Draw (dashed) grid
 		  for (int i = 1 ; i < this.mGridSize ; i++) {
@@ -437,11 +444,13 @@ public class GridView extends View implements OnTouchListener  {
 
 		  
 		  if (this.mActive && this.isSolved()) {
-			  if (this.mSolvedListener != null)
-			  	this.mSolvedListener.puzzleSolved();
-			  if (this.mSelectedCell != null)
+			  if (this.mSelectedCell != null) {
 				  this.mSelectedCell.mSelected = false;
-			  this.invalidate();
+				  this.mCages.get(this.mSelectedCell.mCageId).mSelected = false;
+				  this.invalidate();
+			  }
+			  if (this.mSolvedListener != null)
+				  	this.mSolvedListener.puzzleSolved();
 			  this.mActive = false;
 		  }
 	  }

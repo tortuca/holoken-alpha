@@ -6,7 +6,12 @@ import java.util.Arrays;
 import android.util.Log;
 
 public class GridCage {
-
+  
+  public static final int OPERATIONS_ALL = 0;
+  public static final int OPERATIONS_ADD_SUB = 1;
+  public static final int OPERATIONS_ADD_MULT = 2;
+  public static final int OPERATIONS_MULT = 3;
+	
   public static final int ACTION_NONE = 0;
   public static final int ACTION_ADD = 1;
   public static final int ACTION_SUBTRACT = 2;
@@ -175,7 +180,7 @@ public class GridCage {
    * - else if the cells are evenly divisible, division is used, else
    *   subtraction.
    */
-  public void setArithmetic() {
+  public void setArithmetic(int operationSet) {
     this.mAction = -1;
     if (this.mType == CAGE_1) {
       this.mAction = ACTION_NONE;
@@ -186,10 +191,23 @@ public class GridCage {
     double rand = this.mContext.mRandom.nextDouble();
     double addChance = 0.25;
     double multChance = 0.5;
-    if (this.mCells.size() > 2) {
-      addChance = 0.5;
-      multChance = 1.0;
+    
+    if (operationSet == OPERATIONS_ADD_SUB) {
+    	if (this.mCells.size() > 2) 
+    		addChance = 1.0;
+    	else
+    		addChance = 0.4;
+    	multChance = 0.0;
     }
+    else if (operationSet == OPERATIONS_MULT) {
+    	addChance = 0.0;
+    	multChance = 1.0;
+    }
+    else if (this.mCells.size() > 2 || operationSet == OPERATIONS_ADD_MULT) { // force + and x only
+	    addChance = 0.5;
+	    multChance = 1.0;
+    }
+
     if (rand <= addChance)
       this.mAction = ACTION_ADD;
     else if (rand <= multChance)
@@ -227,7 +245,7 @@ public class GridCage {
       higher = cell2Value;
       lower = cell1Value;
     }
-    if (higher % lower == 0)
+    if (higher % lower == 0 && operationSet != OPERATIONS_ADD_SUB)
       canDivide = true;
     if (canDivide) {
       this.mResult = higher / lower;

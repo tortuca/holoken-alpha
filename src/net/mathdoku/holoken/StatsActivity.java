@@ -48,7 +48,7 @@ public class StatsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	menu.findItem(R.id.menu_new).setEnabled(false);
     	menu.findItem(R.id.menu_save).setEnabled(false);
-    	menu.findItem(R.id.menu_stats).setEnabled(false);
+    	//menu.findItem(R.id.menu_stats).setEnabled(false);
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }

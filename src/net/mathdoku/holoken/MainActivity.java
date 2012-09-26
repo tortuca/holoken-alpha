@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 	// Define variables
 	public SharedPreferences preferences;
 	public static int theme;
-	int bgColours[] = {0xFFFFFFFF, 0xFF343434};
+	int bgColours[] = {0xFFFFFFFF, 0xFF272727};
 	
 	Button numbers[] = new Button[9];
 	ImageButton actions[] = new ImageButton[4];
@@ -62,7 +62,6 @@ public class MainActivity extends Activity {
 	RelativeLayout titleContainer;
 	TextView timeView;
 	long starttime = 0;
-	String solveTime;
 
     public GridView kenKenGrid;
     public GridCell selectedCell;
@@ -156,8 +155,8 @@ public class MainActivity extends Activity {
     			public void puzzleSolved() {
 				    //MainActivity.this.controlKeypad.setVisibility(View.GONE);
     				MainActivity.this.makeToast(getString(R.string.puzzle_solved));
-    				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);
-    				//kenKenGrid.mSelectorShown = false;
+    				MainActivity.this.titleContainer.setBackgroundColor(0xFF33B5E5);	  
+
     				MainActivity.this.kenKenGrid.mPlayTime = System.currentTimeMillis() - starttime;
     				mTimerHandler.removeCallbacks(playTimer);
     			}
@@ -257,9 +256,9 @@ public class MainActivity extends Activity {
          		if(kenKenGrid.mGridSize > 3)
          			getScreenShot();
          		break;
-         	case R.id.menu_stats:
-	        	startActivity(new Intent(this, StatsActivity.class));
-	            break;
+         	//case R.id.menu_stats:
+	        //	startActivity(new Intent(this, StatsActivity.class));
+	        //    break;
          	case R.id.menu_settings:
 	        	startActivity(new Intent(this, SettingsActivity.class));
 	            break;
@@ -434,6 +433,8 @@ public class MainActivity extends Activity {
 	    		titleContainer.setBackgroundColor(0xFF33B5E5);
 	    		mTimerHandler.removeCallbacks(playTimer);
 	    	}
+	        this.topLayout.setBackgroundColor(bgColours[theme]);
+		    this.kenKenGrid.setTheme(theme);
 	    	this.kenKenGrid.invalidate();
 	    }
 	}

@@ -12,9 +12,9 @@
     <item android:id="@+id/menu_share"
         android:title="@string/menu_share"
         android:orderInCategory="4"/>
-    <item android:id="@+id/menu_stats"
+    <!--item android:id="@+id/menu_stats"
         android:title="@string/menu_stats"
-        android:orderInCategory="5"/>
+        android:orderInCategory="5"/-->
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:orderInCategory="100"/>

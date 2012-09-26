@@ -9,14 +9,22 @@
 			android:entries="@array/setting_default_game_grid_entries"
 			android:entryValues="@array/setting_default_game_grid_values"
 			android:defaultValue="ask"  />
-	</PreferenceCategory>
-	
-	<PreferenceCategory android:title="@string/settings_group_assistance" android:key="Assistance">
-	    <CheckBoxPreference
+		<ListPreference
+		    android:key="defaultoperations"
+			android:title="@string/setting_default_operations_title"
+			android:summary="%s"
+			android:entries="@array/setting_default_operations_entries"
+			android:entryValues="@array/setting_default_operations_values"
+			android:defaultValue="0"  />
+		<CheckBoxPreference
 		    android:key="showoperators"
 			android:title="@string/setting_show_operators_title"
 			android:summary="@string/setting_show_operators_summary"
 			android:defaultValue="true"  />
+	</PreferenceCategory>
+	
+	
+	<PreferenceCategory android:title="@string/settings_group_assistance" android:key="Assistance">
 		<CheckBoxPreference
 			android:key="badmaths"
 			android:title="@string/setting_flag_bad_maths_title"

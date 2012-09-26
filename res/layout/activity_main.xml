@@ -35,7 +35,8 @@
     <net.mathdoku.holoken.GridView android:id="@+id/gridview"
 	    	  android:layout_width="wrap_content" 
 	    	  android:layout_height="wrap_content"
-	    	  android:layout_gravity="center_horizontal"/>
+	    	  android:layout_gravity="center_horizontal"
+	    	  android:padding="10dp"/>
     
     <LinearLayout android:id="@+id/controls"
        	android:layout_width="fill_parent" 

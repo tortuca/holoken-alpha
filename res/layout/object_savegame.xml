@@ -37,12 +37,12 @@
 		        	     android:contentDescription="@string/button_play"
 		        		 android:layout_width="wrap_content"
 					  	 android:layout_height="wrap_content"
-						 android:src="@drawable/button_play"/>
+						 android:src="@drawable/button_play_light"/>
 			<ImageButton android:id="@+id/button_delete"
 		        	     android:contentDescription="@string/button_remove"
 		        		 android:layout_width="wrap_content"
 					  	 android:layout_height="wrap_content"
-						 android:src="@drawable/button_remove"/>
+						 android:src="@drawable/button_remove_light"/>
 		</LinearLayout>
 	</LinearLayout>
 

@@ -22,6 +22,22 @@
    <item>9</item>
 </string-array>    
 
+<!-- The possible values of the "default operators" option. -->
+<string-array name="setting_default_operations_entries">
+   <item>All mathematical operations</item>
+   <item>Addition and subtraction</item>
+   <item>Addition and multiplication</item>
+   <item>Multiplication only</item>
+</string-array>
+<!-- The actual under-the-hood values associated with the above. Serve merely as identifiers, and should not be translated. -->
+<string-array name="setting_default_operations_values">
+   <item>0</item>
+   <item>1</item>
+   <item>2</item>
+   <item>3</item>
+</string-array>   
+
+
 <string-array name="setting_theme_entries">
    <item>Holo Light</item>
    <item>Holo Dark</item>
