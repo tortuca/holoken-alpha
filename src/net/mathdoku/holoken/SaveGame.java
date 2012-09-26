@@ -54,6 +54,13 @@ public class SaveGame {
 						writer.write(cell.mCellNumber + ",");
 					writer.write("\n");
 				}
+				ArrayList<GridCell> cheatedcells = view.cheatedHighlighted();
+				if (cheatedcells.size() > 0) {
+					writer.write("CHEATED:");
+					for (GridCell cell : cheatedcells)
+						writer.write(cell.mCellNumber + ",");
+					writer.write("\n");
+				}
 				for (GridCage cage : view.mCages) {
 					writer.write("CAGE:");
 					writer.write(cage.mId + ":");
@@ -160,6 +167,15 @@ public class SaveGame {
 	        		int cellNum = Integer.parseInt(cellId);
 	        		GridCell c = view.mCells.get(cellNum);
 	        		c.setInvalidHighlight(true);
+	        	}
+	        	line = br.readLine();
+	        }
+	        if (line.startsWith("CHEATED")) {
+	        	String cheatedlist = line.split(":")[1];
+	        	for (String cellId : cheatedlist.split(",")) {
+	        		int cellNum = Integer.parseInt(cellId);
+	        		GridCell c = view.mCells.get(cellNum);
+	        		c.setCheatedHighlight(true);
 	        	}
 	        	line = br.readLine();
 	        }

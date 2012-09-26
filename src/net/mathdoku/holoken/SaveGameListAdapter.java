@@ -8,13 +8,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ public class SaveGameListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private SaveGameListActivity mContext;
 	//private Typeface mFace;
+
+	public SharedPreferences preferences;
 
 	public SaveGameListAdapter(SaveGameListActivity context) {
 		this.inflater = LayoutInflater.from(context);
@@ -56,19 +59,17 @@ public class SaveGameListAdapter extends BaseAdapter {
 		for (String entryName : allFiles)
 			if (entryName.startsWith("savegame_"))
 				this.mGameFiles.add(entryName);
-		
 		Collections.sort((List<String>)this.mGameFiles, new SortSavedGames());
-		
 	}
 
 	public int getCount() {
-		return this.mGameFiles.size() + 1;
+		return this.mGameFiles.size();
 	}
 
 	public Object getItem(int arg0) {
-		if (arg0 == 0)
-			return "";
-		return this.mGameFiles.get(arg0-1);
+		//if (arg0 == 0)
+		//	return "";
+		return this.mGameFiles.get(arg0);
 	}
 
 	public long getItemId(int position) {
@@ -76,37 +77,27 @@ public class SaveGameListAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position == 0) {
-			convertView = inflater.inflate(R.layout.activity_savegame, null);
-			
-			final Button saveButton = (Button)convertView.findViewById(R.id.savebutton);
-			saveButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					saveButton.setEnabled(false);
-					mContext.currentSaveGame();
-				}
-			});
-			if (mContext.mCurrentSaved)
-				saveButton.setEnabled(false);
-			return convertView;
-		}
-		
 		convertView = inflater.inflate(R.layout.object_savegame, null);
-		
+
 		GridView grid = (GridView)convertView.findViewById(R.id.saveGridView);
 		TextView gametitle = (TextView)convertView.findViewById(R.id.saveGameTitle);
 		TextView datetime = (TextView)convertView.findViewById(R.id.saveDateTime);
 
-		final String saveFile = SaveGameListActivity.SAVEGAME_DIR + this.mGameFiles.get(position-1);
+		final String saveFile = SaveGameListActivity.SAVEGAME_DIR + "/"+ this.mGameFiles.get(position);
 		
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(convertView.getContext());
 		grid.mContext = this.mContext;
 		grid.mActive = false;
-	    grid.mDupedigits = PreferenceManager.getDefaultSharedPreferences(
-	    		convertView.getContext()).getBoolean("duplicates", true);
-	    grid.mBadMaths = PreferenceManager.getDefaultSharedPreferences(
-	    		convertView.getContext()).getBoolean("badmaths", true);
-	    grid.mShowOperators = PreferenceManager.getDefaultSharedPreferences(
-	    		convertView.getContext()).getBoolean("showoperators", true);
+	    grid.mDupedigits = this.preferences.getBoolean("duplicates", true);
+	    grid.mBadMaths = this.preferences.getBoolean("badmaths", true);
+	    
+        //grid.setTheme(theme);
+	    String themePref = this.preferences.getString("alternatetheme", "0");
+        int theme = Integer.parseInt(themePref);
+		convertView.findViewById(R.id.saveGameRow).setBackgroundColor(
+				MainActivity.BG_COLOURS[theme]);
+        gametitle.setTextColor(MainActivity.TEXT_COLOURS[theme]);
+        datetime.setTextColor(MainActivity.TEXT_COLOURS[theme]);
 
 		SaveGame saver = new SaveGame(saveFile);
 		try {
@@ -117,6 +108,9 @@ public class SaveGameListAdapter extends BaseAdapter {
 			new File(saveFile).delete();
 			return convertView;
 		}
+		grid.setBackgroundColor(0xFFFFFFFF);		
+		for (GridCell cell : grid.mCells)
+			cell.mSelected = false;
 		
 		long millis = grid.mPlayTime;
         int seconds = (int) (millis / 1000);
@@ -125,16 +119,13 @@ public class SaveGameListAdapter extends BaseAdapter {
         seconds     = seconds % 60;
 		gametitle.setText(String.format("%dx%d - %02d:%02d:%02d", grid.mGridSize, 
 				grid.mGridSize, hours, minutes, seconds));
+		Log.d("long",""+millis);
+		
 		
 		Calendar gameDateTime = Calendar.getInstance();
 		gameDateTime.setTimeInMillis(grid.mDate);
 		datetime.setText("" + DateFormat.getDateTimeInstance(
 				DateFormat.MEDIUM, DateFormat.SHORT).format(grid.mDate));
-
-		grid.setBackgroundColor(0xFFFFFFFF);
-		
-		for (GridCell cell : grid.mCells)
-			cell.mSelected = false;
 		
 		ImageButton loadButton = (ImageButton)convertView.findViewById(R.id.button_play);
 		loadButton.setOnClickListener(new OnClickListener() {
@@ -152,6 +143,5 @@ public class SaveGameListAdapter extends BaseAdapter {
 		
 		return convertView;
 	}
-
 
 }

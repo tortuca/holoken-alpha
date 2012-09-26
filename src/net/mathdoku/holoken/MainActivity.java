@@ -47,16 +47,19 @@ public class MainActivity extends Activity {
 	public static final int PENCIL = 2;
 
 	public static final int UPDATE_RATE = 500;
+	// technically should define in colors.xml?
+	public static final int BG_COLOURS[] = {0xFFFFFFFF, 0xFF272727};
+	public static final int TEXT_COLOURS[] = {0xF0000000, 0xFFFFFFFF};
 	
 	// Define variables
 	public SharedPreferences preferences;
 	public static int theme;
-	int bgColours[] = {0xFFFFFFFF, 0xFF272727};
-	
+
 	Button numbers[] = new Button[9];
 	ImageButton actions[] = new ImageButton[4];
 	RadioButton modes[] = new RadioButton[3];
-	int modeColours[] = {0xFF99cc00,0xFF33b5e5,0x9033b5e5}; // holoblue/green
+	// eraser/pen/pencil - holo green/orange
+	int modeColours[] = {0xFF99cc00,0xFFffbb33,0xFFffcc66}; 
 
 	LinearLayout topLayout, controlKeypad;
 	RelativeLayout titleContainer;
@@ -191,7 +194,7 @@ public class MainActivity extends Activity {
         
         SaveGame saver = new SaveGame();
         restoreSaveGame(saver);
-	    this.topLayout.setBackgroundColor(bgColours[theme]);
+	    this.topLayout.setBackgroundColor(BG_COLOURS[theme]);
     	this.kenKenGrid.setTheme(theme);
         
     }
@@ -297,10 +300,10 @@ public class MainActivity extends Activity {
 				break;
    	 		case R.id.menu_reveal_cage:
    	 			this.kenKenGrid.Solve(this.kenKenGrid.mCages.get(
-						selectedCell.mCageId).mCells);
+						selectedCell.mCageId).mCells, true);
    	 			break;
    	 		case R.id.menu_show_solution:
-				this.kenKenGrid.Solve(this.kenKenGrid.mCells);
+				this.kenKenGrid.Solve(this.kenKenGrid.mCells,true);
 		   		break;
  		}
  		
@@ -328,7 +331,7 @@ public class MainActivity extends Activity {
         String themePref = this.preferences.getString("alternatetheme", "0");
         int newtheme = Integer.parseInt(themePref);
         if (theme != newtheme) {
-		    this.topLayout.setBackgroundColor(bgColours[newtheme]);
+		    this.topLayout.setBackgroundColor(BG_COLOURS[newtheme]);
 	    	this.kenKenGrid.setTheme(newtheme);
 	    	theme = newtheme;
         }
@@ -384,7 +387,7 @@ public class MainActivity extends Activity {
     final Runnable newGameReady = new Runnable() {
         public void run() {
         	MainActivity.this.dismissDialog(0);	    
-        	MainActivity.this.topLayout.setBackgroundColor(bgColours[theme]);
+        	MainActivity.this.topLayout.setBackgroundColor(BG_COLOURS[theme]);
         	MainActivity.this.kenKenGrid.setTheme(theme);
         	MainActivity.this.setButtonVisibility(kenKenGrid.mGridSize);
         	MainActivity.this.kenKenGrid.invalidate();
@@ -433,7 +436,7 @@ public class MainActivity extends Activity {
 	    		titleContainer.setBackgroundColor(0xFF33B5E5);
 	    		mTimerHandler.removeCallbacks(playTimer);
 	    	}
-	        this.topLayout.setBackgroundColor(bgColours[theme]);
+	        this.topLayout.setBackgroundColor(BG_COLOURS[theme]);
 		    this.kenKenGrid.setTheme(theme);
 	    	this.kenKenGrid.invalidate();
 	    }
@@ -511,7 +514,7 @@ public class MainActivity extends Activity {
 			cell.mSelected = false;
         grid.setDrawingCacheEnabled(true);
     	String filename = "/holoken_"+ grid.mGridSize + "_" +
-    			new SimpleDateFormat("yyMMddHHmm").format(new Date())+".png";
+    			new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date())+".png";
 
         //Bitmap bitmap = loadBitmapFromView(grid);
 		Bitmap bitmap = grid.getDrawingCache();

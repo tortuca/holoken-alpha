@@ -400,7 +400,7 @@ public class GridCage {
   
   
   /****
-   * AC: Old method of setting number combos in cages??
+   * AC: For hinting system?
    * 
    */
 public ArrayList<int[]> getPossibleNums()

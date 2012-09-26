@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/saveGameRow"
 		android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFe7e7e7">
 	
-	<net.mathdoku.holoken.GridView  
-		android:id="@+id/saveGridView"
-		android:layout_width="100dp" 
-		android:layout_height="100dp"
-		android:layout_alignParentLeft="true"
-		android:layout_margin="15dp" 
-		android:layout_centerVertical="true"/>
+	<net.mathdoku.holoken.GridView
+	    android:id="@+id/saveGridView"
+	    android:layout_width="100dp"
+	    android:layout_height="100dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_centerVertical="true"
+	    android:layout_margin="15dp"/>
 
 	<LinearLayout
 		android:id="@+id/saveGameData"
@@ -46,4 +47,5 @@
 		</LinearLayout>
 	</LinearLayout>
 
+	
 </RelativeLayout>

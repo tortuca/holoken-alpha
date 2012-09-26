@@ -44,6 +44,8 @@
     
     <string name="time_zero">00:00:00</string>
     <string name="save_current_game">Save current game</string>
+    <string name="save_games_empty">No save games found</string>
+    
     <string name="stats_title">HoloKen Stats</string>
     <string name="settings_title">HoloKen Settings</string>
     
@@ -95,6 +97,7 @@
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
+        Alpha v1.7: Fixed save game list and modified themes\n
         Alpha v1.6: Added default operations setting\n
 		Alpha v1.5: Integrated themes and enabled selector to change color w/ mode\n
         Alpha v1.3: Changed out \'Show operators\' to work in-game\n

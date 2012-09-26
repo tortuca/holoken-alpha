@@ -6,6 +6,13 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,12 +28,46 @@ public class SaveGameListActivity extends ListActivity {
 	
 	private SaveGameListAdapter mAdapter;
 	public boolean mCurrentSaved;
+	TextView empty;
+	ListView saveGameList;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("showfullscreen", true)) {
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    }
+	    else {
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
+        
+	    setContentView(R.layout.activity_savegame);
+	    String themePref = PreferenceManager.getDefaultSharedPreferences(this).getString("alternatetheme", "0");
+        int theme = Integer.parseInt(themePref);
+		this.findViewById(R.id.saveGameContainer).setBackgroundColor(
+				MainActivity.BG_COLOURS[theme]);
+	    
+	    final Button saveButton =(Button) findViewById(R.id.savebutton);
+	    empty = (TextView)findViewById(android.R.id.empty);
+	    saveGameList = (ListView) findViewById(android.R.id.list);
+	    
+		saveGameList.setEmptyView(empty);
 		this.mAdapter = new SaveGameListAdapter(this);
-		setListAdapter(this.mAdapter);
+		saveGameList.setAdapter(this.mAdapter);
+		
+		//saveButton.setTextColor(textColours[theme]);
+		saveButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				saveButton.setEnabled(false);
+				currentSaveGame();
+			}
+		});
+		
+		if (this.mCurrentSaved)
+			saveButton.setEnabled(false);
+		
 	}
 	
 	public void deleteGameDialog(final String filename) {
@@ -90,7 +131,5 @@ public class SaveGameListActivity extends ListActivity {
         in.close();
         out.close();
     }
-    
-
 
 }

@@ -595,11 +595,12 @@ public class GridView extends View implements OnTouchListener  {
   }
   
   // Solve the puzzle by setting the Uservalue to the actual value
-  public void Solve(ArrayList<GridCell> solvecell) {
+  public void Solve(ArrayList<GridCell> solvecell, boolean markCheated) {
 	  for (GridCell cell : solvecell) {
 		  if (!cell.isUserValueCorrect()) {
 			  cell.setUserValue(cell.mValue);
-			  cell.mCheated = true;
+			  if (markCheated)
+				  cell.mCheated = true;
 		  }
 	  }
 	  if (this.mSelectedCell != null) {
@@ -649,6 +650,17 @@ public class GridView extends View implements OnTouchListener  {
 			  invalids.add(cell);
 	  
 	  return invalids;
+  }
+  
+  // Return the list of cells that are highlighted as invalid
+  public ArrayList<GridCell> cheatedHighlighted()
+  {
+	  ArrayList<GridCell> cheats = new ArrayList<GridCell>();
+	  for (GridCell cell : this.mCells)
+		  if (cell.getCheatedHighlight())
+			 cheats.add(cell);
+	  
+	  return cheats;
   }
   
   public void setSolvedHandler(OnSolvedListener listener) {
