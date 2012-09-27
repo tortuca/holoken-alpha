@@ -44,15 +44,16 @@ public class SaveGameListActivity extends ListActivity {
 	    }
         
 	    setContentView(R.layout.activity_savegame);
+		final Button saveButton =(Button) findViewById(R.id.savebutton);
+	    empty = (TextView)findViewById(android.R.id.empty);
+	    saveGameList = (ListView) findViewById(android.R.id.list);
+		
 	    String themePref = PreferenceManager.getDefaultSharedPreferences(this).getString("alternatetheme", "0");
         int theme = Integer.parseInt(themePref);
 		this.findViewById(R.id.saveGameContainer).setBackgroundColor(
 				MainActivity.BG_COLOURS[theme]);
-	    
-	    final Button saveButton =(Button) findViewById(R.id.savebutton);
-	    empty = (TextView)findViewById(android.R.id.empty);
-	    saveGameList = (ListView) findViewById(android.R.id.list);
-	    
+	    saveButton.setTextColor(MainActivity.TEXT_COLOUR[theme]);
+
 		saveGameList.setEmptyView(empty);
 		this.mAdapter = new SaveGameListAdapter(this);
 		saveGameList.setAdapter(this.mAdapter);

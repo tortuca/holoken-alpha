@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#FFe7e7e7"
+    android:background="#FFf3efe7"
     tools:context=".SaveGameListActivity" >
 
     <Button android:id="@+id/savebutton"

@@ -102,7 +102,7 @@ public class GridView extends View implements OnTouchListener  {
 	
 	//default is holo light
     this.mGridPaint = new Paint();
-	this.mGridPaint.setColor(0x66906050);
+	this.mGridPaint.setColor(0x90e0bf9f); //light brown
     this.mGridPaint.setStrokeWidth(0);
     
     this.mBorderPaint = new Paint();
@@ -123,12 +123,12 @@ public class GridView extends View implements OnTouchListener  {
   
   public void setTheme(int theme) {
 	  if (theme == THEME_LIGHT) {
-		  this.mBackgroundColor = 0xFFf2f2f2; //off-white
+		  this.mBackgroundColor = 0xFFf3efe7; //off-white
 		  this.mBorderPaint.setColor(0xFF000000);
 		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
 
 	  } else if (theme == THEME_DARK) {
-		  this.mBackgroundColor = 0xFF292929;
+		  this.mBackgroundColor = 0xFF272727;
 		  this.mBorderPaint.setColor(0xFFFFFFFF);
 		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
 	  }

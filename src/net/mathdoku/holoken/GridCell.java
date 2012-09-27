@@ -135,7 +135,7 @@ public class GridCell {
 		    this.mCageTextPaint.setColor(0xFF0086B3);
 	  } 
 	  else if (theme == GridView.THEME_DARK) {
-		    this.mUserSetPaint.setColor(0xFF272727);
+		    this.mUserSetPaint.setColor(0xFF222222);
 		    this.mBorderPaint.setColor(0xFFFFFFFF);
 		    this.mCageSelectedPaint.setColor(0xFFFFFFFF);
 		    this.mValuePaint.setColor(0xFFFFFFFF);

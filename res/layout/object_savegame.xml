@@ -4,7 +4,7 @@
 		android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#FFe7e7e7">
+        android:background="#FFf3efe7">
 	
 	<net.mathdoku.holoken.GridView
 	    android:id="@+id/saveGridView"

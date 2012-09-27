@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 
 	public static final int UPDATE_RATE = 500;
 	// technically should define in colors.xml?
-	public static final int BG_COLOURS[] = {0xFFFFFFFF, 0xFF272727};
+	public static final int BG_COLOURS[] = {0xFFf3efe7, 0xFF272727};
 	public static final int TEXT_COLOURS[] = {0xF0000000, 0xFFFFFFFF};
 	
 	// Define variables
