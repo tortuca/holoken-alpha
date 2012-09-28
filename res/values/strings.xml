@@ -52,10 +52,10 @@
     <string name="settings_group_puzzle">Puzzle Generation</string>
     <string name="setting_default_game_grid_title">Default game grid</string>
     <string name="setting_default_operations_title">Default operations</string>
-	
-    <string name="settings_group_assistance">Game Assistance</string>
    	<string name="setting_show_operators_title">Always show operators</string>
 	<string name="setting_show_operators_summary">Operators (+, -, *, /) will be displayed</string>
+	
+    <string name="settings_group_assistance">Game Assistance</string>
     <string name="setting_flag_bad_maths_title">Highlight incorrect maths</string>
     <string name="setting_flag_duplicates_title">Highlight duplicates</string>
     
@@ -88,15 +88,16 @@
     
     <string name="about_section_title">About</string>
     <string name="about_version_title">Version</string>
-    <string name="about_version_summary">HoloKen Alpha v1.5</string>
+    <string name="about_version_summary">HoloKen Alpha v1.8</string>
     <string name="about_license_title">License</string>
     <string name="about_license_summary">GNU General Public License v3</string>
     <string name="about_website_title">Project Home</string>
-    <string name="about_website_summary">Report any bugs or suggestions at\n<a href="http://github.com/holoken">http://github.com/holoken</a></string>
+    <string name="about_website_summary">Report any bugs or suggestions at\n<a href="http://code.google.com/p/holoken">http://code.google.com/p/holoken</a></string>
     <string name="about_developers_title">Developer</string>
     <string name="about_developers_summary">Amanda Chow, with much credit to Ben Buxton and Stephen Lee of Mathdoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
+        Alpha v1.8: Minor bugfixes, added layout for 480dp+ screens\n
         Alpha v1.7: Fixed save game list and modified themes\n
         Alpha v1.6: Added default operations setting\n
 		Alpha v1.5: Integrated themes and enabled selector to change color w/ mode\n
@@ -107,6 +108,7 @@
         Alpha v0.9: Re-added save functions\n
         Alpha v0.5: Changed button and UI functionality\n
         Alpha v0.2: Redesigned Mathdoku UI and layouts\n
+        1.0: Initial game release
     </string>
     
     <string name="dialog_ok">OK</string>
@@ -121,6 +123,7 @@
 	<string name="dialog_delete_msg">This game will be deleted</string>
 	
 	<string name="toast_cheated">This puzzle is hard eh</string>
-	<string name="toast_progress">mistake(s) made</string>
+	<string name="toast_mistakes">mistake(s) out of</string>
+	<string name="toast_filled">filled cell(s)</string>
     
 </resources>

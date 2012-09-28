@@ -25,12 +25,12 @@
 		    android:padding="2dp"
 			android:background="@drawable/menu_button">
 	   
-		    <TextView style="@style/TitleBar"
+		    <TextView style="@style/TitleBar.Large"
 		        	  android:id="@+id/appname"
 		              android:text="@string/app_name"
 		              android:textStyle="bold"
 					  android:layout_alignParentLeft="true"/>
-		    <TextView style="@style/TitleBar"
+		    <TextView style="@style/TitleBar.Large"
 		        	  android:id="@+id/playtime"
 		              android:text="@string/time_zero"
 					  android:layout_alignParentRight="true"/>
@@ -46,37 +46,37 @@
 	     	android:layout_marginLeft="1dp">
 			
 		    <TableRow android:layout_weight="1.0">
-		        <Button style="@style/KeypadButton"
+		        <Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button1"
 			            android:text="@string/number1" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button2"
 			            android:text="@string/number2" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button3"
 			            android:text="@string/number3" />
 			</TableRow>
 			
 		    <TableRow android:layout_weight="1.0">
-		        <Button style="@style/KeypadButton"
+		        <Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button4"
 			            android:text="@string/number4" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button5"
 			            android:text="@string/number5" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button6"
 			            android:text="@string/number6" />
 			</TableRow>
 			
 		    <TableRow android:layout_weight="1.0">
-		        <Button style="@style/KeypadButton"
+		        <Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button7"
 			            android:text="@string/number7" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button8"
 			            android:text="@string/number8" />
-				<Button style="@style/KeypadButton"
+				<Button style="@style/KeypadButton.Large"
 			            android:id="@+id/button9"
 			            android:text="@string/number9" />
 			</TableRow>   

@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
         // Set up preferences
         PreferenceManager.setDefaultValues(this, R.xml.activity_settings, false);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         String themePref = this.preferences.getString("alternatetheme", "0");
         theme = Integer.parseInt(themePref);
@@ -496,9 +496,10 @@ public class MainActivity extends Activity {
     
     
     public void checkProgress() {
-    	String string = kenKenGrid.countMistakes() + " " +
-    			getString(R.string.toast_progress);
-		makeToast(string);
+    	int counter[] = this.kenKenGrid.countMistakes();
+    	String string = counter[0] + " " + getString(R.string.toast_mistakes) +
+    			" " + counter[1] + " " + getString(R.string.toast_filled);
+    	Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
     }
     
     

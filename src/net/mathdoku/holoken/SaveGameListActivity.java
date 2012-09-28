@@ -52,7 +52,7 @@ public class SaveGameListActivity extends ListActivity {
         int theme = Integer.parseInt(themePref);
 		this.findViewById(R.id.saveGameContainer).setBackgroundColor(
 				MainActivity.BG_COLOURS[theme]);
-	    saveButton.setTextColor(MainActivity.TEXT_COLOUR[theme]);
+	    saveButton.setTextColor(MainActivity.TEXT_COLOURS[theme]);
 
 		saveGameList.setEmptyView(empty);
 		this.mAdapter = new SaveGameListAdapter(this);

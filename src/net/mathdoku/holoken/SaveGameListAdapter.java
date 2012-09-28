@@ -119,8 +119,6 @@ public class SaveGameListAdapter extends BaseAdapter {
         seconds     = seconds % 60;
 		gametitle.setText(String.format("%dx%d - %02d:%02d:%02d", grid.mGridSize, 
 				grid.mGridSize, hours, minutes, seconds));
-		Log.d("long",""+millis);
-		
 		
 		Calendar gameDateTime = Calendar.getInstance();
 		gameDateTime.setTimeInMillis(grid.mDate);

@@ -495,8 +495,8 @@ public class GridView extends View implements OnTouchListener  {
 	
     // We can now get the cell.
     GridCell cell = getCellAt(row, col);
-    if (this.mSelectedCell != cell)
-    	this.playSoundEffect(SoundEffectConstants.CLICK);
+    //if (this.mSelectedCell != cell)
+    //	this.playSoundEffect(SoundEffectConstants.CLICK);
     this.mSelectedCell = cell;
     
     float[] cellPos = this.CellToCoord(cell.mCellNumber);
@@ -619,11 +619,15 @@ public class GridView extends View implements OnTouchListener  {
   }
 
   // Checks whether the user has made any mistakes
-  public int countMistakes() {
-	  int counter = 0;
-	  for (GridCell cell : this.mCells)
-		  if (cell.isUserValueSet() && cell.getUserValue() != cell.mValue)
-			  counter++;
+  public int[] countMistakes() {
+	  int counter[] = {0,0};
+	  for (GridCell cell : this.mCells) {
+		  if (cell.isUserValueSet()) {
+			  counter[1]++;
+		      if (cell.getUserValue() != cell.mValue)
+		    	  counter[0]++;
+		  }
+	  }
 	  return counter;
   }
   

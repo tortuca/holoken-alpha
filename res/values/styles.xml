@@ -1,13 +1,27 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="TitleBar">
+	    <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+  		<item name="android:textColor">#CFFF</item>
+	</style>
+	
+    <style name="TitleBar.Large">
+	    <item name="android:textSize">18sp</item>
+	</style>
+	
 	<style name="KeypadButton" parent="android:style/Widget.Button">
 	    <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-  		<item name="android:textSize">24sp</item>
+  		<item name="android:textSize">20sp</item>
   		<item name="android:textColor">@drawable/text_button</item>
   		<item name="android:background">@drawable/keypad_button_light</item>
   	</style>
-  	
+
+	<style name="KeypadButton.Large">
+  		<item name="android:textSize">26sp</item>
+ 	</style>
+ 	
     <style name="KeypadButton.Dark">
   		<item name="android:textColor">#FFFFFFFF</item>
   		<item name="android:background">@drawable/keypad_button_dark</item>
