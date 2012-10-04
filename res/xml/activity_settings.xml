@@ -5,14 +5,14 @@
 		<ListPreference
 		    android:key="defaultgamegrid"
 			android:title="@string/setting_default_game_grid_title"
-			android:summary="%s"
+			android:summary="@string/setting_default_game_grid_summary"
 			android:entries="@array/setting_default_game_grid_entries"
 			android:entryValues="@array/setting_default_game_grid_values"
 			android:defaultValue="ask"  />
 		<ListPreference
 		    android:key="defaultoperations"
 			android:title="@string/setting_default_operations_title"
-			android:summary="%s"
+			android:summary="@string/setting_default_operations_summary"
 			android:entries="@array/setting_default_operations_entries"
 			android:entryValues="@array/setting_default_operations_values"
 			android:defaultValue="0"  />
@@ -39,7 +39,6 @@
 		<ListPreference
 			android:key="alternatetheme"
 			android:title="@string/setting_theme_title"
-			android:summary="%s"
 			android:entries="@array/setting_theme_entries"
 			android:entryValues="@array/setting_theme_values"
 			android:defaultValue="0" />
@@ -63,5 +62,14 @@
 			android:defaultValue="true" />
 	</PreferenceCategory>
 	
-
+	<PreferenceCategory android:title="@string/settings_group_about" android:key="About">
+		<Preference
+			android:key="rateapp"
+			android:title="@string/setting_rate_app_title"
+			android:summary="@string/setting_rate_app_summary"/>
+		<Preference
+			android:key="reportbugs"
+			android:title="@string/setting_report_bugs_title"
+			android:summary="@string/setting_report_bugs_summary"/>
+	</PreferenceCategory>
 </PreferenceScreen>  

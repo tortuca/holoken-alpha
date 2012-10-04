@@ -205,11 +205,10 @@ public class GridCell {
 	  setUserValue(0);
   }
 
-  public boolean isUserValueCorrect()
-  {
+  public boolean isUserValueCorrect()  {
 	  return mUserValue == mValue;
   }
-  
+
   /* Returns whether the cell is a member of any cage */
   public boolean CellInAnyCage()
   {

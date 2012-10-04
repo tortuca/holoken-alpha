@@ -3,6 +3,7 @@
     <style name="TitleBar">
 	    <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_centerVertical">true</item>
   		<item name="android:textColor">#CFFF</item>
 	</style>
 	
@@ -15,15 +16,15 @@
         <item name="android:layout_height">fill_parent</item>
   		<item name="android:textSize">20sp</item>
   		<item name="android:textColor">@drawable/text_button</item>
-  		<item name="android:background">@drawable/keypad_button_light</item>
+  		<item name="android:background">@drawable/keypad_button</item>
   	</style>
 
 	<style name="KeypadButton.Large">
-  		<item name="android:textSize">26sp</item>
+  		<item name="android:textSize">24sp</item>
  	</style>
  	
     <style name="KeypadButton.Dark">
-  		<item name="android:textColor">#FFFFFFFF</item>
+  		<item name="android:textColor">@drawable/text_button_dark</item>
   		<item name="android:background">@drawable/keypad_button_dark</item>
  	</style>
  	
@@ -31,7 +32,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
   		<item name="android:text"></item>
-  		<item name="android:background">@drawable/radio_button_light</item>
+  		<item name="android:background">@drawable/radio_button</item>
  	</style>
  	<style name="RadioButton.Dark">
   		<item name="android:background">@drawable/radio_button_dark</item>

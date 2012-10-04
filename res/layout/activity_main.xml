@@ -28,12 +28,29 @@
 				  android:layout_alignParentRight="true"/>
     </RelativeLayout>
     
-    <net.mathdoku.holoken.GridView android:id="@+id/gridview"
-	    	  android:layout_width="wrap_content" 
-	    	  android:layout_height="wrap_content"
-	    	  android:layout_gravity="center_horizontal"
-	    	  android:padding="10dp"/>
-    
+    <RelativeLayout
+	    android:id="@+id/gridcontainer"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <LinearLayout
+		    android:id="@+id/solvedcontainer"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+			android:layout_centerVertical="true">
+			<TextView android:id="@+id/solvedtitle"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="100dp"
+			    	  android:background="#FFFFBB00"
+			    	  android:gravity="center"
+			    	  android:text="Puzzle solved! Tap to continue"
+			    	  android:visibility="gone"/>
+		</LinearLayout>
+	    <net.mathdoku.holoken.GridView android:id="@+id/gridview"
+		    	  android:layout_width="wrap_content" 
+		    	  android:layout_height="wrap_content"
+		    	  android:padding="10dp"/>
+    </RelativeLayout>
+        
     <LinearLayout android:id="@+id/controls"
        	android:layout_width="fill_parent" 
     	android:layout_height="0dip"
@@ -119,12 +136,12 @@
 		        		 android:src="@drawable/menu_new_icon"
 		        		 android:layout_weight="1"/>
 		    <ImageButton style="@style/MenuButton"
-		        		 android:id="@+id/icon_replay"
-		        		 android:src="@drawable/menu_replay_icon"
-		        		 android:layout_weight="1"/>
-		    <ImageButton style="@style/MenuButton"
 		        		 android:id="@+id/icon_hint"
 		        		 android:src="@drawable/menu_hint_icon"
+		        		 android:layout_weight="1"/>
+		    <ImageButton style="@style/MenuButton"
+		        		 android:id="@+id/icon_undo"
+		        		 android:src="@drawable/menu_undo_icon"
 		        		 android:layout_weight="1"/>
 		    <ImageButton style="@style/MenuButton"
 		        		 android:id="@+id/icon_overflow"

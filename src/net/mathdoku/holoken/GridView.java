@@ -18,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
@@ -128,7 +127,7 @@ public class GridView extends View implements OnTouchListener  {
 		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
 
 	  } else if (theme == THEME_DARK) {
-		  this.mBackgroundColor = 0xFF272727;
+		  this.mBackgroundColor = 0xFF343434;
 		  this.mBorderPaint.setColor(0xFFFFFFFF);
 		  this.mGridPaint.setPathEffect(new DashPathEffect(new float[] {3, 3}, 0));
 	  }

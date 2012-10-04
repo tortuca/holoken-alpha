@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,21 +32,19 @@ public class SaveGameListActivity extends ListActivity {
 	public boolean mCurrentSaved;
 	TextView empty;
 	ListView saveGameList;
+	ImageButton discardButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	    if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("showfullscreen", true)) {
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-	    }
-	    else {
-	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	    if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("showfullscreen", false))
 	    	this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	    }
+	    else
+	    	this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
 	    setContentView(R.layout.activity_savegame);
 		final Button saveButton =(Button) findViewById(R.id.savebutton);
+		discardButton =(ImageButton) findViewById(R.id.discardbutton);
 	    empty = (TextView)findViewById(android.R.id.empty);
 	    saveGameList = (ListView) findViewById(android.R.id.list);
 		
@@ -52,13 +52,17 @@ public class SaveGameListActivity extends ListActivity {
         int theme = Integer.parseInt(themePref);
 		this.findViewById(R.id.saveGameContainer).setBackgroundColor(
 				MainActivity.BG_COLOURS[theme]);
-	    saveButton.setTextColor(MainActivity.TEXT_COLOURS[theme]);
-
+		/*if (theme == GridView.THEME_LIGHT)
+			saveButton.setTextColor(R.drawable.text_button);
+		if (theme == GridView.THEME_DARK)
+			saveButton.setTextColor(R.drawable.text_button_dark);
+		 */
+		saveButton.setTextColor(MainActivity.TEXT_COLOURS[theme]);
+		
 		saveGameList.setEmptyView(empty);
 		this.mAdapter = new SaveGameListAdapter(this);
 		saveGameList.setAdapter(this.mAdapter);
 		
-		//saveButton.setTextColor(textColours[theme]);
 		saveButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				saveButton.setEnabled(false);
@@ -69,6 +73,33 @@ public class SaveGameListActivity extends ListActivity {
 		if (this.mCurrentSaved)
 			saveButton.setEnabled(false);
 		
+		discardButton.setEnabled(false);		
+		if (mAdapter.getCount() != 0)
+			discardButton.setEnabled(true);
+		
+		discardButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				deleteAllGamesDialog();
+			}
+		});
+	}
+	
+	public void deleteSaveGame(final String filename) {
+		new File(filename).delete();
+        mAdapter.refreshFiles();
+        mAdapter.notifyDataSetChanged();		
+	}
+	
+	public void deleteAllSaveGames() {
+		File dir = new File(SAVEGAME_DIR);
+		String[] allFiles = dir.list();
+		for (String entryName : allFiles)
+			if (entryName.startsWith("savegame_"))
+				new File(dir + "/" + entryName).delete();
+        mAdapter.refreshFiles();
+        mAdapter.notifyDataSetChanged();
+
+        discardButton.setEnabled(false);
 	}
 	
 	public void deleteGameDialog(final String filename) {
@@ -88,10 +119,21 @@ public class SaveGameListActivity extends ListActivity {
         .show();
 	}
 	
-	public void deleteSaveGame(final String filename) {
-		new File(filename).delete();
-        mAdapter.refreshFiles();
-        mAdapter.notifyDataSetChanged();		
+	public void deleteAllGamesDialog() {
+		new AlertDialog.Builder(SaveGameListActivity.this)
+        .setTitle(R.string.dialog_delete_all_title)
+        .setMessage(R.string.dialog_delete_all_msg)
+        .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+                }
+        })
+        .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+            		SaveGameListActivity.this.deleteAllSaveGames();
+                }
+        })
+        .show();
 	}
 	
 	public void loadSaveGame(String filename) {
